@@ -5,12 +5,12 @@
 All about your game
 
 # Core Team
-Programmers:
+#### Programmers:
 * Karie Holmstadt (Pitch Lead, Code)
 * Jonah Schmisek (Code)
 * Justin Bryant (Code)
 
-Artists:
+#### Artists:
 * Justin Schotz (Sound and Art)
 * Gail Machalek (Art)
 
