@@ -2,7 +2,12 @@
 #### A game where sound is light
 
 # Description
-All about your game
+**Genre:** Puzzle Platformer
+
+**Platform:** Web Browser
+
+**Expected Playtime:** 10-15 minutes
+
 
 # Core Team
 #### Programmers:
