@@ -5,7 +5,15 @@
 All about your game
 
 # Core Team
-Who you are
+Programmers:
+Karie Holmstadt (Pitch Lead, Code)
+Jonah Schmisek (Code)
+Justin Bryant (Code)
+
+Artists:
+Justin Schotz (Sound and Art)
+Gail Machalek (Art)
+
 
 # Credits
 This game was made in partial fulfillment of the course GDD 325 at the University of Wisconsin Stout.
