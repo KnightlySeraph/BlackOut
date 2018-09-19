@@ -2,9 +2,15 @@
 #### A game where sound is light
 
 # Description
-All about your game
+**Genre:** Puzzle Platformer
+
+**Platform:** Web Browser
+
+**Expected Playtime:** 10-15 minutes
+
 
 # Core Team
+<<<<<<< HEAD
 Programmers:
 Karie Holmstadt (Pitch Lead, Code) cool beans
 Jonah Schmisek (Code)
@@ -13,6 +19,16 @@ Justin Bryant (Code)
 Artists:
 Justin Schotz (Sound and Art)
 Gail Machalek (Art)
+=======
+#### Programmers:
+* Karie Holmstadt (Pitch Lead, Code)
+* Jonah Schmisek (Code)
+* Justin Bryant (Code)
+
+#### Artists:
+* Justin Schotz (Sound and Art)
+* Gail Machalek (Art)
+>>>>>>> 66daddc09b841ab8fce171b72a66b14dd05fdab8
 
 
 # Credits
