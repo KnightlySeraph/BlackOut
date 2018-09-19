@@ -6,7 +6,7 @@ All about your game
 
 # Core Team
 Programmers:
-Karie Holmstadt (Pitch Lead, Code)
+Karie Holmstadt (Pitch Lead, Code) cool beans
 Jonah Schmisek (Code)
 Justin Bryant (Code)
 
