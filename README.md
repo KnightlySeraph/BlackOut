@@ -5,7 +5,7 @@
 All about your game
 
 # Core Team
-Who you are
+Justin Bryant
 
 # Credits
 This game was made in partial fulfillment of the course GDD 325 at the University of Wisconsin Stout.
