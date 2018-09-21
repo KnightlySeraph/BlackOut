@@ -6,7 +6,7 @@
   "main": "index.html",
   "repository": "UWStout/blackout",
   "scripts": {
-    "sfx": "audiosprite --loop running --output assets/audio/sounds assets/audio/*.wav",
+    "sfx": "audiosprite --loop running --output assets/audio/sounds assets/audio/*.wav assets/audio/Spirit_of_the_Dead.mp3 assets/audio/Rock_Intro_1.mp3",
     "dev": "run-s clean dev-cmd",
     "prod": "run-s clean prod-cmd",
     "deploy": "run-s clean deploy-cmd",

@@ -41,18 +41,18 @@ class TestLevel extends Phaser.State {
 
     // Create the "floor" as a manually drawn rectangle
     this.floor = this.game.add.graphics(0, 0)
-    this.floor.beginFill(0xabb8c2)
-    this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height / 2)
+    this.floor.beginFill(0xFF6BEA)
+    this.floor.drawRect(0, floorHeight / 2, this.game.world.width, this.game.world.height * 2)
     this.floor.endFill()
 
     // Add player after the floor
     this.game.add.existing(this.player)
-
+    
     // Setup all the text displayed on screen
     this.setupText(floorHeight)
 
     // Start playing the background music
-    this.game.sounds.play('music-intro', config.MUSIC_VOLUME)
+    this.game.sounds.play('Rock_Intro_1', config.MUSIC_VOLUME)
 
     // Setup the key objects
     this.setupKeyboard()

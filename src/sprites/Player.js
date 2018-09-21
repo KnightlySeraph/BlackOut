@@ -20,7 +20,7 @@ import config from '../config'
 class MainPlayer extends Phaser.Sprite {
   constructor ({ game, x, y }) {
     // Initialize object basics
-    super(game, x, y, 'player-main', 0)
+    super(game, x, y, 'player-main-test', 0)
     this.name = 'Main Player'
     this.anchor.setTo(0.5, 1.0)
 
