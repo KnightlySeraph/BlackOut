@@ -20,7 +20,7 @@ import config from '../config'
 class MainPlayer extends Phaser.Sprite {
   constructor ({ game, x, y }) {
     // Initialize object basics
-    super(game, x, y, 'player-main-test', 0)
+    super(game, x, y, 'player-main', 0)
     this.name = 'Main Player'
     this.anchor.setTo(0.5, 1.0)
 
@@ -44,6 +44,19 @@ class MainPlayer extends Phaser.Sprite {
 
     // Initialize the scale of this sprite
     this.scale.setTo(this._SCALE)
+
+    // Create a P2 physics body for this sprite
+    this.game.physics.p2.enable(this)
+    this.body.debug = __DEV__
+    this.body.collideWorldBounds = true
+    this.body.fixedRotation = true
+
+    // Create a custom shape for the collider body
+    this.body.setRectangle(32, 110, 0, -30)
+    this.body.offset.setTo(0, -15)
+
+    // Configure custom physics properties    
+    this.body.damping = 0.5
   }
 
   // Setter and getter for the movement state property
