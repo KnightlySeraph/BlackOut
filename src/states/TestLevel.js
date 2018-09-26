@@ -26,7 +26,9 @@ class TestLevel extends Phaser.State {
     this.game.world.setBounds(0, 0, this.game.width, this.game.height)
   }
 
-  preload () {}
+  preload () {
+    console.log("preload has loaded once")
+  }
 
   create () {
     // Create and add the main player object
@@ -161,6 +163,8 @@ class TestLevel extends Phaser.State {
       // Print a warning that the game is running in DEV/Debug mode
       this.game.debug.text('DEV BUILD', this.game.width - 100, this.game.height - 10, '#AA0000')
     }
+    //Render shader
+    
   }
 
   //TEST Camera
