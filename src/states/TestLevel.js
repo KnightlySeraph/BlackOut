@@ -70,6 +70,19 @@ class TestLevel extends Phaser.State {
 
     // Setup the key objects
     this.setupKeyboard()
+
+//    this.setupShader()
+  }
+
+  setupShader () {
+    let shader = new Phaser.Filter(this.game)
+    // , {}, `
+    // #version 330 core
+    // out vec4 FragColor;    
+    // void main() {
+    //   FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    // }`)
+    this.game.add.filter(shader)
   }
 
   setupText (floorHeight) {
