@@ -1,6 +1,5 @@
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
-import THREE from 'three'
 
 // Import needed functions from utils and config settings
 import { centerGameObjects } from '../utils'
@@ -41,9 +40,7 @@ class Splash extends Phaser.State {
     // Display the progress bar
     this.load.setPreloadSprite(this.loaderBar)
 
-    // Load all the assets needed for next state 
-    
-
+    // Load all the assets needed for next state
 
     // Re-Start Physics
     this.game.physics.p2 = null
