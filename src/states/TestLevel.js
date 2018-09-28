@@ -12,6 +12,8 @@ import config from '../config'
 // Import the filters for the scene
 import BlurX from '../Shaders/BlurX'
 import BlurY from '../Shaders/BlurY'
+import Shadows from '../Shaders/Shadows'
+import Highlights from '../Shaders/Highlights'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -84,14 +86,26 @@ class TestLevel extends Phaser.State {
     this.blurYFilter = new BlurY(this.game)
 
     // Set their uniform parameters
-    this.blurXFilter.blur = 10
-    this.blurYFilter.blur = 10
+    this.blurXFilter.blur = 3
+    this.blurYFilter.blur = 3
 
     // Apply to just the player
     // this.player.filters = [ this.blurXFilter, this.blurYFilter ]
 
     // Apply to everything
-    this.game.world.filters = [ this.blurXFilter, this.blurYFilter ]
+    // this.game.world.filters = [ this.blurXFilter, this.blurYFilter ]
+
+    // this.shadowFilter = new Shadows(this.game)
+
+    //this.createHighlights = new Highlights(this.game)
+
+    // this.shadowFilter.Darkness = 5;
+
+    // Apply to just the player
+    // this.player.filters = [ this.shadowFilter ]
+
+    // Apply to everything
+    //this.game.world.filters = [ this.createHighlights ]
   }
 
   setupText (floorHeight) {
