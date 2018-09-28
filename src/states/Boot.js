@@ -65,7 +65,7 @@ class Boot extends Phaser.State {
     }
 
     // No fonts need to load so just get to it
-    if (!config.webfonts || config.webfonts.length == 0) {
+    if (!config.webfonts || config.webfonts.length === 0) {
       this.state.start('Splash')
     }
   }

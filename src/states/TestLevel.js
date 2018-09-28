@@ -2,12 +2,16 @@
 
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
-
+import P2 from 'p2'
 // Import the main player sprite
 import MainPlayer from '../sprites/Player'
 
 // Import config settings
 import config from '../config'
+
+// Import the filters for the scene
+import BlurX from '../Shaders/BlurX'
+import BlurY from '../Shaders/BlurY'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -27,7 +31,7 @@ class TestLevel extends Phaser.State {
   }
 
   preload () {
-    console.log("preload has loaded once")
+    console.log('preload has loaded once')
   }
 
   create () {
@@ -42,14 +46,26 @@ class TestLevel extends Phaser.State {
     let floorHeight = this.player.bottom
 
     // Create the "floor" as a manually drawn rectangle
-    this.floor = this.game.add.graphics(0, 0)
-    this.floor.beginFill(0xFF6BEA)
-    this.floor.drawRect(0, floorHeight / 2, this.game.world.width, this.game.world.height * 2)
-    this.floor.endFill()
+    // this.floor = this.game.add.graphics(0, 0)
+    // this.floor.beginFill(0x408055)
+    // this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
+    // this.floor.endFill()
+
+    // this.game.physics.p2.enable(this.floor)
+    // this.floor.debug = __DEV__
+    // this.floor.collideWorldBounds = true
+    // this.floor.fixedRotation = true
+
+    // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
+    this.platform = this.game.add.sprite(100, 100, null, 0)
+    this.platform.body = new Phaser.Physics.P2.Body(this.game, this.platform)
+    this.platform.body.dynamic = false
+    this.platform.body.setRectangle(100, 50)
+    this.platform.body.debug = __DEV__
 
     // Add player after the floor
     this.game.add.existing(this.player)
-    
+
     // Setup all the text displayed on screen
     this.setupText(floorHeight)
 
@@ -58,6 +74,24 @@ class TestLevel extends Phaser.State {
 
     // Setup the key objects
     this.setupKeyboard()
+
+    this.setupShader()
+  }
+
+  setupShader () {
+    // Make the filters
+    this.blurXFilter = new BlurX(this.game)
+    this.blurYFilter = new BlurY(this.game)
+
+    // Set their uniform parameters
+    this.blurXFilter.blur = 10
+    this.blurYFilter.blur = 10
+
+    // Apply to just the player
+    // this.player.filters = [ this.blurXFilter, this.blurYFilter ]
+
+    // Apply to everything
+    this.game.world.filters = [ this.blurXFilter, this.blurYFilter ]
   }
 
   setupText (floorHeight) {
@@ -163,7 +197,11 @@ class TestLevel extends Phaser.State {
       // Print a warning that the game is running in DEV/Debug mode
       this.game.debug.text('DEV BUILD', this.game.width - 100, this.game.height - 10, '#AA0000')
     }
+<<<<<<< HEAD
     //Render shader
+=======
+    // Render shader
+>>>>>>> 2fd021b6da371722b48ed132d91f41655adbb362
   }
 }
 

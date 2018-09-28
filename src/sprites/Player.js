@@ -52,10 +52,10 @@ class MainPlayer extends Phaser.Sprite {
     this.body.fixedRotation = true
 
     // Create a custom shape for the collider body
-    this.body.setRectangle(32, 110, 0, -30)
-    this.body.offset.setTo(0, -15)
+    this.body.setRectangle(32, 110)
+    this.body.offset.setTo(0, -40)
 
-    // Configure custom physics properties    
+    // Configure custom physics properties
     this.body.damping = 0.5
   }
 
