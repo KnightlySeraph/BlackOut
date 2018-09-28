@@ -24,7 +24,7 @@ class Boot extends Phaser.State {
   // Initialize the stage and any simple settings
   init () {
     // Set the background color
-    this.stage.backgroundColor = '#7f7f7f'
+    this.stage.backgroundColor = '#9503C7'
 
     // Initialize the fontsReady property
     this.fontsReady = false
