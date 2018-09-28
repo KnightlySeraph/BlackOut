@@ -48,22 +48,29 @@ class TestLevel extends Phaser.State {
     let floorHeight = this.player.bottom
 
     // Create the "floor" as a manually drawn rectangle
-    // this.floor = this.game.add.graphics(0, 0)
-    // this.floor.beginFill(0x408055)
-    // this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
-    // this.floor.endFill()
-
-    // this.game.physics.p2.enable(this.floor)
-    // this.floor.debug = __DEV__
-    // this.floor.collideWorldBounds = true
-    // this.floor.fixedRotation = true
+    this.floor = this.game.add.graphics(0, 0)
+    this.floor.beginFill(0x408055)
+    this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
+    this.floor.endFill()
 
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
-    this.platform = this.game.add.sprite(100, 100, null, 0)
-    this.platform.body = new Phaser.Physics.P2.Body(this.game, this.platform)
+    this.platform = new Phaser.Sprite(this.game, 500, 500, 'blank')
+    this.platform.body = new Phaser.Physics.P2.Body(this.game, this.platform, 500, 500)
     this.platform.body.dynamic = false
-    this.platform.body.setRectangle(100, 50)
+    this.platform.body.setRectangle(200, 50, 0, 0)
     this.platform.body.debug = __DEV__
+    this.platform.scale.setTo(20, 5)
+    this.platform.anchor.setTo(0.5, 0.5)
+    this.game.add.existing(this.platform)
+
+    this.platform1 = new Phaser.Sprite(this.game, 500, 500, 'blank')
+    this.platform1.body = new Phaser.Physics.P2.Body(this.game, this.platform1, 750, 450)
+    this.platform1.body.dynamic = false
+    this.platform1.body.setRectangle(200, 50, 0, 0)
+    this.platform1.body.debug = __DEV__
+    this.platform1.scale.setTo(20, 5)
+    this.platform1.anchor.setTo(0.5, 0.5)
+    this.game.add.existing(this.platform1)
 
     // Add player after the floor
     this.game.add.existing(this.player)
@@ -77,7 +84,7 @@ class TestLevel extends Phaser.State {
     // Setup the key objects
     this.setupKeyboard()
 
-    this.setupShader()
+    // this.setupShader()
   }
 
   setupShader () {
@@ -160,19 +167,23 @@ class TestLevel extends Phaser.State {
     this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
     this.sprintKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SHIFT)
+    this.jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SHIFT
+      Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SHIFT, Phaser.Keyboard.SPACEBAR
     ])
   }
 
   update () {
     // Check state of keys to control main character
     var speed = 0
+    var direction = 0
+
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
+    if (this.jumpKey.isDown) { }
 
     // Update sprite facing direction
     if (speed > 0 && !this.player.isFacingRight()) {

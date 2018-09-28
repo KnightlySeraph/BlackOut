@@ -121,11 +121,18 @@ class MainPlayer extends Phaser.Sprite {
 
     // Automatically switch to idle after designated countdown
     if (this.moveState === MainPlayer.moveStates.STOPPED) {
+      this.body.velocity.x = 0
       if (this._idle_countdown <= 0) {
         this.moveState = MainPlayer.moveStates.IDLE
       } else {
         this._idle_countdown -= 1
       }
+    } else if (this.moveState === MainPlayer.moveStates.WALKING) {
+      if (this.isFacingRight()) { this.body.moveRight(500) } else { this.body.moveLeft(500) }
+    } else if (this.moveState === MainPlayer.moveStates.RUNNING) {
+      if (this.isFacingRight()) { this.body.moveRight(1000) } else { this.body.moveLeft(1000) }
+    } else if (this.moveState === MainPlayer.moveStates.JUMPING) {
+      if (this.isFacingRight()) { this.body.velocity.y = 250 } else { this.body.velocity.y = 250 }
     }
   }
 
@@ -175,6 +182,7 @@ MainPlayer.moveStates = Object.freeze({
   STOPPED: 'stopped',
   WALKING: 'walking',
   RUNNING: 'running',
+  JUMPING: 'jumping',
   IDLE: 'idle'
 })
 
