@@ -82,14 +82,10 @@ class TestLevel extends Phaser.State {
     // Setup the key objects
     this.setupKeyboard()
 
-<<<<<<< HEAD
-    this.setupShader()
+    // this.setupShader()
 
     //Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
-=======
-    // this.setupShader()
->>>>>>> 47f6a9a891623b27bb66b64072d9d839ae4a4e67
   }
 
   setupShader () {
