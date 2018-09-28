@@ -9,6 +9,10 @@ import MainPlayer from '../sprites/Player'
 // Import config settings
 import config from '../config'
 
+// Import the filters for the scene
+import BlurX from '../Shaders/BlurX'
+import BlurY from '../Shaders/BlurY'
+
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
  * player sprite that can be roughly controlled with the left, right, and shift keys.
@@ -71,18 +75,23 @@ class TestLevel extends Phaser.State {
     // Setup the key objects
     this.setupKeyboard()
 
-//    this.setupShader()
+    this.setupShader()
   }
 
   setupShader () {
-    let shader = new Phaser.Filter(this.game)
-    // , {}, `
-    // #version 330 core
-    // out vec4 FragColor;    
-    // void main() {
-    //   FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-    // }`)
-    this.game.add.filter(shader)
+    // Make the filters
+    this.blurXFilter = new BlurX(this.game)
+    this.blurYFilter = new BlurY(this.game)
+
+    // Set their uniform parameters
+    this.blurXFilter.blur = 10
+    this.blurYFilter.blur = 10
+
+    // Apply to just the player
+    // this.player.filters = [ this.blurXFilter, this.blurYFilter ]
+
+    // Apply to everything
+    this.game.world.filters = [ this.blurXFilter, this.blurYFilter ]
   }
 
   setupText (floorHeight) {
