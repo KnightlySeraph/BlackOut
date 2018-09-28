@@ -164,6 +164,8 @@ class TestLevel extends Phaser.State {
   update () {
     // Check state of keys to control main character
     var speed = 0
+    var direction = 0
+
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
