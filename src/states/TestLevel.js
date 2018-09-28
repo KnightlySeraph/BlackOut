@@ -76,6 +76,9 @@ class TestLevel extends Phaser.State {
     this.setupKeyboard()
 
     this.setupShader()
+
+    //Set up a camera to follow the player
+    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
   }
 
   setupShader () {
