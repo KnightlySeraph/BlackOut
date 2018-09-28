@@ -166,6 +166,10 @@ class MainPlayer extends Phaser.Sprite {
       this.play('idle')
     }, this)
   }
+
+   //var camera = new Phaser.Camera(this.game, 0, 4, 5, 10, 5)
+  //TODO viewport/camera figure it out!!!!
+
 }
 
 // All possible player 'movement states'

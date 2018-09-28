@@ -164,14 +164,6 @@ class TestLevel extends Phaser.State {
       this.game.debug.text('DEV BUILD', this.game.width - 100, this.game.height - 10, '#AA0000')
     }
     //Render shader
-    
-  }
-
-  //TEST Camera
-  camera () {
-    new camera = new Phaser.camera(game)
-    camera.setPosition(2.0,50.0)
-    camera.setSize(50.0,30.0)
   }
 }
 
