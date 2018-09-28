@@ -131,6 +131,8 @@ class MainPlayer extends Phaser.Sprite {
       if (this.isFacingRight()) { this.body.moveRight(500) } else { this.body.moveLeft(500) }
     } else if (this.moveState === MainPlayer.moveStates.RUNNING) {
       if (this.isFacingRight()) { this.body.moveRight(1000) } else { this.body.moveLeft(1000) }
+    } else if (this.moveState === MainPlayer.moveStates.JUMPING) {
+      if (this.isFacingRight()) { this.body.velocity.y = 250 } else { this.body.velocity.y = 250 }
     }
   }
 
@@ -180,6 +182,7 @@ MainPlayer.moveStates = Object.freeze({
   STOPPED: 'stopped',
   WALKING: 'walking',
   RUNNING: 'running',
+  JUMPING: 'jumping',
   IDLE: 'idle'
 })
 
