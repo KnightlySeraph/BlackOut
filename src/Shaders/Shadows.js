@@ -13,8 +13,10 @@ class Shadows extends Phaser.Filter {
     this.fragmentSrc = [
       'precision mediump float;',
       'uniform float darkness;',
+      'varying vec2 vTextureCoord;',
+      'uniform sampler2D uSampler;',
       'void main(void){',
-        'vec4 dark = vec4(0.0, 0.0, 0.0, 1.0);',
+        'vec4 dark = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y)) * darkness;',
         'gl_FragColor = dark;',
       '}'
     ]

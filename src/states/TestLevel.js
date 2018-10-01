@@ -49,7 +49,7 @@ class TestLevel extends Phaser.State {
 
     // Create the "floor" as a manually drawn rectangle
     this.floor = this.game.add.graphics(0, 0)
-    this.floor.beginFill(0x408055)
+    this.floor.beginFill(0x000000)
     this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
     this.floor.endFill()
 
@@ -84,7 +84,9 @@ class TestLevel extends Phaser.State {
     // Setup the key objects
     this.setupKeyboard()
 
-    // this.setupShader()
+    this.setupShader()
+
+    // this.setupBitmap()
   }
 
   setupShader () {
@@ -93,8 +95,8 @@ class TestLevel extends Phaser.State {
     this.blurYFilter = new BlurY(this.game)
 
     // Set their uniform parameters
-    this.blurXFilter.blur = 3
-    this.blurYFilter.blur = 3
+    this.blurXFilter.blur = 10
+    this.blurYFilter.blur = 10
 
     // Apply to just the player
     // this.player.filters = [ this.blurXFilter, this.blurYFilter ]
@@ -102,9 +104,14 @@ class TestLevel extends Phaser.State {
     // Apply to everything
     // this.game.world.filters = [ this.blurXFilter, this.blurYFilter ]
 
-    // this.shadowFilter = new Shadows(this.game)
+    // this.game.world.filters = [this.blurXFilter]
 
-    //this.createHighlights = new Highlights(this.game)
+    this.shadowFilter = new Shadows(this.game)
+    this.shadowFilter.darkness = 0.1
+
+    this.game.world.filters = [this.shadowFilter]
+
+    // this.createHighlights = new Highlights(this.game)
 
     // this.shadowFilter.Darkness = 5;
 
@@ -112,7 +119,13 @@ class TestLevel extends Phaser.State {
     // this.player.filters = [ this.shadowFilter ]
 
     // Apply to everything
-    //this.game.world.filters = [ this.createHighlights ]
+    // this.game.world.filters = [ this.createHighlights ]
+  }
+
+  setupBitmap () {
+    this.darken = new Phaser.BitmapData(this.game, 'keystring', 256, 256)
+    this.darken.blendDarken()
+    this.darken.addToWorld()
   }
 
   setupText (floorHeight) {
