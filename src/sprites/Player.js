@@ -36,6 +36,7 @@ class MainPlayer extends Phaser.Sprite {
     // All variabes that start with '_' are meant to be private
     // Initial state is 'unknown' as nothing has happened yet
     this._move_state = MainPlayer.moveStates.UNKNOWN
+    this._active_state = MainPlayer.moveStates.NONE
 
     // These variables come from config.js rather than being hard-coded here so
     // they can be easily changed and played with
@@ -62,12 +63,23 @@ class MainPlayer extends Phaser.Sprite {
   // Setter and getter for the movement state property
   get moveState () { return this._move_state }
   set moveState (newState) {
-    if (this._move_state !== newState &&
-        (this._move_state !== MainPlayer.moveStates.IDLE ||
-         newState !== MainPlayer.moveStates.STOPPED)) {
-      // Update the state
-      this._move_state = newState
-      this.updateAnimation()
+    if (this._active_state !== MainPlayer.moveStates.NONE) {
+      // TODO: Stay in the active state
+      // - if the requested state is falling and the current active state is jumping, allow it
+      if (this._active_state !== newState &&
+        (this._active_state !== MainPlayer.moveStates.JUMPING ||
+          newState !== MainPlayer.moveStates.NONE)) {
+        this._active_state = newState
+        this.updateAnimation()
+      }
+    } else {
+      if (this._move_state !== newState &&
+          (this._move_state !== MainPlayer.moveStates.IDLE ||
+          newState !== MainPlayer.moveStates.STOPPED)) {
+        // Update the state
+        this._move_state = newState
+        this.updateAnimation()
+      }
     }
   }
 
@@ -111,6 +123,9 @@ class MainPlayer extends Phaser.Sprite {
         if (__DEV__) console.info('Playing "idle"')
         this.animations.play('idle')
         break
+      case MainPlayer.moveStates.JUMPING:
+        if (__DEV__) console.info('playing "jump"')
+        this.animations.play('jump')
     }
   }
 
@@ -131,9 +146,7 @@ class MainPlayer extends Phaser.Sprite {
       if (this.isFacingRight()) { this.body.moveRight(500) } else { this.body.moveLeft(500) }
     } else if (this.moveState === MainPlayer.moveStates.RUNNING) {
       if (this.isFacingRight()) { this.body.moveRight(1000) } else { this.body.moveLeft(1000) }
-    } else if (this.moveState === MainPlayer.moveStates.JUMPING) {
-      if (this.isFacingRight()) { this.body.velocity.y = 250 } else { this.body.velocity.y = 250 }
-    }
+    } else if (this.moveState === MainPlayer.moveStates.JUMPING) { this.body.moveUp(250) }
   }
 
   // Function to setup all the animation data
@@ -183,7 +196,8 @@ MainPlayer.moveStates = Object.freeze({
   WALKING: 'walking',
   RUNNING: 'running',
   JUMPING: 'jumping',
-  IDLE: 'idle'
+  IDLE: 'idle',
+  NONE: 'none'
 })
 
 // Expose the MainPlayer class to other files

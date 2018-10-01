@@ -12,6 +12,7 @@ import config from '../config'
 // Import the filters for the scene
 import BlurX from '../Shaders/BlurX'
 import BlurY from '../Shaders/BlurY'
+import Shadows from '../Shaders/Shadows'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -49,7 +50,7 @@ class TestLevel extends Phaser.State {
 
     // Create the "floor" as a manually drawn rectangle
     this.floor = this.game.add.graphics(0, 0)
-    this.floor.beginFill(0x408055)
+    this.floor.beginFill(0x000000)
     this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
     this.floor.endFill()
 
@@ -88,6 +89,9 @@ class TestLevel extends Phaser.State {
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+    this.setupShader()
+
+    // this.setupBitmap()
   }
 
   setupShader () {
@@ -103,7 +107,30 @@ class TestLevel extends Phaser.State {
     // this.player.filters = [ this.blurXFilter, this.blurYFilter ]
 
     // Apply to everything
-    this.game.world.filters = [ this.blurXFilter, this.blurYFilter ]
+    // this.game.world.filters = [ this.blurXFilter, this.blurYFilter ]
+
+    // this.game.world.filters = [this.blurXFilter]
+
+    this.shadowFilter = new Shadows(this.game)
+    this.shadowFilter.darkness = 0.1
+
+    this.game.world.filters = [this.shadowFilter]
+
+    // this.createHighlights = new Highlights(this.game)
+
+    // this.shadowFilter.Darkness = 5;
+
+    // Apply to just the player
+    // this.player.filters = [ this.shadowFilter ]
+
+    // Apply to everything
+    // this.game.world.filters = [ this.createHighlights ]
+  }
+
+  setupBitmap () {
+    this.darken = new Phaser.BitmapData(this.game, 'keystring', 256, 256)
+    this.darken.blendDarken()
+    this.darken.addToWorld()
   }
 
   setupText (floorHeight) {
@@ -159,48 +186,52 @@ class TestLevel extends Phaser.State {
 
   setupKeyboard () {
     // Register the keys
-    this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
-    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
-    this.sprintKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SHIFT)
-    this.jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    this.leftKey = this.game.input.keyboard.addKey(Phaser.KeyCode.LEFT)
+    this.rightKey = this.game.input.keyboard.addKey(Phaser.KeyCode.RIGHT)
+    this.sprintKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SHIFT)
+    this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SHIFT, Phaser.Keyboard.SPACEBAR
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR
     ])
   }
 
   update () {
     // Check state of keys to control main character
-    var speed = 0
-    var direction = 0
-    
+    let speed = 0
+    let jump = false
+
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
-    if (this.jumpKey.isDown) { }
+    if (this.jumpKey.isDown) { jump = true }
 
-    // Update sprite facing direction
-    if (speed > 0 && !this.player.isFacingRight()) {
-      this.player.makeFaceRight()
-    } else if (speed < 0 && !this.player.isFacingLeft()) {
-      this.player.makeFaceLeft()
-    }
-
-    // Update sprite movement state and playing audio
-    if (Math.abs(speed) > 1) {
-      // Player is running
-      this.player.moveState = MainPlayer.moveStates.RUNNING
-      if (!this.game.sounds.get('running').isPlaying) {
-        this.game.sounds.play('running', config.SFX_VOLUME)
-      }
+    if (jump) {
+      this.player.moveState = MainPlayer.moveStates.JUMPING
     } else {
-      // Player is walking or stopped
-      this.game.sounds.stop('running')
-      if (Math.abs(speed) > 0) {
-        this.player.moveState = MainPlayer.moveStates.WALKING
+      // Update sprite facing direction
+      if (speed > 0 && !this.player.isFacingRight()) {
+        this.player.makeFaceRight()
+      } else if (speed < 0 && !this.player.isFacingLeft()) {
+        this.player.makeFaceLeft()
+      }
+
+      // Update sprite movement state and playing audio
+      if (Math.abs(speed) > 1) {
+        // Player is running
+        this.player.moveState = MainPlayer.moveStates.RUNNING
+        if (!this.game.sounds.get('running').isPlaying) {
+          this.game.sounds.play('running', config.SFX_VOLUME)
+        }
       } else {
-        this.player.moveState = MainPlayer.moveStates.STOPPED
+        // Player is walking or stopped
+        this.game.sounds.stop('running')
+        if (Math.abs(speed) > 0) {
+          this.player.moveState = MainPlayer.moveStates.WALKING
+        } else {
+          this.player.moveState = MainPlayer.moveStates.STOPPED
+        }
       }
     }
   }
