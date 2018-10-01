@@ -26,8 +26,10 @@ import BlurY from '../Shaders/BlurY'
  */
 class TestLevel extends Phaser.State {
   init () {
-    // Set / Reset world bounds
-    this.game.world.setBounds(0, 0, this.game.width, this.game.height)
+    // Set / Reset world bounds (based off of world bounds)
+    this.game.world.setBounds(0, 0, this.world.width, this.world.height)
+    // Set the world bounds for how big the world is
+    this.world.setBounds(0, 0, 2440, 768)
   }
 
   preload () {
@@ -149,6 +151,10 @@ class TestLevel extends Phaser.State {
     credits.fill = '#000000'
     credits.setShadow(1, 1, 'rgba(0,0,0,0.5)', 2)
     credits.anchor.setTo(0, 0)
+
+    // Sets Credits to follow the camera
+    credits.fixedToCamera = true
+    credits.cameraOffset.setTo(500, floorHeight - 30)
   }
 
   setupKeyboard () {
