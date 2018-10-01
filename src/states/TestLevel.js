@@ -181,6 +181,8 @@ class TestLevel extends Phaser.State {
     this.rightKey = this.game.input.keyboard.addKey(Phaser.KeyCode.RIGHT)
     this.sprintKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SHIFT)
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
+    this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
+    this.dim = this.game.input.keyboard.addKey(Phaser.KeyCode.Q)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
@@ -197,6 +199,14 @@ class TestLevel extends Phaser.State {
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
     if (this.jumpKey.isDown) { jump = true }
+    if (this.brighten.isDown) { 
+      this.shadowFilter.darkness += 0.1
+      // this.setupShader()
+      console.log("E is pressed")
+     }
+     if (this.dim.isDown) {
+       this.shadowFilter.darkness -= 0.1
+     }
 
     if (jump) {
       this.player.moveState = MainPlayer.moveStates.JUMPING
