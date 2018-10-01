@@ -177,48 +177,52 @@ class TestLevel extends Phaser.State {
 
   setupKeyboard () {
     // Register the keys
-    this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
-    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
-    this.sprintKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SHIFT)
-    this.jumpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    this.leftKey = this.game.input.keyboard.addKey(Phaser.KeyCode.LEFT)
+    this.rightKey = this.game.input.keyboard.addKey(Phaser.KeyCode.RIGHT)
+    this.sprintKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SHIFT)
+    this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SHIFT, Phaser.Keyboard.SPACEBAR
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR
     ])
   }
 
   update () {
     // Check state of keys to control main character
-    var speed = 0
-    var direction = 0
+    let speed = 0
+    let jump = false
 
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
-    if (this.jumpKey.isDown) { }
+    if (this.jumpKey.isDown) { jump = true }
 
-    // Update sprite facing direction
-    if (speed > 0 && !this.player.isFacingRight()) {
-      this.player.makeFaceRight()
-    } else if (speed < 0 && !this.player.isFacingLeft()) {
-      this.player.makeFaceLeft()
-    }
-
-    // Update sprite movement state and playing audio
-    if (Math.abs(speed) > 1) {
-      // Player is running
-      this.player.moveState = MainPlayer.moveStates.RUNNING
-      if (!this.game.sounds.get('running').isPlaying) {
-        this.game.sounds.play('running', config.SFX_VOLUME)
-      }
+    if (jump) {
+      this.player.moveState = MainPlayer.moveStates.JUMPING
     } else {
-      // Player is walking or stopped
-      this.game.sounds.stop('running')
-      if (Math.abs(speed) > 0) {
-        this.player.moveState = MainPlayer.moveStates.WALKING
+      // Update sprite facing direction
+      if (speed > 0 && !this.player.isFacingRight()) {
+        this.player.makeFaceRight()
+      } else if (speed < 0 && !this.player.isFacingLeft()) {
+        this.player.makeFaceLeft()
+      }
+
+      // Update sprite movement state and playing audio
+      if (Math.abs(speed) > 1) {
+        // Player is running
+        this.player.moveState = MainPlayer.moveStates.RUNNING
+        if (!this.game.sounds.get('running').isPlaying) {
+          this.game.sounds.play('running', config.SFX_VOLUME)
+        }
       } else {
-        this.player.moveState = MainPlayer.moveStates.STOPPED
+        // Player is walking or stopped
+        this.game.sounds.stop('running')
+        if (Math.abs(speed) > 0) {
+          this.player.moveState = MainPlayer.moveStates.WALKING
+        } else {
+          this.player.moveState = MainPlayer.moveStates.STOPPED
+        }
       }
     }
   }
