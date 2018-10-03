@@ -88,7 +88,7 @@ class TestLevel extends Phaser.State {
     // this.setupShader()
 
     // Set up a camera to follow the player
-    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
     this.setupShader()
 
     // this.setupBitmap()
@@ -208,17 +208,17 @@ class TestLevel extends Phaser.State {
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
     if (this.jumpKey.isDown) { jump = true }
-    if (this.brighten.isDown) { 
+    if (this.brighten.isDown) {
       this.shadowFilter.darkness += 0.1
       // this.setupShader()
-      console.log("E is pressed")
-     }
-     if (this.dim.isDown) {
-       this.shadowFilter.darkness -= 0.1
-     }
+      console.log('E is pressed')
+    }
+    if (this.dim.isDown) {
+      this.shadowFilter.darkness -= 0.1
+    }
 
     if (jump) {
-      this.player.moveState = MainPlayer.moveStates.JUMPING
+      this.player.overrideState = MainPlayer.overrideStates.JUMPING
     } else {
       // Update sprite facing direction
       if (speed > 0 && !this.player.isFacingRight()) {
