@@ -50,7 +50,7 @@ class TestLevel extends Phaser.State {
 
     // Create the "floor" as a manually drawn rectangle
     this.floor = this.game.add.graphics(0, 0)
-    this.floor.beginFill(0x000000)
+    this.floor.beginFill(0x5e7ca0)
     this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
     this.floor.endFill()
 
@@ -92,6 +92,9 @@ class TestLevel extends Phaser.State {
     this.setupShader()
 
     // this.setupBitmap()
+
+    // Create the 'Light' Around the player
+    this.setupPlayerLighting()
   }
 
   setupShader () {
@@ -112,7 +115,7 @@ class TestLevel extends Phaser.State {
     // this.game.world.filters = [this.blurXFilter]
 
     this.shadowFilter = new Shadows(this.game)
-    this.shadowFilter.darkness = 0.1
+    this.shadowFilter.darkness = 1.0
 
     this.game.world.filters = [this.shadowFilter]
 
@@ -127,11 +130,31 @@ class TestLevel extends Phaser.State {
     // this.game.world.filters = [ this.createHighlights ]
   }
 
-  setupBitmap () {
-    this.darken = new Phaser.BitmapData(this.game, 'keystring', 256, 256)
-    this.darken.blendDarken()
-    this.darken.addToWorld()
+  // Create a small light on the player
+  setupPlayerLighting () {
+    this.light = new Phaser.Sprite(this.game, 700, 700, 'light')
+    // this.light.anchor.setTo(0.5, 0.5)
+    this.light.x = this.player.x
+    this.light.y = this.player.y
+    this.game.add.existing(this.light)
+
+    // bitmap approach
+    this.bmd = new Phaser.BitmapData(this.game, this.game.height, this.game.width)
+    // Add to the world
+    this.bmd.addToWorld()
+
+    // Create Circles
+    this.innerCircle = new Phaser.Circle(200, 200, 100)
+    this.outerCircle = new Phaser.Circle(200, 200, 300)
+
+    this.game.add.tween(this.innerCircle).to({ x: 100, y: 100, radius: 1 }, 3000, 'Sine.easeInOut', true, 0, -1, true)
   }
+
+  // setupBitmap () {
+  //   this.darken = new Phaser.BitmapData(this.game, 'keystring', 256, 256)
+  //   this.darken.blendDarken()
+  //   this.darken.addToWorld()
+  // }
 
   setupText (floorHeight) {
     // Title message to show on screen
@@ -190,12 +213,13 @@ class TestLevel extends Phaser.State {
     this.rightKey = this.game.input.keyboard.addKey(Phaser.KeyCode.RIGHT)
     this.sprintKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SHIFT)
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
-    this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
+    this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.R)
     this.dim = this.game.input.keyboard.addKey(Phaser.KeyCode.Q)
+    this.logInfo = this.game.input.keyboard.addKey(Phaser.KeyCode.D)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D
     ])
   }
 
@@ -203,6 +227,10 @@ class TestLevel extends Phaser.State {
     // Check state of keys to control main character
     let speed = 0
     let jump = false
+
+    // The light follows the player
+    this.light.x = this.player.x
+    this.light.y = this.player.y
 
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }

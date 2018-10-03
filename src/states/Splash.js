@@ -54,6 +54,7 @@ class Splash extends Phaser.State {
     this.load.spritesheet('player-main', 'assets/images/player-main.png', 64, 64)
     this.load.spritesheet('player-main-test', 'assets/images/player-main-test.png', 64, 64)
     this.load.spritesheet('blank', 'assets/images/blank.png', 10, 10)
+    this.load.spritesheet('light', 'assets/images/light.png', 10, 10)
 
     // The audiosprite with all music and SFX
     this.load.audioSprite('sounds', [
