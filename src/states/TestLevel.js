@@ -244,6 +244,13 @@ class TestLevel extends Phaser.State {
     if (this.dim.isDown) {
       this.shadowFilter.darkness -= 0.1
     }
+    // Update bitmap data
+    var grd = this.bmd.context.createRadialGradient(this.innerCircle.x, this.innerCircle.y, this.innerCircle.radius, this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius)
+    grd.addColorStop(0, '#8ED6FF')
+    grd.addColorStop(1, '#003BA2')
+
+    this.bmd.cls()
+    this.bmd.circle(this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius, grd)
 
     if (jump) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
