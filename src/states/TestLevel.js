@@ -141,7 +141,7 @@ class TestLevel extends Phaser.State {
     // bitmap approach
     this.bmd = new Phaser.BitmapData(this.game, this.game.height, this.game.width)
     // Add to the world
-    this.bmd.addToWorld()
+    this.bmd.addToWorld(this.player.x, this.player.y)
 
     // Create Circles
     this.innerCircle = new Phaser.Circle(200, 200, 100)
@@ -246,9 +246,8 @@ class TestLevel extends Phaser.State {
     }
     // Update bitmap data
     var grd = this.bmd.context.createRadialGradient(this.innerCircle.x, this.innerCircle.y, this.innerCircle.radius, this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius)
-    grd.addColorStop(0, '#8ED6FF')
+    grd.addColorStop(0, '#cc49b4')
     grd.addColorStop(1, '#003BA2')
-
     this.bmd.cls()
     this.bmd.circle(this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius, grd)
 
