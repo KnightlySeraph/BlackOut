@@ -34,6 +34,7 @@ class TestLevel extends Phaser.State {
   }
 
   preload () {
+    this.tweenRate = 3000
     console.log('preload has loaded once')
   }
 
@@ -97,6 +98,7 @@ class TestLevel extends Phaser.State {
     this.setupPlayerLighting()
   }
 
+  // This is the function called to set up GLSL Shaders and add them to the world
   setupShader () {
     // Make the filters
     this.blurXFilter = new BlurX(this.game)
@@ -132,22 +134,22 @@ class TestLevel extends Phaser.State {
 
   // Create a small light on the player
   setupPlayerLighting () {
-    this.light = new Phaser.Sprite(this.game, 700, 700, 'light')
-    // this.light.anchor.setTo(0.5, 0.5)
-    this.light.x = this.player.x
-    this.light.y = this.player.y
-    this.game.add.existing(this.light)
+    // this.light = new Phaser.Sprite(this.game, 700, 700, 'light')
+    // // this.light.anchor.setTo(0.5, 0.5)
+    // this.light.x = this.player.x
+    // this.light.y = this.player.y
+    // this.game.add.existing(this.light)
 
     // bitmap approach
-    this.bmd = new Phaser.BitmapData(this.game, this.game.height, this.game.width)
+    this.bmd = new Phaser.BitmapData(this.game, this.world.height, this.world.width)
     // Add to the world
-    this.bmd.addToWorld(this.player.x, this.player.y)
+    this.bmd.addToWorld(1220, 200)
 
     // Create Circles
-    this.innerCircle = new Phaser.Circle(200, 200, 100)
-    this.outerCircle = new Phaser.Circle(200, 200, 300)
+    this.innerCircle = new Phaser.Circle(200, 200, 25)
+    this.outerCircle = new Phaser.Circle(200, 200, 100)
 
-    this.game.add.tween(this.innerCircle).to({ x: 100, y: 100, radius: 1 }, 3000, 'Sine.easeInOut', true, 0, -1, true)
+    this.game.add.tween(this.innerCircle).to({ x: 200, y: 200, radius: 1 }, 2500, Phaser.Easing.Circular.Out, true, 0, -1, true)
   }
 
   // setupBitmap () {
@@ -215,11 +217,13 @@ class TestLevel extends Phaser.State {
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
     this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.R)
     this.dim = this.game.input.keyboard.addKey(Phaser.KeyCode.Q)
+    this.tweenFaster = this.game.input.keyboard.addKey(Phaser.KeyCode.P)
+    this.tweenSlower = this.game.input.keyboard.addKey(Phaser.KeyCode.O)
     this.logInfo = this.game.input.keyboard.addKey(Phaser.KeyCode.D)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O
     ])
   }
 
@@ -229,13 +233,21 @@ class TestLevel extends Phaser.State {
     let jump = false
 
     // The light follows the player
-    this.light.x = this.player.x
-    this.light.y = this.player.y
+    // this.light.x = this.player.x
+    // this.light.y = this.player.y
 
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
     if (this.jumpKey.isDown) { jump = true }
+    if (this.tweenFaster.isdown) {
+      this.tweenRate -= 25
+      this.setupPlayerLighting()
+    }
+    if (this.tweenSlower.isdown) {
+      this.tweenRate += 25
+      this.setupPlayerLighting()
+    }
     if (this.brighten.isDown) {
       this.shadowFilter.darkness += 0.1
       // this.setupShader()
@@ -244,12 +256,24 @@ class TestLevel extends Phaser.State {
     if (this.dim.isDown) {
       this.shadowFilter.darkness -= 0.1
     }
+    if (this.logInfo.isDown) {
+      console.log('Bitmap Data Location: (' + this.bmd.x + ', ' + this.bmd.y + ')')
+      console.log('Inner Circle Location: (' + this.innerCircle.x + ', ' + this.innerCircle.y + ')')
+      // console.log('Outer Circle Location: (' + this.outerCircle.x + ', ' + this.outerCircle.y + ')')
+      console.log('Player Location: (' + this.player.x + ', ' + this.player.y + ')')
+    }
     // Update bitmap data
+    // this.setupPlayerLighting()
     var grd = this.bmd.context.createRadialGradient(this.innerCircle.x, this.innerCircle.y, this.innerCircle.radius, this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius)
-    grd.addColorStop(0, '#cc49b4')
-    grd.addColorStop(1, '#003BA2')
+    grd.addColorStop(0, '#fdffa8')
+    grd.addColorStop(1, '#2e3333')
+    // this.innerCircle.x = this.player.x
+    // this.innerCircle.y = this.player.y
+    // this.outerCircle.x = this.player.x
+    // this.outerCircle.y = this.player.y
     this.bmd.cls()
     this.bmd.circle(this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius, grd)
+    // this.bmd.clear()
 
     if (jump === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
