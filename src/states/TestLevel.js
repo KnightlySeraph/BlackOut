@@ -35,6 +35,7 @@ class TestLevel extends Phaser.State {
   }
 
   preload () {
+    this.tweenRate = 3000
     console.log('preload has loaded once')
   }
 
@@ -50,10 +51,10 @@ class TestLevel extends Phaser.State {
     let floorHeight = this.player.bottom
 
     // Create the "floor" as a manually drawn rectangle
-    // this.floor = this.game.add.graphics(0, 0)
-    // this.floor.beginFill(0x000000)
-    // this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
-    // this.floor.endFill()
+    this.floor = this.game.add.graphics(0, 0)
+    this.floor.beginFill(0x5e7ca0)
+    this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
+    this.floor.endFill()
 
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platform = new Phaser.Sprite(this.game, 500, 500, 'blank')
@@ -104,15 +105,19 @@ class TestLevel extends Phaser.State {
     // this.setupShader()
 
     // Set up a camera to follow the player
-    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+    this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
     this.setupShader()
 
     // Set up interact Key boolean
     var interacting = false;
 
     // this.setupBitmap()
+
+    // Create the 'Light' Around the player
+    this.setupPlayerLighting()
   }
 
+  // This is the function called to set up GLSL Shaders and add them to the world
   setupShader () {
     // Make the filters
     this.blurXFilter = new BlurX(this.game)
@@ -131,7 +136,7 @@ class TestLevel extends Phaser.State {
     // this.game.world.filters = [this.blurXFilter]
 
     this.shadowFilter = new Shadows(this.game)
-    this.shadowFilter.darkness = 0.1
+    this.shadowFilter.darkness = 1.0
 
     this.game.world.filters = [this.shadowFilter]
 
@@ -146,11 +151,31 @@ class TestLevel extends Phaser.State {
     // this.game.world.filters = [ this.createHighlights ]
   }
 
-  setupBitmap () {
-    this.darken = new Phaser.BitmapData(this.game, 'keystring', 256, 256)
-    this.darken.blendDarken()
-    this.darken.addToWorld()
+  // Create a small light on the player
+  setupPlayerLighting () {
+    // this.light = new Phaser.Sprite(this.game, 700, 700, 'light')
+    // // this.light.anchor.setTo(0.5, 0.5)
+    // this.light.x = this.player.x
+    // this.light.y = this.player.y
+    // this.game.add.existing(this.light)
+
+    // bitmap approach
+    this.bmd = new Phaser.BitmapData(this.game, this.world.height, this.world.width)
+    // Add to the world
+    this.bmd.addToWorld(1220, 200)
+
+    // Create Circles
+    this.innerCircle = new Phaser.Circle(200, 200, 25)
+    this.outerCircle = new Phaser.Circle(200, 200, 100)
+
+    this.game.add.tween(this.innerCircle).to({ x: 200, y: 200, radius: 1 }, 2500, Phaser.Easing.Circular.Out, true, 0, -1, true)
   }
+
+  // setupBitmap () {
+  //   this.darken = new Phaser.BitmapData(this.game, 'keystring', 256, 256)
+  //   this.darken.blendDarken()
+  //   this.darken.addToWorld()
+  // }
 
   setupText (floorHeight) {
     // Title message to show on screen
@@ -211,11 +236,13 @@ class TestLevel extends Phaser.State {
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
     this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.R)
     this.dim = this.game.input.keyboard.addKey(Phaser.KeyCode.Q)
-    this.interact = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
+    this.tweenFaster = this.game.input.keyboard.addKey(Phaser.KeyCode.P)
+    this.tweenSlower = this.game.input.keyboard.addKey(Phaser.KeyCode.O)
+    this.logInfo = this.game.input.keyboard.addKey(Phaser.KeyCode.D)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.E, Phaser.KeyCode.R, Phaser.KeyCode.Q
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O
     ])
   }
 
@@ -224,25 +251,52 @@ class TestLevel extends Phaser.State {
     let speed = 0
     let jump = false
 
-    //if (this.game.platformGroup.onCollide(this.body, )) { console.log('player is colliding with platform collider') } //body.collides(this.platfrom2.body)) {  }
+    // The light follows the player
+    // this.light.x = this.player.x
+    // this.light.y = this.player.y
+
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
     if (this.jumpKey.isDown) { jump = true }
-    if (this.brighten.isDown) { 
+    if (this.tweenFaster.isdown) {
+      this.tweenRate -= 25
+      this.setupPlayerLighting()
+    }
+    if (this.tweenSlower.isdown) {
+      this.tweenRate += 25
+      this.setupPlayerLighting()
+    }
+    if (this.brighten.isDown) {
       this.shadowFilter.darkness += 0.1
       // this.setupShader()
-      console.log('R is pressed')
-     }
-     if (this.dim.isDown) {
-       this.shadowFilter.darkness -= 0.1
-     }
-     if (this.interact.isDown) { this.interacting = true; console.log('E is pressed')
-    } else { this.interacting = false }
+      console.log('E is pressed')
+    }
+    if (this.dim.isDown) {
+      this.shadowFilter.darkness -= 0.1
+    }
+    if (this.logInfo.isDown) {
+      console.log('Bitmap Data Location: (' + this.bmd.x + ', ' + this.bmd.y + ')')
+      console.log('Inner Circle Location: (' + this.innerCircle.x + ', ' + this.innerCircle.y + ')')
+      // console.log('Outer Circle Location: (' + this.outerCircle.x + ', ' + this.outerCircle.y + ')')
+      console.log('Player Location: (' + this.player.x + ', ' + this.player.y + ')')
+    }
+    // Update bitmap data
+    // this.setupPlayerLighting()
+    var grd = this.bmd.context.createRadialGradient(this.innerCircle.x, this.innerCircle.y, this.innerCircle.radius, this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius)
+    grd.addColorStop(0, '#fdffa8')
+    grd.addColorStop(1, '#2e3333')
+    // this.innerCircle.x = this.player.x
+    // this.innerCircle.y = this.player.y
+    // this.outerCircle.x = this.player.x
+    // this.outerCircle.y = this.player.y
+    this.bmd.cls()
+    this.bmd.circle(this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius, grd)
+    // this.bmd.clear()
 
-    if (jump) {
-      this.player.moveState = MainPlayer.moveStates.JUMPING
-    } else {
+    if (jump === true) {
+      this.player.overrideState = MainPlayer.overrideStates.JUMPING
+    } else if (jump === false) {
       // Update sprite facing direction
       if (speed > 0 && !this.player.isFacingRight()) {
         this.player.makeFaceRight()
@@ -277,6 +331,7 @@ class TestLevel extends Phaser.State {
 
       // Print some text about the player state machine
       this.game.debug.text(`Movement State: ${this.player.moveState}`, this.game.width - 350, 32)
+      this.game.debug.text(`Override State: ${this.player.overrideState}`, this.game.width - 350, 48)
 
       // Print a warning that the game is running in DEV/Debug mode
       this.game.debug.text('DEV BUILD', this.game.width - 100, this.game.height - 10, '#AA0000')

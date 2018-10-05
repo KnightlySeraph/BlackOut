@@ -51,6 +51,7 @@ class MainPlayer extends Phaser.Sprite {
     this.body.debug = __DEV__
     this.body.collideWorldBounds = true
     this.body.fixedRotation = true
+
     this.body.setCollisionGroup(this.game.playerGroup)
     this.body.collides([this.game.platformGroup], this.onCollide, this)
 
