@@ -62,8 +62,9 @@ class MainPlayer extends Phaser.Sprite {
     // Configure custom physics properties
     this.body.damping = 0.5
 
-    this.body.setCollisionGroup(this.game.playerGroup)
-    this.body.collides([this.game.platformGroup], this.onCollide, this)
+    // this.body.setCollisionGroup(this.game.playerGroup)
+    // this.body.collides([this.game.platformGroup, this.game.physics.p2.boundsCollisionGroup],
+    //   this.onCollide, this)
   }
 
   // Collision function
@@ -95,7 +96,9 @@ class MainPlayer extends Phaser.Sprite {
         newState !== MainPlayer.moveStates.STOPPED)) {
       // Update the state
       this._move_state = newState
-      this.updateAnimation()
+      if (this.overrideState === MainPlayer.overrideStates.NONE) {
+        this.updateAnimation()
+      }
     }
   }
 
