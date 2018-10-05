@@ -10,8 +10,6 @@ import MainPlayer from '../sprites/Player'
 import config from '../config'
 
 // Import the filters for the scene
-import BlurX from '../Shaders/BlurX'
-import BlurY from '../Shaders/BlurY'
 import Shadows from '../Shaders/Shadows'
 
 /**
@@ -31,7 +29,6 @@ class TestLevel extends Phaser.State {
     this.game.world.setBounds(0, 0, this.world.width, this.world.height)
     // Set the world bounds for how big the world is
     this.world.setBounds(0, 0, 2440, 768)
-    
   }
 
   preload () {
@@ -89,7 +86,6 @@ class TestLevel extends Phaser.State {
     this.platform2.anchor.setTo(0.5, 0.5)
     this.game.add.existing(this.platform2)
 
-
     // Add player after the floor
     this.game.add.existing(this.player)
 
@@ -109,7 +105,7 @@ class TestLevel extends Phaser.State {
     this.setupShader()
 
     // Set up interact Key boolean
-    var interacting = false;
+    var interacting = false
 
     // this.setupBitmap()
 
@@ -119,56 +115,33 @@ class TestLevel extends Phaser.State {
 
   // This is the function called to set up GLSL Shaders and add them to the world
   setupShader () {
-    // Make the filters
-    this.blurXFilter = new BlurX(this.game)
-    this.blurYFilter = new BlurY(this.game)
-
-    // Set their uniform parameters
-    this.blurXFilter.blur = 10
-    this.blurYFilter.blur = 10
-
-    // Apply to just the player
-    // this.player.filters = [ this.blurXFilter, this.blurYFilter ]
-
-    // Apply to everything
-    // this.game.world.filters = [ this.blurXFilter, this.blurYFilter ]
-
-    // this.game.world.filters = [this.blurXFilter]
-
+    // Make the filter
     this.shadowFilter = new Shadows(this.game)
     this.shadowFilter.darkness = 1.0
-
     this.game.world.filters = [this.shadowFilter]
-
-    // this.createHighlights = new Highlights(this.game)
-
-    // this.shadowFilter.Darkness = 5;
-
-    // Apply to just the player
-    // this.player.filters = [ this.shadowFilter ]
-
-    // Apply to everything
-    // this.game.world.filters = [ this.createHighlights ]
   }
 
   // Create a small light on the player
   setupPlayerLighting () {
-    // this.light = new Phaser.Sprite(this.game, 700, 700, 'light')
-    // // this.light.anchor.setTo(0.5, 0.5)
-    // this.light.x = this.player.x
-    // this.light.y = this.player.y
-    // this.game.add.existing(this.light)
-
     // bitmap approach
-    this.bmd = new Phaser.BitmapData(this.game, this.world.height, this.world.width)
-    // Add to the world
-    this.bmd.addToWorld(1220, 200)
+    // SETH: width and height here are important and should probably match player
+    this.bmd = new Phaser.BitmapData(this.game, this.player.width, this.player.height)
 
     // Create Circles
-    this.innerCircle = new Phaser.Circle(200, 200, 25)
-    this.outerCircle = new Phaser.Circle(200, 200, 100)
+    // SETH: Changed this to be centered at (100, 100)
+    this.innerCircle = new Phaser.Circle(100, 100, 25)
+    this.outerCircle = new Phaser.Circle(100, 100, 100)
 
-    this.game.add.tween(this.innerCircle).to({ x: 200, y: 200, radius: 1 }, 2500, Phaser.Easing.Circular.Out, true, 0, -1, true)
+    // SETH: Adding to world right on top of player
+    this.bmdImage = this.bmd.addToWorld(
+      this.player.x, this.player.y, 0.5, 0.5)
+
+    // SETH: changed this to be centered at (100, 100)
+    // SETH: this means the only value actually being tweened is radius
+    // Setup the 'innerCircle' radius to smoothly change between 25 and 1
+    this.game.add.tween(this.innerCircle).to(
+      { x: 100, y: 100, radius: 1 },
+      2500, Phaser.Easing.Circular.Out, true, 0, -1, true)
   }
 
   // setupBitmap () {
@@ -281,18 +254,24 @@ class TestLevel extends Phaser.State {
       // console.log('Outer Circle Location: (' + this.outerCircle.x + ', ' + this.outerCircle.y + ')')
       console.log('Player Location: (' + this.player.x + ', ' + this.player.y + ')')
     }
-    // Update bitmap data
-    // this.setupPlayerLighting()
-    var grd = this.bmd.context.createRadialGradient(this.innerCircle.x, this.innerCircle.y, this.innerCircle.radius, this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius)
+
+    // Create a gradient
+    var grd = this.bmd.context.createRadialGradient(
+      this.innerCircle.x, this.innerCircle.y, this.innerCircle.radius,
+      this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius)
     grd.addColorStop(0, '#fdffa8')
     grd.addColorStop(1, '#2e3333')
-    // this.innerCircle.x = this.player.x
-    // this.innerCircle.y = this.player.y
-    // this.outerCircle.x = this.player.x
-    // this.outerCircle.y = this.player.y
+
+    // Clear the bitmap and re-render the gradient circle
     this.bmd.cls()
     this.bmd.circle(this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius, grd)
-    // this.bmd.clear()
+
+    // SETH: Remove the previous bitmap image
+    this.game.world.remove(this.bmdImage)
+
+    // SETH: Add the bitmap image at same place as player
+    this.bmdImage = this.bmd.addToWorld(
+      this.player.x, this.player.y, 0.5, 0.5)
 
     if (jump === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
