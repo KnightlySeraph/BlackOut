@@ -31,6 +31,7 @@ class TestLevel extends Phaser.State {
     this.game.world.setBounds(0, 0, this.world.width, this.world.height)
     // Set the world bounds for how big the world is
     this.world.setBounds(0, 0, 2440, 768)
+    
   }
 
   preload () {
@@ -49,10 +50,10 @@ class TestLevel extends Phaser.State {
     let floorHeight = this.player.bottom
 
     // Create the "floor" as a manually drawn rectangle
-    this.floor = this.game.add.graphics(0, 0)
-    this.floor.beginFill(0x000000)
-    this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
-    this.floor.endFill()
+    // this.floor = this.game.add.graphics(0, 0)
+    // this.floor.beginFill(0x000000)
+    // this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
+    // this.floor.endFill()
 
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platform = new Phaser.Sprite(this.game, 500, 500, 'blank')
@@ -69,9 +70,24 @@ class TestLevel extends Phaser.State {
     this.platform1.body.dynamic = false
     this.platform1.body.setRectangle(200, 50, 0, 0)
     this.platform1.body.debug = __DEV__
+    this.platform1.body.setCollisionGroup([this.game.platformGroup])
     this.platform1.scale.setTo(20, 5)
     this.platform1.anchor.setTo(0.5, 0.5)
     this.game.add.existing(this.platform1)
+
+    this.platform2 = new Phaser.Sprite(this.game, 1100, 700, 'blank')
+    this.platform2.body = new Phaser.Physics.P2.Body(this.game, this.platform2, 1100, 700)
+    this.platform2.body.dynamic = false
+    this.platform2.body.setRectangle(100, 100, 0, 0) // Collider Box
+    this.platform2.body.debug = __DEV__
+    // this.platform2.body.data.isSensor = true
+    this.platform2.body.setCollisionGroup(this.game.platformGroup)
+    this.platform2.body.collides([this.game.playerGroup])
+
+    this.platform2.scale.setTo(10, 10)
+    this.platform2.anchor.setTo(0.5, 0.5)
+    this.game.add.existing(this.platform2)
+
 
     // Add player after the floor
     this.game.add.existing(this.player)
@@ -90,6 +106,9 @@ class TestLevel extends Phaser.State {
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     this.setupShader()
+
+    // Set up interact Key boolean
+    var interacting = false;
 
     // this.setupBitmap()
   }
@@ -175,7 +194,7 @@ class TestLevel extends Phaser.State {
     credits.font = 'Courier'
     credits.padding.set(10, 0)
     credits.fontSize = 14
-    credits.fill = '#000000'
+    credits.fill = '#999999' // '#000000'
     credits.setShadow(1, 1, 'rgba(0,0,0,0.5)', 2)
     credits.anchor.setTo(0, 0)
 
@@ -190,12 +209,13 @@ class TestLevel extends Phaser.State {
     this.rightKey = this.game.input.keyboard.addKey(Phaser.KeyCode.RIGHT)
     this.sprintKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SHIFT)
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
-    this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
+    this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.R)
     this.dim = this.game.input.keyboard.addKey(Phaser.KeyCode.Q)
+    this.interact = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.E, Phaser.KeyCode.R, Phaser.KeyCode.Q
     ])
   }
 
@@ -204,6 +224,7 @@ class TestLevel extends Phaser.State {
     let speed = 0
     let jump = false
 
+    //if (this.game.platformGroup.onCollide(this.body, )) { console.log('player is colliding with platform collider') } //body.collides(this.platfrom2.body)) {  }
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
@@ -211,11 +232,13 @@ class TestLevel extends Phaser.State {
     if (this.brighten.isDown) { 
       this.shadowFilter.darkness += 0.1
       // this.setupShader()
-      console.log("E is pressed")
+      console.log('R is pressed')
      }
      if (this.dim.isDown) {
        this.shadowFilter.darkness -= 0.1
      }
+     if (this.interact.isDown) { this.interacting = true; console.log('E is pressed')
+    } else { this.interacting = false }
 
     if (jump) {
       this.player.moveState = MainPlayer.moveStates.JUMPING

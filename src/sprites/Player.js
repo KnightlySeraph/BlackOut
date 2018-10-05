@@ -51,6 +51,8 @@ class MainPlayer extends Phaser.Sprite {
     this.body.debug = __DEV__
     this.body.collideWorldBounds = true
     this.body.fixedRotation = true
+    this.body.setCollisionGroup(this.game.playerGroup)
+    this.body.collides([this.game.platformGroup], this.onCollide, this)
 
     // Create a custom shape for the collider body
     this.body.setRectangle(32, 110)
@@ -81,6 +83,28 @@ class MainPlayer extends Phaser.Sprite {
         this.updateAnimation()
       }
     }
+  }
+
+  // Collision function
+  /** Checks to see if one object is colliding with another and what action to take.
+   * 
+   * @param {Phaser.Phyics.P2.Body} myBody The body of this object
+   * @param {Phaser.Phyics.P2.Body} otherBody The body of the colliding object
+   * @param {P2.Shape} myShape // The shape of this body
+   * @param {P2.Shape} otherShape // The shape of the colliding body
+   */
+  onCollide (myBody, otherBody, myShape, otherShape, contactEquation) {
+    console.log('I am colliding')
+
+    // otherBody.parent calls for sprite of game object
+    // if ((myBody.x <= otherBody.x + 1 || myBody.x >= otherBody.x - 1) && (myBody.y <= otherBody.y + 1 || myBody.y >= otherBody.y - 1)) {
+    //   if (__DEV__) {
+    //     console.log('I am colliding')
+    //   }
+    // }
+    // else {
+    //   console.log('nope')
+    // }
   }
 
   // Functions to help manage the way the character is facing.
