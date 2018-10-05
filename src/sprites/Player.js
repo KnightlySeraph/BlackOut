@@ -2,6 +2,7 @@
 
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
+import P2 from 'p2'
 
 // Import needed functions from utils and config settings
 import { sequentialNumArray } from '../utils.js'
@@ -24,6 +25,8 @@ class MainPlayer extends Phaser.Sprite {
     this.name = 'Main Player'
     this.anchor.setTo(0.5, 1.0)
 
+    this._jumpTimer = 0
+
     // turn off smoothing (this is pixel art)
     this.smoothed = false
 
@@ -36,7 +39,7 @@ class MainPlayer extends Phaser.Sprite {
     // All variabes that start with '_' are meant to be private
     // Initial state is 'unknown' as nothing has happened yet
     this._move_state = MainPlayer.moveStates.UNKNOWN
-    this._active_state = MainPlayer.moveStates.NONE
+    this._override_state = MainPlayer.overrideStates.NONE
 
     // These variables come from config.js rather than being hard-coded here so
     // they can be easily changed and played with
@@ -52,60 +55,56 @@ class MainPlayer extends Phaser.Sprite {
     this.body.collideWorldBounds = true
     this.body.fixedRotation = true
 
-    this.body.setCollisionGroup(this.game.playerGroup)
-    this.body.collides([this.game.platformGroup], this.onCollide, this)
-
     // Create a custom shape for the collider body
     this.body.setRectangle(32, 110)
     this.body.offset.setTo(0, -40)
 
     // Configure custom physics properties
     this.body.damping = 0.5
+
+    this.body.setCollisionGroup(this.game.playerGroup)
+    this.body.collides([this.game.platformGroup], this.onCollide, this)
   }
 
   // Setter and getter for the movement state property
   get moveState () { return this._move_state }
   set moveState (newState) {
-    if (this._active_state !== MainPlayer.moveStates.NONE) {
-      // TODO: Stay in the active state
-      // - if the requested state is falling and the current active state is jumping, allow it
-      if (this._active_state !== newState &&
-        (this._active_state !== MainPlayer.moveStates.JUMPING ||
-          newState !== MainPlayer.moveStates.NONE)) {
-        this._active_state = newState
-        this.updateAnimation()
-      }
-    } else {
-      if (this._move_state !== newState &&
-          (this._move_state !== MainPlayer.moveStates.IDLE ||
-          newState !== MainPlayer.moveStates.STOPPED)) {
-        // Update the state
-        this._move_state = newState
+    if (this._move_state !== newState &&
+        (this._move_state !== MainPlayer.moveStates.IDLE ||
+        newState !== MainPlayer.moveStates.STOPPED)) {
+      // Update the state
+      this._move_state = newState
+      this.updateAnimation()
+    }
+  }
+
+  get overrideState () { return this._override_state }
+  set overrideState (newState) {
+    if (this._override_state !== newState) {
+      if (this._override_state !== MainPlayer.overrideStates.FALLING || newState === MainPlayer.overrideStates.NONE) {
+        this._override_state = newState
         this.updateAnimation()
       }
     }
   }
 
-  // Collision function
-  /** Checks to see if one object is colliding with another and what action to take.
-   * 
-   * @param {Phaser.Phyics.P2.Body} myBody The body of this object
-   * @param {Phaser.Phyics.P2.Body} otherBody The body of the colliding object
-   * @param {P2.Shape} myShape // The shape of this body
-   * @param {P2.Shape} otherShape // The shape of the colliding body
-   */
-  onCollide (myBody, otherBody, myShape, otherShape, contactEquation) {
-    console.log('I am colliding')
-
-    // otherBody.parent calls for sprite of game object
-    // if ((myBody.x <= otherBody.x + 1 || myBody.x >= otherBody.x - 1) && (myBody.y <= otherBody.y + 1 || myBody.y >= otherBody.y - 1)) {
-    //   if (__DEV__) {
-    //     console.log('I am colliding')
-    //   }
-    // }
-    // else {
-    //   console.log('nope')
-    // }
+  // Borrowed from http://www.html5gamedevs.com/topic/12545-system-to-detect-on-ground-with-p2-physics/
+  touching (x, y) {
+    let yAxis = P2.vec2.fromValues(x, y)
+    let result = false
+    for (let i = 0; i < this.game.physics.p2.world.narrowphase.contactEquations.length; i++) {
+      // cycles through all the contactEquations until it finds ourself
+      let c = this.game.physics.p2.world.narrowphase.contactEquations[i]
+      if (c.bodyA === this.body.data || c.bodyB === this.body.data) {
+        let d = P2.vec2.dot(c.normalA, yAxis)
+        if (c.bodyA === this.body.data) { d *= -1 }
+        if (d > 0.5) {
+          result = true
+          break
+        }
+      }
+    }
+    return result
   }
 
   // Functions to help manage the way the character is facing.
@@ -126,31 +125,42 @@ class MainPlayer extends Phaser.Sprite {
 
   // Update animation to match state (called only when state changes)
   updateAnimation () {
-    // Look at the current movement state and adjust the animation accordingly
-    switch (this._move_state) {
-      case MainPlayer.moveStates.STOPPED:
-        if (__DEV__) console.info('Playing "stop"')
-        this.animations.play('stop')
-        this._idle_countdown = config.IDLE_COUNTDOWN
-        break
+    if (this._override_state !== MainPlayer.overrideStates.NONE) {
+      switch (this._override_state) {
+        case MainPlayer.overrideStates.JUMPING:
+          if (__DEV__) console.info('playing "jump"')
+          this.animations.play('jump')
+          this._jumpTimer = 40
+          break
 
-      case MainPlayer.moveStates.WALKING:
-        if (__DEV__) console.info('Playing "walk"')
-        this.animations.play('walk')
-        break
+        case MainPlayer.overrideStates.FALLING:
+          if (__DEV__) console.info('playing "falling"')
+          this.animations.play('fall')
+      }
+    } else {
+      // Look at the current movement state and adjust the animation accordingly
+      switch (this._move_state) {
+        case MainPlayer.moveStates.STOPPED:
+          if (__DEV__) console.info('Playing "stop"')
+          this.animations.play('stop')
+          this._idle_countdown = config.IDLE_COUNTDOWN
+          break
 
-      case MainPlayer.moveStates.RUNNING:
-        if (__DEV__) console.info('Playing "run"')
-        this.animations.play('run')
-        break
+        case MainPlayer.moveStates.WALKING:
+          if (__DEV__) console.info('Playing "walk"')
+          this.animations.play('walk')
+          break
 
-      case MainPlayer.moveStates.IDLE:
-        if (__DEV__) console.info('Playing "idle"')
-        this.animations.play('idle')
-        break
-      case MainPlayer.moveStates.JUMPING:
-        if (__DEV__) console.info('playing "jump"')
-        this.animations.play('jump')
+        case MainPlayer.moveStates.RUNNING:
+          if (__DEV__) console.info('Playing "run"')
+          this.animations.play('run')
+          break
+
+        case MainPlayer.moveStates.IDLE:
+          if (__DEV__) console.info('Playing "idle"')
+          this.animations.play('idle')
+          break
+      }
     }
   }
 
@@ -158,6 +168,19 @@ class MainPlayer extends Phaser.Sprite {
   update () {
     // Always give parent a chance to update
     super.update()
+    // Override state that controls jumping and falling
+    if (this.overrideState === MainPlayer.overrideStates.JUMPING) {
+      if (this._jumpTimer > 0) {
+        this._jumpTimer -= 1
+        this.body.moveUp(250)
+      } else {
+        this.overrideState = MainPlayer.overrideStates.FALLING
+      }
+    } else if (this.overrideState === MainPlayer.overrideStates.FALLING) {
+      if (this.touching(0, 1)) {
+        this.overrideState = MainPlayer.overrideStates.NONE
+      }
+    }
 
     // Automatically switch to idle after designated countdown
     if (this.moveState === MainPlayer.moveStates.STOPPED) {
@@ -168,10 +191,18 @@ class MainPlayer extends Phaser.Sprite {
         this._idle_countdown -= 1
       }
     } else if (this.moveState === MainPlayer.moveStates.WALKING) {
-      if (this.isFacingRight()) { this.body.moveRight(500) } else { this.body.moveLeft(500) }
+      if (this.isFacingRight()) {
+        this.body.moveRight(500)
+      } else {
+        this.body.moveLeft(500)
+      }
     } else if (this.moveState === MainPlayer.moveStates.RUNNING) {
-      if (this.isFacingRight()) { this.body.moveRight(1000) } else { this.body.moveLeft(1000) }
-    } else if (this.moveState === MainPlayer.moveStates.JUMPING) { this.body.moveUp(250) }
+      if (this.isFacingRight()) {
+        this.body.moveRight(1000)
+      } else {
+        this.body.moveLeft(1000)
+      }
+    }
   }
 
   // Function to setup all the animation data
@@ -220,8 +251,12 @@ MainPlayer.moveStates = Object.freeze({
   STOPPED: 'stopped',
   WALKING: 'walking',
   RUNNING: 'running',
+  IDLE: 'idle'
+})
+
+MainPlayer.overrideStates = Object.freeze({
   JUMPING: 'jumping',
-  IDLE: 'idle',
+  FALLING: 'falling',
   NONE: 'none'
 })
 
