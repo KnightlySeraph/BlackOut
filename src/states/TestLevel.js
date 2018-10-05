@@ -251,9 +251,9 @@ class TestLevel extends Phaser.State {
     this.bmd.cls()
     this.bmd.circle(this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius, grd)
 
-    if (jump) {
+    if (jump === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
-    } else {
+    } else if (jump === false) {
       // Update sprite facing direction
       if (speed > 0 && !this.player.isFacingRight()) {
         this.player.makeFaceRight()
@@ -288,6 +288,7 @@ class TestLevel extends Phaser.State {
 
       // Print some text about the player state machine
       this.game.debug.text(`Movement State: ${this.player.moveState}`, this.game.width - 350, 32)
+      this.game.debug.text(`Override State: ${this.player.overrideState}`, this.game.width - 350, 48)
 
       // Print a warning that the game is running in DEV/Debug mode
       this.game.debug.text('DEV BUILD', this.game.width - 100, this.game.height - 10, '#AA0000')

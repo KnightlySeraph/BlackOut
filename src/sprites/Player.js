@@ -128,6 +128,11 @@ class MainPlayer extends Phaser.Sprite {
           if (__DEV__) console.info('playing "jump"')
           this.animations.play('jump')
           this._jumpTimer = 40
+          break
+
+        case MainPlayer.overrideStates.FALLING:
+          if (__DEV__) console.info('playing "falling"')
+          this.animations.play('fall')
       }
     } else {
       // Look at the current movement state and adjust the animation accordingly
@@ -160,10 +165,10 @@ class MainPlayer extends Phaser.Sprite {
   update () {
     // Always give parent a chance to update
     super.update()
-
+    // Override state that controls jumping and falling
     if (this.overrideState === MainPlayer.overrideStates.JUMPING) {
       if (this._jumpTimer > 0) {
-        this._jumpTimer--
+        this._jumpTimer -= 1
         this.body.moveUp(250)
       } else {
         this.overrideState = MainPlayer.overrideStates.FALLING
@@ -183,9 +188,17 @@ class MainPlayer extends Phaser.Sprite {
         this._idle_countdown -= 1
       }
     } else if (this.moveState === MainPlayer.moveStates.WALKING) {
-      if (this.isFacingRight()) { this.body.moveRight(500) } else { this.body.moveLeft(500) }
+      if (this.isFacingRight()) {
+        this.body.moveRight(500)
+      } else {
+        this.body.moveLeft(500)
+      }
     } else if (this.moveState === MainPlayer.moveStates.RUNNING) {
-      if (this.isFacingRight()) { this.body.moveRight(1000) } else { this.body.moveLeft(1000) }
+      if (this.isFacingRight()) {
+        this.body.moveRight(1000)
+      } else {
+        this.body.moveLeft(1000)
+      }
     }
   }
 
