@@ -20,15 +20,19 @@ import config from '../config'
  */
 class Platform extends Phaser.Sprite {
   constructor ({ game, x, y, width, height }) {
-    super(game, x, y, 'blank', 0)
+    super(game, 0, 0, 'blank', 0)
     this.name = 'Main Player'
-    this.anchor.setTo(0.5, 0.5)
-    this.scale.setTo(width / 10, height / 10)
+//    this.scale.setTo(width / 10, height / 10)
 
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
     this.body.setRectangle(width, height, 0, 0)
     this.body.debug = __DEV__
+
+    this.body.setCollisionGroup(this.game.platformGroup)
+    this.body.collides(this.game.playerGroup)
+
+    this.anchor.setTo(0, 0)
   }
 }
 

@@ -56,19 +56,36 @@ class TestLevel extends Phaser.State {
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
       new Platform({
-        game: this.game, x: 500, y: 500, width: 200, height: 50
+        game: this.game, x: 500, y: 600, width: 200, height: 50
       }),
 
-      new Platform({
-        game: this.game, x: 750, y: 450, width: 200, height: 50
-      }),
+      // new Platform({
+      //   game: this.game, x: 750, y: 450, width: 200, height: 50
+      // }),
 
-      new Platform({
-        game: this.game, x: 1100, y: 700, width: 100, height: 100
+      // new Platform({
+      //   game: this.game, x: 1100, y: 700, width: 100, height: 100
+      // }),
+
+      // "Ground"
+      // To be uncommented when the world bounds are fixed
+      // new Platform({
+      //   game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100
+      // }),
+
+      // Temporary Side Platforms to mimic World Bounds while they are "broken"
+      new Platform({ // Temp Ground
+        game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100
+      }),
+      new Platform({ // Right Side Wall
+        game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000
+      }),
+      new Platform({ // Left Side Wall
+        game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000
       })
     ]
 
-    this.platforms.forEach((plat) => {
+    this.platforms.forEach((plat) => { // forEach(function()) is like a for loop call
       this.game.add.existing(plat)
     })
 
