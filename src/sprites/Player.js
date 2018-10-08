@@ -52,7 +52,6 @@ class MainPlayer extends Phaser.Sprite {
     // Create a P2 physics body for this sprite
     this.game.physics.p2.enable(this)
     this.body.debug = __DEV__
-    this.body.collideWorldBounds = true
     this.body.fixedRotation = true
 
     // Create a custom shape for the collider body
@@ -62,9 +61,8 @@ class MainPlayer extends Phaser.Sprite {
     // Configure custom physics properties
     this.body.damping = 0.5
 
-    // this.body.setCollisionGroup(this.game.playerGroup)
-    // this.body.collides([this.game.platformGroup, this.game.physics.p2.boundsCollisionGroup],
-    //   this.onCollide, this)
+    this.body.setCollisionGroup(this.game.playerGroup)
+    this.body.collides([this.game.platformGroup, this.game.physics.p2.boundsCollisionGroup])
   }
 
   // Collision function

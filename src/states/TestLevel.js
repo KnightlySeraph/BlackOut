@@ -3,8 +3,10 @@
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
 import P2 from 'p2'
+
 // Import the main player sprite
 import MainPlayer from '../sprites/Player'
+import Platform from '../sprites/Platform'
 
 // Import config settings
 import config from '../config'
@@ -26,9 +28,7 @@ import Shadows from '../Shaders/Shadows'
 class TestLevel extends Phaser.State {
   init () {
     // Set / Reset world bounds (based off of world bounds)
-    this.game.world.setBounds(0, 0, this.world.width, this.world.height)
-    // Set the world bounds for how big the world is
-    this.world.setBounds(0, 0, 2440, 768)
+    this.game.world.setBounds(0, 0, 2440, 768)
   }
 
   preload () {
@@ -48,43 +48,29 @@ class TestLevel extends Phaser.State {
     let floorHeight = this.player.bottom
 
     // Create the "floor" as a manually drawn rectangle
-    this.floor = this.game.add.graphics(0, 0)
-    this.floor.beginFill(0x5e7ca0)
-    this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
-    this.floor.endFill()
+    // this.floor = this.game.add.graphics(0, 0)
+    // this.floor.beginFill(0x5e7ca0)
+    // this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
+    // this.floor.endFill()
 
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
-    this.platform = new Phaser.Sprite(this.game, 500, 500, 'blank')
-    this.platform.body = new Phaser.Physics.P2.Body(this.game, this.platform, 500, 500)
-    this.platform.body.dynamic = false
-    this.platform.body.setRectangle(200, 50, 0, 0)
-    this.platform.body.debug = __DEV__
-    this.platform.scale.setTo(20, 5)
-    this.platform.anchor.setTo(0.5, 0.5)
-    this.game.add.existing(this.platform)
+    this.platforms = [
+      new Platform({
+        game: this.game, x: 500, y: 500, width: 200, height: 50
+      }),
 
-    this.platform1 = new Phaser.Sprite(this.game, 500, 500, 'blank')
-    this.platform1.body = new Phaser.Physics.P2.Body(this.game, this.platform1, 750, 450)
-    this.platform1.body.dynamic = false
-    this.platform1.body.setRectangle(200, 50, 0, 0)
-    this.platform1.body.debug = __DEV__
-    this.platform1.body.setCollisionGroup([this.game.platformGroup])
-    this.platform1.scale.setTo(20, 5)
-    this.platform1.anchor.setTo(0.5, 0.5)
-    this.game.add.existing(this.platform1)
+      new Platform({
+        game: this.game, x: 750, y: 450, width: 200, height: 50
+      }),
 
-    this.platform2 = new Phaser.Sprite(this.game, 1100, 700, 'blank')
-    this.platform2.body = new Phaser.Physics.P2.Body(this.game, this.platform2, 1100, 700)
-    this.platform2.body.dynamic = false
-    this.platform2.body.setRectangle(100, 100, 0, 0) // Collider Box
-    this.platform2.body.debug = __DEV__
-    // this.platform2.body.data.isSensor = true
-    this.platform2.body.setCollisionGroup(this.game.platformGroup)
-    this.platform2.body.collides([this.game.playerGroup])
+      new Platform({
+        game: this.game, x: 1100, y: 700, width: 100, height: 100
+      })
+    ]
 
-    this.platform2.scale.setTo(10, 10)
-    this.platform2.anchor.setTo(0.5, 0.5)
-    this.game.add.existing(this.platform2)
+    this.platforms.forEach((plat) => {
+      this.game.add.existing(plat)
+    })
 
     // Add player after the floor
     this.game.add.existing(this.player)
