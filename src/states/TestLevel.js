@@ -231,7 +231,7 @@ class TestLevel extends Phaser.State {
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
     if (this.sprintKey.isDown) { speed *= 2 }
-    if (this.jumpKey.isDown) { jump = true }
+    if (this.jumpKey.isDown && this.player.touching(0, 1)) { jump = true }
     if (this.tweenFaster.isdown) {
       this.tweenRate -= 25
       this.setupPlayerLighting()

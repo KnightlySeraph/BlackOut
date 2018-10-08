@@ -196,7 +196,7 @@ class MainPlayer extends Phaser.Sprite {
     if (this.overrideState === MainPlayer.overrideStates.JUMPING) {
       if (this._jumpTimer > 0) {
         this._jumpTimer -= 1
-        this.body.moveUp(250)
+        this.body.moveUp(300)
       } else {
         this.overrideState = MainPlayer.overrideStates.FALLING
       }
