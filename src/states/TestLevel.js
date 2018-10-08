@@ -102,7 +102,8 @@ class TestLevel extends Phaser.State {
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
-    this.setupShader()
+    // Currently Broken
+    // this.setupShader()
 
     // Set up interact Key boolean
     var interacting = false
@@ -118,6 +119,8 @@ class TestLevel extends Phaser.State {
     // Make the filter
     this.shadowFilter = new Shadows(this.game)
     this.shadowFilter.darkness = 1.0
+    this.shadowFilter.PlayerLocationX = 5.0
+    this.shadowFilter.PlayerLocationY = 5.0
     this.game.world.filters = [this.shadowFilter]
   }
 
