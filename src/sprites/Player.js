@@ -195,8 +195,8 @@ class MainPlayer extends Phaser.Sprite {
     // Override state that controls jumping and falling
     if (this.overrideState === MainPlayer.overrideStates.JUMPING) {
       if (this._jumpTimer > 0) {
-        this._jumpTimer -= 1
-        this.body.moveUp(300)
+        this._jumpTimer -= 0.625
+        this.body.moveUp(250)
       } else {
         this.overrideState = MainPlayer.overrideStates.FALLING
       }
