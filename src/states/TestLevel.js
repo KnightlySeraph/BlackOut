@@ -101,7 +101,7 @@ class TestLevel extends Phaser.State {
     // Setup the key objects
     this.setupKeyboard()
 
-    // this.setupShader()
+    this.setupShader()
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
@@ -122,8 +122,8 @@ class TestLevel extends Phaser.State {
     // Make the filter
     this.shadowFilter = new Shadows(this.game)
     this.shadowFilter.darkness = 1.0
-    this.shadowFilter.PlayerLocationX = 5.0
-    this.shadowFilter.PlayerLocationY = 5.0
+    this.shadowFilter.PlayerLocationX = this.player.x
+    this.shadowFilter.PlayerLocationY = this.player.y
     this.game.world.filters = [this.shadowFilter]
   }
 
@@ -278,6 +278,10 @@ class TestLevel extends Phaser.State {
     // SETH: Add the bitmap image at same place as player
     this.bmdImage = this.bmd.addToWorld(
       this.player.x, this.player.y, 0.5, 0.5)
+
+    // Update Shader
+    this.shadowFilter.PlayerLocationX = this.player.x
+    this.shadowFilter.PlayerLocationY = this.player.y
 
     if (jump === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
