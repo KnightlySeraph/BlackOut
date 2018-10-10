@@ -10,6 +10,8 @@ class Shadows extends Phaser.Filter {
     this.uniforms.darkness = { type: '1f', value: 0 }
     this.uniforms.playerX = { type: '1f', value: 0 }
     this.uniforms.playerY = { type: '1f', value: 0 }
+    this.uniforms.playerHeight = { type: '1f', value: 0 }
+    this.uniforms.playerWidth = { type: '1f', value: 0 }
 
     // Setup the glsl fragment shader source
     this.fragmentSrc = [
@@ -17,12 +19,21 @@ class Shadows extends Phaser.Filter {
       'uniform float darkness;',
       'uniform float playerX;',
       'uniform float playerY;',
+      'uniform float playerHeight;',
+      'uniform float playerWidth;',
       'varying vec2 vTextureCoord;',
       'uniform sampler2D uSampler;',
       'void main(void){',
+        'vec4 borders = vec4(',
+          'playerX - (0.5*playerWidth),',
+          'playerX + (0.5*playerWidth),',
+          'playerY + (0.5*playerHeight),',
+          'playerY - (0.5*playerHeight));',
+        'if (vTextureCoord.x < borders.y || vTextureCoord.x > borders.x || ) {',
         'vec4 notDark = texture2D(uSampler, vec2(playerX, playerY));',
         'vec4 dark = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y)) * darkness;',
-        'gl_FragColor = dark;',
+        'vec4 normal = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));',
+        'gl_FragColor = normal;',
       '}'
     ]
   }
@@ -42,6 +53,12 @@ class Shadows extends Phaser.Filter {
   }
   set PlayerLocationY (_y) {
     this.uniforms.playerX.value = _y
+  }
+  set playerHeight (height) {
+    this.uniforms.playerHeight = height
+  }
+  set playerWidth (width) {
+    this.uniforms.playerWidth = width
   }
 }
 

@@ -101,7 +101,8 @@ class TestLevel extends Phaser.State {
     // Setup the key objects
     this.setupKeyboard()
 
-    this.setupShader()
+    // Broken do not turn on
+    // this.setupShader()
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
@@ -282,6 +283,8 @@ class TestLevel extends Phaser.State {
     // Update Shader
     this.shadowFilter.PlayerLocationX = this.player.x
     this.shadowFilter.PlayerLocationY = this.player.y
+    this.shadowFilter.playerHeight = this.player.height
+    this.shadowFilter.playerWidth = this.player.width
 
     if (jump === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
