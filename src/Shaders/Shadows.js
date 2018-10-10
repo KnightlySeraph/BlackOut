@@ -22,7 +22,7 @@ class Shadows extends Phaser.Filter {
       'void main(void){',
         'vec4 notDark = texture2D(uSampler, vec2(playerX, playerY));',
         'vec4 dark = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y)) * darkness;',
-        'gl_FragColor = dark * notDark;',
+        'gl_FragColor = dark;',
       '}'
     ]
   }
