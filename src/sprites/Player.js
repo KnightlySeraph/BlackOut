@@ -152,7 +152,7 @@ class MainPlayer extends Phaser.Sprite {
         case MainPlayer.overrideStates.JUMPING:
           if (__DEV__) console.info('playing "jump"')
           this.animations.play('jump')
-          this._jumpTimer = 40
+          this._jumpTimer = 50
           break
 
         case MainPlayer.overrideStates.FALLING:
@@ -193,7 +193,7 @@ class MainPlayer extends Phaser.Sprite {
     // Override state that controls jumping and falling
     if (this.overrideState === MainPlayer.overrideStates.JUMPING) {
       if (this._jumpTimer > 0) {
-        this._jumpTimer -= 0.625
+        this._jumpTimer -= 1.25
         this.body.moveUp(250)
       } else {
         this.overrideState = MainPlayer.overrideStates.FALLING

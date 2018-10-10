@@ -56,7 +56,7 @@ class TestLevel extends Phaser.State {
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
       new Platform({
-        game: this.game, x: 500, y: 600, width: 200, height: 50
+        game: this.game, x: 500, y: 575, width: 200, height: 50
       }),
 
       // new Platform({
