@@ -281,10 +281,11 @@ class TestLevel extends Phaser.State {
       this.player.x, this.player.y, 0.5, 0.5)
 
     // Update Shader
+    /*
     this.shadowFilter.PlayerLocationX = this.player.x
     this.shadowFilter.PlayerLocationY = this.player.y
     this.shadowFilter.playerHeight = this.player.height
-    this.shadowFilter.playerWidth = this.player.width
+    this.shadowFilter.playerWidth = this.player.width*/
 
     if (jump === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
