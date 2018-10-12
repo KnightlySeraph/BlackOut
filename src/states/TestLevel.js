@@ -216,6 +216,7 @@ class TestLevel extends Phaser.State {
     // Register the keys
     this.leftKey = this.game.input.keyboard.addKey(Phaser.KeyCode.LEFT)
     this.rightKey = this.game.input.keyboard.addKey(Phaser.KeyCode.RIGHT)
+    // remove sprint key later
     this.sprintKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SHIFT)
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
     this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.R)
@@ -241,6 +242,7 @@ class TestLevel extends Phaser.State {
 
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
+    // remove sprint key later
     if (this.sprintKey.isDown) { speed *= 2 }
     if (this.jumpKey.isDown && this.player.touching(0, 1)) { jump = true }
     if (this.tweenFaster.isdown) {
@@ -286,7 +288,7 @@ class TestLevel extends Phaser.State {
       this.player.x, this.player.y, 0.5, 0.5)
 
     // Update Shader
-    
+
     this.shadowFilter.PlayerLocationX = this.player.x
     this.shadowFilter.PlayerLocationY = this.player.y
     this.shadowFilter.playerHeight = this.player.height

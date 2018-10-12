@@ -190,6 +190,11 @@ class MainPlayer extends Phaser.Sprite {
   update () {
     // Always give parent a chance to update
     super.update()
+
+    if (this.body.velocity.y >= 100 && this.overrideState !== MainPlayer.overrideStates.FALLING) {
+      this.overrideState = MainPlayer.overrideStates.FALLING
+    }
+
     // Override state that controls jumping and falling
     if (this.overrideState === MainPlayer.overrideStates.JUMPING) {
       if (this._jumpTimer > 0) {
@@ -218,6 +223,7 @@ class MainPlayer extends Phaser.Sprite {
       } else {
         this.body.moveLeft(500)
       }
+      // remove sprint functionality later
     } else if (this.moveState === MainPlayer.moveStates.RUNNING) {
       if (this.isFacingRight()) {
         this.body.moveRight(1000)
