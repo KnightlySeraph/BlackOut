@@ -13,6 +13,7 @@ import config from '../config'
 
 // Import the filters for the scene
 import Shadows from '../Shaders/Shadows'
+import PlayerLightFilter from '../Shaders/PlayerLightFilter';
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -34,6 +35,7 @@ class TestLevel extends Phaser.State {
   preload () {
     this.tweenRate = 3000
     console.log('preload has loaded once')
+    var flipShader = false
   }
 
   create () {
@@ -126,6 +128,8 @@ class TestLevel extends Phaser.State {
     this.shadowFilter.PlayerLocationX = this.player.x
     this.shadowFilter.PlayerLocationY = this.player.y
     this.game.world.filters = [this.shadowFilter]
+    this.playerLight = new PlayerLightFilter(this.game)
+    this.player.filters = [this.playerLight]
   }
 
   // Create a small light on the player
@@ -287,6 +291,23 @@ class TestLevel extends Phaser.State {
     this.shadowFilter.PlayerLocationY = this.player.y
     this.shadowFilter.playerHeight = this.player.height
     this.shadowFilter.playerWidth = this.player.width
+
+    /*
+    if (this.shadowFilter.darkness < -0.3) {
+      this.flipShader = true
+    }
+    else if (this.shadowFilter.darkness > 0.3) {
+      this.flipShader = false
+    }
+
+    if (this.flipShader) {
+      this.shadowFilter.darkness += 0.01
+    }
+    else {
+      this.shadowFilter.darkness -= 0.1
+    }
+    */
+
 
     if (jump === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
