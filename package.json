@@ -50,7 +50,8 @@
     "nw-builder": "^3.5.4",
     "run-script-os": "^1.0.3",
     "webpack": "^4.17.1",
-    "webpack-command": "^0.4.1"
+    "webpack-command": "^0.4.1",
+    "webpack-glsl-loader": "^1.0.1"
   },
   "dependencies": {
     "phaser-ce": "^2.11.0",

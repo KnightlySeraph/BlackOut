@@ -14,6 +14,7 @@ import config from '../config'
 
 // Import the filters for the scene
 import Shadows from '../Shaders/Shadows'
+import PlayerLightFilter from '../Shaders/PlayerLightFilter';
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -35,6 +36,7 @@ class TestLevel extends Phaser.State {
   preload () {
     this.tweenRate = 3000
     console.log('preload has loaded once')
+    var flipShader = false
   }
 
   create () {
@@ -56,8 +58,8 @@ class TestLevel extends Phaser.State {
 
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
-      new Platform({ // Test Platform
-        game: this.game, x: 500, y: 600, width: 200, height: 50
+      new Platform({
+        game: this.game, x: 500, y: 575, width: 200, height: 50
       }),
 
       // Side Platforms to mimic World Bounds while they are "broken"
@@ -99,6 +101,7 @@ class TestLevel extends Phaser.State {
     // Setup the key objects
     this.setupKeyboard()
 
+    // Broken do not turn on
     this.setupShader()
 
     // Set up a camera to follow the player
@@ -117,10 +120,12 @@ class TestLevel extends Phaser.State {
   setupShader () {
     // Make the filter
     this.shadowFilter = new Shadows(this.game)
-    this.shadowFilter.darkness = 1.0
+    this.shadowFilter.darkness = -0.3
     this.shadowFilter.PlayerLocationX = this.player.x
     this.shadowFilter.PlayerLocationY = this.player.y
     this.game.world.filters = [this.shadowFilter]
+    this.playerLight = new PlayerLightFilter(this.game)
+    this.player.filters = [this.playerLight]
   }
 
   // Create a small light on the player
@@ -207,6 +212,7 @@ class TestLevel extends Phaser.State {
     // Register the keys
     this.leftKey = this.game.input.keyboard.addKey(Phaser.KeyCode.LEFT)
     this.rightKey = this.game.input.keyboard.addKey(Phaser.KeyCode.RIGHT)
+    // remove sprint key later
     this.sprintKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SHIFT)
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
     this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.R)
@@ -233,6 +239,7 @@ class TestLevel extends Phaser.State {
 
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
+    // remove sprint key later
     if (this.sprintKey.isDown) { speed *= 2 }
     if (this.jumpKey.isDown && this.player.touching(0, 1)) { jump = true }
     if (this.tweenFaster.isdown) {
@@ -249,6 +256,7 @@ class TestLevel extends Phaser.State {
     }
     if (this.dim.isDown) {
       this.shadowFilter.darkness -= 0.1
+      console.log(this.shadowFilter.darkness)
     }
     if (this.logInfo.isDown) {
       console.log('Bitmap Data Location: (' + this.bmd.x + ', ' + this.bmd.y + ')')
@@ -280,8 +288,28 @@ class TestLevel extends Phaser.State {
       this.player.x, this.player.y, 0.5, 0.5)
 
     // Update Shader
+
     this.shadowFilter.PlayerLocationX = this.player.x
     this.shadowFilter.PlayerLocationY = this.player.y
+    this.shadowFilter.playerHeight = this.player.height
+    this.shadowFilter.playerWidth = this.player.width
+
+    /*
+    if (this.shadowFilter.darkness < -0.3) {
+      this.flipShader = true
+    }
+    else if (this.shadowFilter.darkness > 0.3) {
+      this.flipShader = false
+    }
+
+    if (this.flipShader) {
+      this.shadowFilter.darkness += 0.01
+    }
+    else {
+      this.shadowFilter.darkness -= 0.1
+    }
+    */
+
 
     if (jump === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
