@@ -50,9 +50,10 @@ class Splash extends Phaser.State {
     this.game.physics.p2.gravity.y = 700
     this.game.physics.p2.world.defaultContactMaterial.friction = 0.3
 
-    // collision group creation
-    this.game.playerGroup = this.game.physics.p2.createCollisionGroup()
-    this.game.platformGroup = this.game.physics.p2.createCollisionGroup()
+     // collision group creation
+     this.game.playerGroup = this.game.physics.p2.createCollisionGroup()
+     this.game.platformGroup = this.game.physics.p2.createCollisionGroup()
+     this.game.leverGroup = this.game.physics.p2.createCollisionGroup()
 
 
     // The main player spritesheet

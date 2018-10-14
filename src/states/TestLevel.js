@@ -7,6 +7,7 @@ import P2 from 'p2'
 // Import the main player sprite
 import MainPlayer from '../sprites/Player'
 import Platform from '../sprites/Platform'
+import Lever from '../sprites/Lever'
 
 // Import config settings
 import config from '../config'
@@ -55,25 +56,11 @@ class TestLevel extends Phaser.State {
 
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
-      new Platform({
+      new Platform({ // Test Platform
         game: this.game, x: 500, y: 600, width: 200, height: 50
       }),
 
-      // new Platform({
-      //   game: this.game, x: 750, y: 450, width: 200, height: 50
-      // }),
-
-      // new Platform({
-      //   game: this.game, x: 1100, y: 700, width: 100, height: 100
-      // }),
-
-      // "Ground"
-      // To be uncommented when the world bounds are fixed
-      // new Platform({
-      //   game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100
-      // }),
-
-      // Temporary Side Platforms to mimic World Bounds while they are "broken"
+      // Side Platforms to mimic World Bounds while they are "broken"
       new Platform({ // Temp Ground
         game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100
       }),
@@ -87,6 +74,17 @@ class TestLevel extends Phaser.State {
 
     this.platforms.forEach((plat) => { // forEach(function()) is like a for loop call
       this.game.add.existing(plat)
+    })
+
+    // Make Levers that can be interacted with
+    this.lever = [
+      new Lever({
+        game: this.game, x: 1000, y: 670, width: 50, height: 100
+      })
+    ]
+
+    this.lever.forEach((Lever) => {
+      this.game.add.existing(Lever)
     })
 
     // Add player after the floor
@@ -105,11 +103,9 @@ class TestLevel extends Phaser.State {
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
+
     // Currently Broken
     // this.setupShader()
-
-    // Set up interact Key boolean
-    var interacting = false
 
     // this.setupBitmap()
 
@@ -218,10 +214,11 @@ class TestLevel extends Phaser.State {
     this.tweenFaster = this.game.input.keyboard.addKey(Phaser.KeyCode.P)
     this.tweenSlower = this.game.input.keyboard.addKey(Phaser.KeyCode.O)
     this.logInfo = this.game.input.keyboard.addKey(Phaser.KeyCode.D)
+    this.interact = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E
     ])
   }
 
@@ -249,7 +246,6 @@ class TestLevel extends Phaser.State {
     if (this.brighten.isDown) {
       this.shadowFilter.darkness += 0.1
       // this.setupShader()
-      console.log('E is pressed')
     }
     if (this.dim.isDown) {
       this.shadowFilter.darkness -= 0.1
@@ -259,6 +255,10 @@ class TestLevel extends Phaser.State {
       console.log('Inner Circle Location: (' + this.innerCircle.x + ', ' + this.innerCircle.y + ')')
       // console.log('Outer Circle Location: (' + this.outerCircle.x + ', ' + this.outerCircle.y + ')')
       console.log('Player Location: (' + this.player.x + ', ' + this.player.y + ')')
+    }
+
+    if (this.interact.justPressed()) {
+      this.player.interact()
     }
 
     // Create a gradient
