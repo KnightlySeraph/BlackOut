@@ -12,6 +12,13 @@ class PlayerLightFilter extends Phaser.Filter {
     // Set Filter Uniforms
     this.uniforms.locationX = { type: '1f', value: 0 }
     this.uniforms.locationY = { type: '1f', value: 0 }
+    this.uniforms.diffuse = { type: '4fv', value: [0.3, 0.3, 0.3, 0.5] }
+    this.uniforms.ambient = { type: '4fv', value: [0.2, 0.2, 0.2, 0.7] }
+    this.uniforms.specular = { type: '4fv', value: [0.5, 0.5, 0.5, 0.5] }
+    this.uniforms.shininess = { type: '1f', value: 0.6 }
+    this.uniforms.normal = { type: '3fv', value: [0.3, 0.3, 0.3] }
+    this.uniforms.eye = { type: '3fv', value: [0.4, 0.4, 0.4] }
+    this.uniforms.lightDir = { type: '3fv', value: [0.2, 0.2, 0.2] }
 
     // Setup the glsl fragment shader source
     this.fragmentSrc = PlayerPointLight

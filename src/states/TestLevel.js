@@ -117,7 +117,7 @@ class TestLevel extends Phaser.State {
     // this.setupBitmap()
 
     // Create the 'Light' Around the player
-    this.setupPlayerLighting()
+    // this.setupPlayerLighting()
   }
 
   // This is the function called to set up GLSL Shaders and add them to the world
@@ -127,9 +127,19 @@ class TestLevel extends Phaser.State {
     this.shadowFilter.darkness = -0.3
     this.shadowFilter.PlayerLocationX = this.player.x
     this.shadowFilter.PlayerLocationY = this.player.y
-    this.game.world.filters = [this.shadowFilter]
+    // this.game.world.filters = [this.shadowFilter]
     this.playerLight = new PlayerLightFilter(this.game)
-    this.player.filters = [this.playerLight]
+    // this.player.filters = [this.playerLight]
+
+    // new attempt
+    // add player light before main shader
+    // this.game.world.filters = [this.shadowFilter]
+    // this.player.filters = [this.playerLight]
+    this.playerLight.locationX = this.player.x
+    this.playerLight.locationY = this.player.y
+    this.game.world.filters = [this.playerLight]
+
+    
   }
 
   // Create a small light on the player
@@ -269,23 +279,23 @@ class TestLevel extends Phaser.State {
       console.log('Player Location: (' + this.player.x + ', ' + this.player.y + ')')
     }
 
-    // Create a gradient
-    var grd = this.bmd.context.createRadialGradient(
-      this.innerCircle.x, this.innerCircle.y, this.innerCircle.radius,
-      this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius)
-    grd.addColorStop(0, '#fdffa8')
-    grd.addColorStop(1, '#2e3333')
+    // // Create a gradient
+    // var grd = this.bmd.context.createRadialGradient(
+    //   this.innerCircle.x, this.innerCircle.y, this.innerCircle.radius,
+    //   this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius)
+    // grd.addColorStop(0, '#fdffa8')
+    // grd.addColorStop(1, '#2e3333')
 
-    // Clear the bitmap and re-render the gradient circle
-    this.bmd.cls()
-    this.bmd.circle(this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius, grd)
+    // // Clear the bitmap and re-render the gradient circle
+    // this.bmd.cls()
+    // this.bmd.circle(this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius, grd)
 
-    // SETH: Remove the previous bitmap image
-    this.game.world.remove(this.bmdImage)
+    // // SETH: Remove the previous bitmap image
+    // this.game.world.remove(this.bmdImage)
 
-    // SETH: Add the bitmap image at same place as player
-    this.bmdImage = this.bmd.addToWorld(
-      this.player.x, this.player.y, 0.5, 0.5)
+    // // SETH: Add the bitmap image at same place as player
+    // this.bmdImage = this.bmd.addToWorld(
+    //   this.player.x, this.player.y, 0.5, 0.5)
 
     // Update Shader
 
@@ -293,6 +303,8 @@ class TestLevel extends Phaser.State {
     this.shadowFilter.PlayerLocationY = this.player.y
     this.shadowFilter.playerHeight = this.player.height
     this.shadowFilter.playerWidth = this.player.width
+    this.playerLight.locationY = this.player.y
+    this.playerLight.locationX = this.player.x
 
     /*
     if (this.shadowFilter.darkness < -0.3) {
