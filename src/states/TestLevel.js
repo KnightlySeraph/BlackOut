@@ -13,7 +13,7 @@ import config from '../config'
 
 // Import the filters for the scene
 import Shadows from '../Shaders/Shadows'
-import PlayerLightFilter from '../Shaders/PlayerLightFilter';
+import PlayerLightFilter from '../Shaders/PlayerLightFilter'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -309,7 +309,6 @@ class TestLevel extends Phaser.State {
       this.shadowFilter.darkness -= 0.1
     }
     */
-
 
     if (jump === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
