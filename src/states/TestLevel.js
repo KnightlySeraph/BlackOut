@@ -127,6 +127,8 @@ class TestLevel extends Phaser.State {
     this.shadowFilter.darkness = -0.3
     this.shadowFilter.PlayerLocationX = this.player.x
     this.shadowFilter.PlayerLocationY = this.player.y
+    this.shadowFilter.screenHeight = this.game.height
+    this.shadowFilter.screenWidth = this.game.width
     // this.game.world.filters = [this.shadowFilter]
     this.playerLight = new PlayerLightFilter(this.game)
     // this.player.filters = [this.playerLight]
@@ -137,7 +139,8 @@ class TestLevel extends Phaser.State {
     // this.player.filters = [this.playerLight]
     this.playerLight.locationX = this.player.x
     this.playerLight.locationY = this.player.y
-    this.game.world.filters = [this.playerLight]
+    this.game.world.filters = [this.shadowFilter]
+    
 
     
   }
