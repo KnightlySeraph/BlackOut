@@ -113,6 +113,25 @@ class TestLevel extends Phaser.State {
     // Make the Shader Filter
     this.radialLight = new RadialLightFilter(this.game)
     this.game.world.filters = [ this.radialLight ]
+
+    // Make the filter
+    // this.shadowFilter = new Shadows(this.game)
+    // this.shadowFilter.darkness = -0.3
+    // this.shadowFilter.PlayerLocationX = this.player.x
+    // this.shadowFilter.PlayerLocationY = this.player.y
+    // this.shadowFilter.screenHeight = this.game.height
+    // this.shadowFilter.screenWidth = this.game.width
+    // this.game.world.filters = [this.shadowFilter]
+    // this.playerLight = new PlayerLightFilter(this.game)
+    // this.player.filters = [this.playerLight]
+
+    // new attempt
+    // add player light before main shader
+    // this.game.world.filters = [this.shadowFilter]
+    // this.player.filters = [this.playerLight]
+    // this.playerLight.locationX = this.player.x
+    // this.playerLight.locationY = this.player.y
+    // this.game.world.filters = [this.shadowFilter]
   }
 
   toScreenSpace (point) {
