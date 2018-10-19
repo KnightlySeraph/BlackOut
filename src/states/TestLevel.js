@@ -13,8 +13,8 @@ import Lever from '../sprites/Lever'
 import config from '../config'
 
 // Import the filters for the scene
-import Shadows from '../Shaders/Shadows'
-import PlayerLightFilter from '../Shaders/PlayerLightFilter';
+import PlayerLightFilter from '../Shaders/PlayerLightFilter'
+import RadialLightFilter from '../Shaders/RadialLightFilter'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -34,9 +34,7 @@ class TestLevel extends Phaser.State {
   }
 
   preload () {
-    this.tweenRate = 3000
-    console.log('preload has loaded once')
-    var flipShader = false
+    console.log('preload has run once')
   }
 
   create () {
@@ -106,56 +104,40 @@ class TestLevel extends Phaser.State {
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
-
-    // Currently Broken
-    // this.setupShader()
-
-    // this.setupBitmap()
-
-    // Create the 'Light' Around the player
-    this.setupPlayerLighting()
   }
 
   // This is the function called to set up GLSL Shaders and add them to the world
   setupShader () {
+    // Make the Shader Filter
+    this.radialLight = new RadialLightFilter(this.game)
+    this.game.world.filters = [ this.radialLight ]
+
     // Make the filter
-    this.shadowFilter = new Shadows(this.game)
-    this.shadowFilter.darkness = -0.3
-    this.shadowFilter.PlayerLocationX = this.player.x
-    this.shadowFilter.PlayerLocationY = this.player.y
-    this.game.world.filters = [this.shadowFilter]
-    this.playerLight = new PlayerLightFilter(this.game)
-    this.player.filters = [this.playerLight]
+    // this.shadowFilter = new Shadows(this.game)
+    // this.shadowFilter.darkness = -0.3
+    // this.shadowFilter.PlayerLocationX = this.player.x
+    // this.shadowFilter.PlayerLocationY = this.player.y
+    // this.shadowFilter.screenHeight = this.game.height
+    // this.shadowFilter.screenWidth = this.game.width
+    // this.game.world.filters = [this.shadowFilter]
+    // this.playerLight = new PlayerLightFilter(this.game)
+    // this.player.filters = [this.playerLight]
+
+    // new attempt
+    // add player light before main shader
+    // this.game.world.filters = [this.shadowFilter]
+    // this.player.filters = [this.playerLight]
+    // this.playerLight.locationX = this.player.x
+    // this.playerLight.locationY = this.player.y
+    // this.game.world.filters = [this.shadowFilter]
   }
 
-  // Create a small light on the player
-  setupPlayerLighting () {
-    // bitmap approach
-    // SETH: width and height here are important and should probably match player
-    this.bmd = new Phaser.BitmapData(this.game, this.player.width, this.player.height)
-
-    // Create Circles
-    // SETH: Changed this to be centered at (100, 100)
-    this.innerCircle = new Phaser.Circle(100, 100, 25)
-    this.outerCircle = new Phaser.Circle(100, 100, 100)
-
-    // SETH: Adding to world right on top of player
-    this.bmdImage = this.bmd.addToWorld(
-      this.player.x, this.player.y, 0.5, 0.5)
-
-    // SETH: changed this to be centered at (100, 100)
-    // SETH: this means the only value actually being tweened is radius
-    // Setup the 'innerCircle' radius to smoothly change between 25 and 1
-    this.game.add.tween(this.innerCircle).to(
-      { x: 100, y: 100, radius: 1 },
-      2500, Phaser.Easing.Circular.Out, true, 0, -1, true)
+  toScreenSpace (point) {
+    return {
+      x: point.x - this.world.camera.x,
+      y: this.world.height - (point.y - this.world.camera.y)
+    }
   }
-
-  // setupBitmap () {
-  //   this.darken = new Phaser.BitmapData(this.game, 'keystring', 256, 256)
-  //   this.darken.blendDarken()
-  //   this.darken.addToWorld()
-  // }
 
   setupText (floorHeight) {
     // Title message to show on screen
@@ -215,10 +197,8 @@ class TestLevel extends Phaser.State {
     // remove sprint key later
     this.sprintKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SHIFT)
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
-    this.brighten = this.game.input.keyboard.addKey(Phaser.KeyCode.R)
+
     this.dim = this.game.input.keyboard.addKey(Phaser.KeyCode.Q)
-    this.tweenFaster = this.game.input.keyboard.addKey(Phaser.KeyCode.P)
-    this.tweenSlower = this.game.input.keyboard.addKey(Phaser.KeyCode.O)
     this.logInfo = this.game.input.keyboard.addKey(Phaser.KeyCode.D)
     this.interact = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
 
@@ -229,91 +209,38 @@ class TestLevel extends Phaser.State {
   }
 
   update () {
+    // Toggle shader off/on
+    if (!this.game.world.filters) {
+      if (this.dim.justPressed()) {
+        let screenSpacePos = this.toScreenSpace(
+          { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
+        )
+        this.radialLight.moveLight(screenSpacePos)
+        this.game.world.filters = [this.radialLight]
+        console.log('Shader Enabled')
+      }
+    } else {
+      if (this.dim.justPressed()) {
+        this.game.world.filters = null
+        console.log('Shader Disabled')
+      } else {
+        let screenSpacePos = this.toScreenSpace(
+          { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
+        )
+        this.radialLight.moveLight(screenSpacePos)
+      }
+    }
+
     // Check state of keys to control main character
     let speed = 0
-    let jump = false
-
-    // The light follows the player
-    // this.light.x = this.player.x
-    // this.light.y = this.player.y
-
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
     // remove sprint key later
     if (this.sprintKey.isDown) { speed *= 2 }
-    if (this.jumpKey.isDown && this.player.touching(0, 1)) { jump = true }
-    if (this.tweenFaster.isdown) {
-      this.tweenRate -= 25
-      this.setupPlayerLighting()
-    }
-    if (this.tweenSlower.isdown) {
-      this.tweenRate += 25
-      this.setupPlayerLighting()
-    }
-    if (this.brighten.isDown) {
-      this.shadowFilter.darkness += 0.1
-      // this.setupShader()
-    }
-    if (this.dim.isDown) {
-      this.shadowFilter.darkness -= 0.1
-      console.log(this.shadowFilter.darkness)
-    }
-    if (this.logInfo.isDown) {
-      console.log('Bitmap Data Location: (' + this.bmd.x + ', ' + this.bmd.y + ')')
-      console.log('Inner Circle Location: (' + this.innerCircle.x + ', ' + this.innerCircle.y + ')')
-      // console.log('Outer Circle Location: (' + this.outerCircle.x + ', ' + this.outerCircle.y + ')')
-      console.log('Player Location: (' + this.player.x + ', ' + this.player.y + ')')
-    }
 
-    if (this.interact.justPressed()) {
-      this.player.interact()
-    }
-
-    // Create a gradient
-    var grd = this.bmd.context.createRadialGradient(
-      this.innerCircle.x, this.innerCircle.y, this.innerCircle.radius,
-      this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius)
-    grd.addColorStop(0, '#fdffa8')
-    grd.addColorStop(1, '#2e3333')
-
-    // Clear the bitmap and re-render the gradient circle
-    this.bmd.cls()
-    this.bmd.circle(this.outerCircle.x, this.outerCircle.y, this.outerCircle.radius, grd)
-
-    // SETH: Remove the previous bitmap image
-    this.game.world.remove(this.bmdImage)
-
-    // SETH: Add the bitmap image at same place as player
-    this.bmdImage = this.bmd.addToWorld(
-      this.player.x, this.player.y, 0.5, 0.5)
-
-    // Update Shader
-
-    this.shadowFilter.PlayerLocationX = this.player.x
-    this.shadowFilter.PlayerLocationY = this.player.y
-    this.shadowFilter.playerHeight = this.player.height
-    this.shadowFilter.playerWidth = this.player.width
-
-    /*
-    if (this.shadowFilter.darkness < -0.3) {
-      this.flipShader = true
-    }
-    else if (this.shadowFilter.darkness > 0.3) {
-      this.flipShader = false
-    }
-
-    if (this.flipShader) {
-      this.shadowFilter.darkness += 0.01
-    }
-    else {
-      this.shadowFilter.darkness -= 0.1
-    }
-    */
-
-
-    if (jump === true) {
+    if (this.jumpKey.isDown && this.player.touching(0, 1)) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
-    } else if (jump === false) {
+    } else {
       // Update sprite facing direction
       if (speed > 0 && !this.player.isFacingRight()) {
         this.player.makeFaceRight()
@@ -352,6 +279,9 @@ class TestLevel extends Phaser.State {
 
       // Print a warning that the game is running in DEV/Debug mode
       this.game.debug.text('DEV BUILD', this.game.width - 100, this.game.height - 10, '#AA0000')
+
+      // console.log(`Camera: (${this.world.camera.position.x}, ${this.world.camera.position.y})`)
+      // console.log(`Player: (${this.player.world.x}, ${this.player.world.y})`)
     }
   }
 }

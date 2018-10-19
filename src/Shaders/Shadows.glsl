@@ -1,39 +1,22 @@
 precision mediump float;
-uniform float darkness;
-uniform float playerX;
-uniform float playerY;
-uniform float playerHeight;
-uniform float playerWidth;
+
+//Used for Gradient
+uniform float screenWidth;
+uniform float screenHeight;
+
+//Used for frame of the game
 varying vec2 vTextureCoord;
-vec4 borders;
-uniform sampler2D uSampler;
-void main(void){
-  float ambientStrength = 0.1;
-  //Create the Color for the ambience
-  vec3 amColor = vec3(0.03, 0.38, 0.96);
-  //Create the Color Vector for the ambient Lighting with the provided intensity
-  vec3 ambient = ambientStrength * amColor;
-  //The Color of the object -- the world
-  vec3 objColor = vec3(0.5,0.5,0.5);
-  borders = vec4(
-    playerX - (0.5*playerWidth),
-    playerX + (0.5*playerWidth),
-    playerY + (0.5*playerHeight),
-    playerY - (0.5*playerHeight));
-  vec4 notDark = texture2D(uSampler, vec2(playerX, playerY));
-  vec4 dark = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y)) * darkness;
-  vec4 normal = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));
-  //gl_FragColor = vec4(1,1,1,1);
-  //Below if Statement creates an area that accepts gl_FragColor for specific bounds
-  /*
-  if (vTextureCoord.x < borders.y || vTextureCoord.x > borders.x || vTextureCoord.y < borders.z || vTextureCoord.y > borders.w ) {
-      //Create the RGB color Blue
-      gl_FragColor = vec4(0.03, 0.38, 0.96, 1);
-      //gl_FragColor = normal;
-  }*/
+uniform sampler2D frame;
+
+void main () {
+  vec2 resolution = vec2(screenHeight, screenWidth);
+  vec2 xy = gl_FragCoord.xy;
+  xy.x = xy.x / resolution.x;
+  xy.y = xy.y / resolution.y;
+  //Calculate the 2dTexture of our game frame
+  vec4 gameFrame = texture2D(frame, vec2(vTextureCoord.x, vTextureCoord.y));
+  vec4 grdBlueBlack = vec4(0.0, 0.0, 0.0, 1.0);
+  grdBlueBlack.b = xy.x;
   
-  gl_FragColor = (vec4(0.27, 0.31, 0.38, 1) + dark);
-  //vec3 result = ambient * objColor;
-  //gl_FragColor = vec4(result, 0.5);
-  
+  gl_FragColor = gameFrame + grdBlueBlack;
 }

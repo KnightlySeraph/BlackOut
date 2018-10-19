@@ -15,6 +15,8 @@ class Shadows extends Phaser.Filter {
     this.uniforms.playerY = { type: '1f', value: 0 }
     this.uniforms.playerHeight = { type: '1f', value: 0 }
     this.uniforms.playerWidth = { type: '1f', value: 0 }
+    this.uniforms.screenHeight = { type: '1f', value: 0 }
+    this.uniforms.screenWidth = { type: '1f', value: 0 }
 
     // Setup the glsl fragment shader source
     this.fragmentSrc = shaderText
@@ -41,6 +43,12 @@ class Shadows extends Phaser.Filter {
   }
   set playerWidth (width) {
     this.uniforms.playerWidth = width
+  }
+  set screenHeight (_h) {
+    this.uniforms.screenHeight.value = _h
+  }
+  set screenWidth (_w) {
+    this.uniforms.screenWidth.value = _w
   }
 }
 
