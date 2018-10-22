@@ -250,7 +250,7 @@ class MainPlayer extends Phaser.Sprite {
     // Action animations that override movement
     // Note: these are not used in this example but are in the spritesheet
     this.animations.add('dash', [34, 35, 36, 37], 20, false)
-    this.animations.add('jump', [96], 10, true)
+    this.animations.add('jump', [80, 96], 10, false)
     this.animations.add('fall', [84], 10, true)
 
     // Setup the different idles animations to automatically trigger each other so it
