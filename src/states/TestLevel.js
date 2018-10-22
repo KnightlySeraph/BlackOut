@@ -230,6 +230,10 @@ class TestLevel extends Phaser.State {
         this.radialLight.moveLight(screenSpacePos)
       }
     }
+    // interactable button
+    if (this.interact.justPressed()) {
+      this.player.interact()
+    }
 
     // Check state of keys to control main character
     let speed = 0
