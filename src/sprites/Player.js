@@ -25,7 +25,14 @@ class MainPlayer extends Phaser.Sprite {
     this.name = 'Main Player'
     this.anchor.setTo(0.5, 1.0)
 
+    // Boolean to see if object is being interacted with
+    this._interact = false
+
+    // Timer for jump function
     this._jumpTimer = 0
+
+    // objects that are colliding will be put into a set
+    this._overlapping = new Set()
 
     // turn off smoothing (this is pixel art)
     this.smoothed = false
@@ -63,28 +70,48 @@ class MainPlayer extends Phaser.Sprite {
     this.body.damping = 0.5
 
     this.body.setCollisionGroup(this.game.playerGroup)
-    this.body.collides([this.game.platformGroup, this.game.physics.p2.boundsCollisionGroup])
+    this.body.collides([this.game.platformGroup, this.game.leverGroup, this.game.physics.p2.boundsCollisionGroup])
+    this.body.onBeginContact.add(this.onBeginContact, this)
+    this.body.onEndContact.add(this.onExitContact, this)
   }
 
-  // Collision function
-  /** Checks to see if one object is colliding with another and what action to take.
-   *
-   * @param {Phaser.Phyics.P2.Body} myBody The body of this object
-   * @param {Phaser.Phyics.P2.Body} otherBody The body of the colliding object
-   * @param {P2.Shape} myShape // The shape of this body
-   * @param {P2.Shape} otherShape // The shape of the colliding body
+/** Checks to see if an object has entered a collision
+ * @param {Phaser.Phyics.P2.Body} otherPhaserBody // Body of object
+ * @param {P2.Body} otherP2Body // Shape of body
+ * @param {P2.Shape} myShape // Shape of body colliding
+ * @param {P2.Shape} otherShape // Shape of body colliding
+ * @param {*} contactEquation  //IDK
+ */
+  onBeginContact (otherPhaserBody, otherP2Body, myShape, otherShape, contactEquation) {
+    if ((otherPhaserBody.x <= this.body.x + 1 || otherPhaserBody.x >= this.body.x - 1) && (otherPhaserBody.y <= this.body.y + 1 || otherPhaserBody.y >= this.body.y - 1)) {
+      console.log('collidable')
+      if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
+        this._overlapping.add(otherPhaserBody.sprite) // adds object to set
+      }
+    }
+  }
+
+  /** Checks to see if an object has left a collision
+   * 
+   * @param {Phaser.Phyics.P2.Body} otherPhaserBody 
+   * @param {P2.Body} otherP2Body 
+   * @param {P2.Shape} myShape 
+   * @param {P2.Shape} otherShape 
+   * @param {*} contactEquation 
    */
-  onCollide (myBody, otherBody, myShape, otherShape, contactEquation) {
-    console.log('I am colliding')
-    // otherBody.parent calls for sprite of game object
-    // if ((myBody.x <= otherBody.x + 1 || myBody.x >= otherBody.x - 1) && (myBody.y <= otherBody.y + 1 || myBody.y >= otherBody.y - 1)) {
-    //   if (__DEV__) {
-    //     console.log('I am colliding')
-    //   }
-    // }
-    // else {
-    //   console.log('nope')
-    // }
+  onExitContact (otherPhaserBody, otherP2Body, myShape, otherShape, contactEquation) {
+    if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
+      this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
+    }
+  }
+
+  /**
+   *  Calls/Checks all the objects in the set and calls their interact function
+   */
+  interact () {
+    this._overlapping.forEach(function (item) {
+      item.interact()
+    })
   }
 
   // Setter and getter for the movement state property
