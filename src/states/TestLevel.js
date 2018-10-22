@@ -34,6 +34,7 @@ class TestLevel extends Phaser.State {
 
   preload () {
     console.log('preload has run once')
+    let startSize = 50
   }
 
   create () {
@@ -101,7 +102,7 @@ class TestLevel extends Phaser.State {
     // Setup the key objects
     this.setupKeyboard()
 
-    // Broken do not turn on
+    // Creates the Shader
     this.setupShader()
 
     // Set up a camera to follow the player
@@ -112,6 +113,7 @@ class TestLevel extends Phaser.State {
   setupShader () {
     // Make the Shader Filter
     this.radialLight = new RadialLightFilter(this.game)
+    this.radialLight.varyDist = 50
     this.game.world.filters = [ this.radialLight ]
 
     // Make the filter
@@ -229,6 +231,7 @@ class TestLevel extends Phaser.State {
           { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
         )
         this.radialLight.moveLight(screenSpacePos)
+        // this.radialLight.varyDist = 50
       }
     }
 
