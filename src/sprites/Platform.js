@@ -9,19 +9,14 @@ import { sequentialNumArray } from '../utils.js'
 import config from '../config'
 
 /**
- * The main player-controllable sprite. This class encapsulates the logic for the main
- * player sprite with all of it's animations and states. It includes a simple, hard-coded
- * movement state-machine that coordinates transitions between differnt movement states
- * and the idle state. It shows examples of setting up animations that are embedded in a
- * larger sprite-sheet and carefule management of the current state. No physics are used
- * in this example, only basic animation.
+ * The platform sprite. This class encapsulates the logic for the platform sprite.
  *
  * See Phaser.Sprite for more about sprite objects and what they support.
  */
 class Platform extends Phaser.Sprite {
   constructor ({ game, x, y, width, height }) {
     super(game, 0, 0, 'blank', 0)
-    this.name = 'Main Player'
+    this.name = 'plat'
 //    this.scale.setTo(width / 10, height / 10)
 
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
