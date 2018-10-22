@@ -56,7 +56,7 @@ class MainPlayer extends Phaser.Sprite {
 
     // Create a custom shape for the collider body
     this.body.clearShapes()
-    this.body.setRectangle(55, 110)
+    this.body.setRectangle(55, 170, 0, -30)
     this.body.offset.setTo(0, -40)
 
     // Configure custom physics properties
@@ -242,10 +242,10 @@ class MainPlayer extends Phaser.Sprite {
     this.animations.add('run', [16, 17, 18, 19, 20, 21, 22, 23], 10, true)
 
     // Different parts of the idle animation
-    this.animations.add('idle', sequentialNumArray(48, 62), 4, false)
-    this.animations.add('idle_breath', sequentialNumArray(48, 60), 4, false)
-    this.animations.add('idle_yoyo', sequentialNumArray(144, 183), 8, false)
-    this.animations.add('idle_kick', sequentialNumArray(63, 71), 8, false)
+    this.animations.add('idle', sequentialNumArray(48, 55), 4, true)
+    // this.animations.add('idle_breath', sequentialNumArray(48, 60), 4, false)
+    // this.animations.add('idle_yoyo', sequentialNumArray(144, 183), 8, false)
+    // this.animations.add('idle_kick', sequentialNumArray(63, 71), 8, false)
 
     // Action animations that override movement
     // Note: these are not used in this example but are in the spritesheet
@@ -255,7 +255,7 @@ class MainPlayer extends Phaser.Sprite {
 
     // Setup the different idles animations to automatically trigger each other so it
     // makes a nice long, distinct idle animation that loops forever
-    this.animations.getAnimation('idle').onComplete.add(() => {
+    /** this.animations.getAnimation('idle').onComplete.add(() => {
       this.play('idle_yoyo')
     }, this)
 
@@ -269,7 +269,7 @@ class MainPlayer extends Phaser.Sprite {
 
     this.animations.getAnimation('idle_kick').onComplete.add(() => {
       this.play('idle')
-    }, this)
+    }, this) */
   }
 }
 
