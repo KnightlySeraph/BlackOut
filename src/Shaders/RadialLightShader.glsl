@@ -28,12 +28,17 @@ void main() {
   float scale = 0.1;
   if (lightPos.x >= 0.0) {
     float dist = distance(gl_FragCoord.xy, lightPos);
-    if(dist < StartDist - time) { scale = 1.0; }
-    else if (dist < ((StartDist * 2.0) - time) ) { scale = 1.0 - (dist - 50.0) / 50.0; }
+    if(dist < (timedDistance)) { scale = 1.0; }
+    else if (dist < (timedDistance * 2.0) ) { scale = 1.0 - (dist - 50.0) / 50.0; }
   }
 
   // Scale color by distance to light sources
-  gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
+  if (timedDistance == 0.0){
+    gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
+  }
+  else {
+    gl_FragColor = vec4(0,0,0,1);
+  }
 }
 
 // void main() {

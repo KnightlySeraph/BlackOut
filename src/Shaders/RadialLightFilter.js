@@ -22,6 +22,7 @@ class RadialLightFilter extends Phaser.Filter {
   }
 
   varyDist (_d) {
+    this.dirty = true
     this.uniforms.timedDistance.value = _d
   }
 }

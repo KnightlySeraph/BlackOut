@@ -27,6 +27,7 @@ import RadialLightFilter from '../Shaders/RadialLightFilter'
  *
  * See Phaser.State for more about game states.
  */
+var timerTesting = 50.0
 class TestLevel extends Phaser.State {
   init () {
     // Set / Reset world bounds (based off of world bounds)
@@ -35,7 +36,6 @@ class TestLevel extends Phaser.State {
 
   preload () {
     console.log('preload has run once')
-    let startSize = 50
   }
 
   create () {
@@ -102,7 +102,7 @@ class TestLevel extends Phaser.State {
 
     // Creates the Shader
     this.setupShader()
-
+    
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
   }
@@ -113,7 +113,6 @@ class TestLevel extends Phaser.State {
     this.radialLight = new RadialLightFilter(this.game)
     this.radialLight.varyDist = 50
     this.game.world.filters = [ this.radialLight ]
-
     // Make the filter
     // this.shadowFilter = new Shadows(this.game)
     // this.shadowFilter.darkness = -0.3
@@ -138,6 +137,13 @@ class TestLevel extends Phaser.State {
     return {
       x: point.x - this.world.camera.x,
       y: this.world.height - (point.y - this.world.camera.y)
+    }
+  }
+
+  decrementNumber (num, rate) {
+    while (num > 0) {
+      num -= rate
+      console.log(num)
     }
   }
 
@@ -232,6 +238,12 @@ class TestLevel extends Phaser.State {
         this.radialLight.moveLight(screenSpacePos)
         // this.radialLight.varyDist = 50
       }
+    }
+    // Testing a numbers deacrese rate
+    if (timerTesting > 0) {
+      // timerTesting -= 0.1
+      this.radialLight.varyDist = timerTesting
+      console.log(timerTesting)
     }
     // interactable button
     if (this.interact.justPressed()) {
