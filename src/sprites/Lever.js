@@ -9,6 +9,8 @@ import Platform from '../sprites/Platform.js'
 import { sequentialNumArray } from '../utils.js'
 import config from '../config'
 
+// TODO expand lever function to include 1 or 2 sprite choices?
+
 /**
  * The lever sprite. This class encapsulates the logic for the lever sprite.
  *
@@ -46,16 +48,26 @@ class Lever extends Phaser.Sprite {
 
       this.platforms = [
         new Platform({ // Test Platform
-          game: this.game, x: 1400, y: 600, width: 200, height: 50
+          game: this.game, x: 1400, y: 600, width: 200, height: 50, id: 4
         })]
-
     } else if (this.ispulled === true) {
       console.log('lever off')
       this.ispulled = false
-      let deleteMe = this.platforms[this.platforms.length - 1]
-      this.platforms.splice(this.platforms.length - 1, 1)
-      deleteMe.destroy()
-      // JS Map type for id w3school?
+      // map doesn't exsist
+     // this.lever.map(this.removePlatform(0, this.platforms.index, this.platforms))
+
+      // let deleteMe = this.platforms[this.platforms.length - 1]
+      // this.platforms.splice(this.platforms.length - 1, 1)
+      // deleteMe.destroy()
+      // TODO look up JS Map type for id w3school?
+    }
+  }
+
+  removePlatform (id) {
+    for (let i = 0; i < this.platforms.length; i++) {
+      if (this.lever.id === id) {
+        console.log("I've found the Id")
+      }
     }
   }
 }

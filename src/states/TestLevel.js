@@ -59,18 +59,18 @@ class TestLevel extends Phaser.State {
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
       new Platform({
-        game: this.game, x: 500, y: 575, width: 200, height: 50
+        game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
       }),
 
       // Side Platforms to mimic World Bounds while they are "broken"
       new Platform({ // Temp Ground
-        game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100
+        game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
       }),
       new Platform({ // Right Side Wall
-        game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000
+        game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
       }),
       new Platform({ // Left Side Wall
-        game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000
+        game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
       })
     ]
 
@@ -82,6 +82,9 @@ class TestLevel extends Phaser.State {
     this.lever = [
       new Lever({
         game: this.game, x: 1000, y: 670, width: 50, height: 100
+      }),
+      new Lever({
+        game: this.game, x: 1200, y: 670, width: 50, height: 100
       })
     ]
 
@@ -103,7 +106,7 @@ class TestLevel extends Phaser.State {
 
     // Creates the Shader
     this.setupShader()
-    
+
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
   }
@@ -203,8 +206,7 @@ class TestLevel extends Phaser.State {
     // Register the keys
     this.leftKey = this.game.input.keyboard.addKey(Phaser.KeyCode.LEFT)
     this.rightKey = this.game.input.keyboard.addKey(Phaser.KeyCode.RIGHT)
-    // remove sprint key later
-    this.sprintKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SHIFT)
+
     this.jumpKey = this.game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR)
 
     this.dim = this.game.input.keyboard.addKey(Phaser.KeyCode.Q)
@@ -216,7 +218,7 @@ class TestLevel extends Phaser.State {
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB
     ])
   }
 
@@ -305,8 +307,6 @@ class TestLevel extends Phaser.State {
     let speed = 0
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
-    // remove sprint key later
-    if (this.sprintKey.isDown) { speed *= 2 }
 
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
@@ -319,20 +319,11 @@ class TestLevel extends Phaser.State {
       }
 
       // Update sprite movement state and playing audio
-      if (Math.abs(speed) > 1) {
-        // Player is running
-        this.player.moveState = MainPlayer.moveStates.RUNNING
-        if (!this.game.sounds.get('running').isPlaying) {
-          this.game.sounds.play('running', config.SFX_VOLUME)
-        }
+
+      if (Math.abs(speed) > 0) {
+        this.player.moveState = MainPlayer.moveStates.WALKING
       } else {
-        // Player is walking or stopped
-        this.game.sounds.stop('running')
-        if (Math.abs(speed) > 0) {
-          this.player.moveState = MainPlayer.moveStates.WALKING
-        } else {
-          this.player.moveState = MainPlayer.moveStates.STOPPED
-        }
+        this.player.moveState = MainPlayer.moveStates.STOPPED
       }
     }
   }

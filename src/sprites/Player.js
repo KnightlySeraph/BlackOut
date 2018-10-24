@@ -75,7 +75,7 @@ class MainPlayer extends Phaser.Sprite {
     this.body.onEndContact.add(this.onExitContact, this)
   }
 
-/** Checks to see if an object has entered a collision
+  /** Checks to see if an object has entered a collision
  * @param {Phaser.Phyics.P2.Body} otherPhaserBody // Body of object
  * @param {P2.Body} otherP2Body // Shape of body
  * @param {P2.Shape} myShape // Shape of body colliding
@@ -92,12 +92,12 @@ class MainPlayer extends Phaser.Sprite {
   }
 
   /** Checks to see if an object has left a collision
-   * 
-   * @param {Phaser.Phyics.P2.Body} otherPhaserBody 
-   * @param {P2.Body} otherP2Body 
-   * @param {P2.Shape} myShape 
-   * @param {P2.Shape} otherShape 
-   * @param {*} contactEquation 
+   *
+   * @param {Phaser.Phyics.P2.Body} otherPhaserBody
+   * @param {P2.Body} otherP2Body
+   * @param {P2.Shape} myShape
+   * @param {P2.Shape} otherShape
+   * @param {*} contactEquation
    */
   onExitContact (otherPhaserBody, otherP2Body, myShape, otherShape, contactEquation) {
     if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
@@ -201,11 +201,6 @@ class MainPlayer extends Phaser.Sprite {
           this.animations.play('walk')
           break
 
-        case MainPlayer.moveStates.RUNNING:
-          if (__DEV__) console.info('Playing "run"')
-          this.animations.play('run')
-          break
-
         case MainPlayer.moveStates.IDLE:
           if (__DEV__) console.info('Playing "idle"')
           this.animations.play('idle')
@@ -251,13 +246,6 @@ class MainPlayer extends Phaser.Sprite {
       } else {
         this.body.moveLeft(500)
       }
-      // remove sprint functionality later
-    } else if (this.moveState === MainPlayer.moveStates.RUNNING) {
-      if (this.isFacingRight()) {
-        this.body.moveRight(1000)
-      } else {
-        this.body.moveLeft(1000)
-      }
     }
   }
 
@@ -266,37 +254,11 @@ class MainPlayer extends Phaser.Sprite {
     // Basic movement animations
     this.animations.add('stop', [48], 1, false)
     this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7], 10, true)
-    this.animations.add('run', [16, 17, 18, 19, 20, 21, 22, 23], 10, true)
 
     // Different parts of the idle animation
     this.animations.add('idle', sequentialNumArray(48, 55), 4, true)
-    // this.animations.add('idle_breath', sequentialNumArray(48, 60), 4, false)
-    // this.animations.add('idle_yoyo', sequentialNumArray(144, 183), 8, false)
-    // this.animations.add('idle_kick', sequentialNumArray(63, 71), 8, false)
-
-    // Action animations that override movement
-    // Note: these are not used in this example but are in the spritesheet
-    this.animations.add('dash', [34, 35, 36, 37], 20, false)
     this.animations.add('jump', [80, 96], 10, false)
     this.animations.add('fall', [84], 10, true)
-
-    // Setup the different idles animations to automatically trigger each other so it
-    // makes a nice long, distinct idle animation that loops forever
-    /** this.animations.getAnimation('idle').onComplete.add(() => {
-      this.play('idle_yoyo')
-    }, this)
-
-    this.animations.getAnimation('idle_yoyo').onComplete.add(() => {
-      this.play('idle_breath')
-    }, this)
-
-    this.animations.getAnimation('idle_breath').onComplete.add(() => {
-      this.play('idle_kick')
-    }, this)
-
-    this.animations.getAnimation('idle_kick').onComplete.add(() => {
-      this.play('idle')
-    }, this) */
   }
 }
 
