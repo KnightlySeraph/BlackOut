@@ -57,18 +57,18 @@ class TestLevel extends Phaser.State {
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
       new Platform({
-        game: this.game, x: 500, y: 575, width: 200, height: 50
+        game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
       }),
 
       // Side Platforms to mimic World Bounds while they are "broken"
       new Platform({ // Temp Ground
-        game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100
+        game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
       }),
       new Platform({ // Right Side Wall
-        game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000
+        game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
       }),
       new Platform({ // Left Side Wall
-        game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000
+        game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
       })
     ]
 
@@ -80,6 +80,9 @@ class TestLevel extends Phaser.State {
     this.lever = [
       new Lever({
         game: this.game, x: 1000, y: 670, width: 50, height: 100
+      }),
+      new Lever({
+        game: this.game, x: 1200, y: 670, width: 50, height: 100
       })
     ]
 

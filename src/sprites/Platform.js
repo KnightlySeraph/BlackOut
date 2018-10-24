@@ -14,7 +14,7 @@ import config from '../config'
  * See Phaser.Sprite for more about sprite objects and what they support.
  */
 class Platform extends Phaser.Sprite {
-  constructor ({ game, x, y, width, height }) {
+  constructor ({ game, x, y, width, height, id }) {
     super(game, 0, 0, 'blank', 0)
     this.name = 'plat'
 //    this.scale.setTo(width / 10, height / 10)
