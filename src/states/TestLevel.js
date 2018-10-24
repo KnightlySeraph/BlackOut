@@ -27,7 +27,9 @@ import RadialLightFilter from '../Shaders/RadialLightFilter'
  *
  * See Phaser.State for more about game states.
  */
-var timerTesting = 50.0
+var timerTesting = 150.0
+var lightSize = 0
+var blink = 0
 class TestLevel extends Phaser.State {
   init () {
     // Set / Reset world bounds (based off of world bounds)
@@ -45,7 +47,6 @@ class TestLevel extends Phaser.State {
       x: this.world.centerX,
       y: this.world.centerY + 32
     })
-
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
 
@@ -111,7 +112,7 @@ class TestLevel extends Phaser.State {
   setupShader () {
     // Make the Shader Filter
     this.radialLight = new RadialLightFilter(this.game)
-    this.radialLight.varyDist = 50
+    this.radialLight.timedDistance = 50
     this.game.world.filters = [ this.radialLight ]
     // Make the filter
     // this.shadowFilter = new Shadows(this.game)
@@ -210,9 +211,12 @@ class TestLevel extends Phaser.State {
     this.logInfo = this.game.input.keyboard.addKey(Phaser.KeyCode.D)
     this.interact = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
 
+    // Wind Clock with lshift
+    this.clock = this.game.input.keyboard.addKey(Phaser.KeyCode.TAB)
+
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SHIFT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB
     ])
   }
 
@@ -241,8 +245,8 @@ class TestLevel extends Phaser.State {
     }
     // Testing a numbers deacrese rate
     if (timerTesting > 0) {
-      // timerTesting -= 0.1
-      this.radialLight.varyDist = timerTesting
+      timerTesting -= 0.1
+      this.radialLight.timedDistance = timerTesting
       console.log(timerTesting)
     }
     // interactable button
@@ -250,6 +254,53 @@ class TestLevel extends Phaser.State {
       this.player.interact()
     }
 
+    // create light on the player when shift is pressed
+    if (timerTesting < 150.0) {
+      if (this.clock.isDown) {
+        timerTesting += 0.7
+      }
+    }
+    if (timerTesting <= 0.0) {
+      lightSize = 0
+    } else if (timerTesting <= 50.0) {
+      lightSize = 1
+    } else if (timerTesting <= 75.0) {
+      lightSize = 2
+    } else if (timerTesting <= 100.0) {
+      lightSize = 3
+    } else if (timerTesting <= 125.0) {
+      lightSize = 4
+    } else {
+      lightSize = 5
+    }
+    // blink light
+    blink++
+    if (lightSize !== 1) {
+      if (blink > 30) {
+        blink = 0
+        lightSize = 0
+      }
+    } else {
+      if (blink > 10) {
+        blink = 0
+        lightSize = 0
+      }
+    }
+    // update the player light source
+    if (lightSize === 5) {
+      this.radialLight.timedDistance = 150.0
+    } else if (lightSize === 4) {
+      this.radialLight.timedDistance = 125.0
+    } else if (lightSize === 3) {
+      this.radialLight.timedDistance = 100.0
+    } else if (lightSize === 2) {
+      this.radialLight.timedDistance = 75.0
+    } else if (lightSize === 1) {
+      this.radialLight.timedDistance = 50.0
+    } else {
+      this.radialLight.timedDistance = 0.0
+    }
+    
     // Check state of keys to control main character
     let speed = 0
     if (this.rightKey.isDown) { speed++ }
