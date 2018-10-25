@@ -10,7 +10,13 @@ class RadialLightFilter extends Phaser.Filter {
 
     // Set Filter Uniforms
     this.uniforms.lightPos = { type: '2fv', value: [ -1, -1 ] }
+    this.uniforms.socket2Pos = { type: '2fv', value: [ -1, -1 ] }
+    this.uniforms.socket3Pos = { type: '2fv', value: [ -1, -1 ] }
+    this.uniforms.socket4Pos = { type: '2fv', value: [ -1, -1 ] }
+    this.uniforms.socket5Pos = { type: '2fv', value: [ -1, -1 ] }
+
     this.uniforms.timedDistance = { type: '1f', value: 0 }
+    // this.uniforms.socket2 = { type: '0', value: false }
 
     // Setup the glsl fragment shader source
     this.fragmentSrc = RadialLightShader
