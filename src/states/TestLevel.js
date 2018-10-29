@@ -224,10 +224,12 @@ class TestLevel extends Phaser.State {
 
     // Wind Clock with lshift
     this.clock = this.game.input.keyboard.addKey(Phaser.KeyCode.TAB)
+    // Light Testing Inputs
+    this.socket2 = this.game.input.keyboard.addKey(Phaser.KeyCode.TWO)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO
     ])
   }
 
@@ -310,6 +312,20 @@ class TestLevel extends Phaser.State {
       this.radialLight.timedDistance = 50.0
     } else {
       this.radialLight.timedDistance = 0.0
+    }
+
+    // Seperate from the player light, turn on socket 2
+    if (this.socket2.justPressed()) {
+      // Console out the two was pressed
+      console.log('Two was pressed')
+      // Turn Socket 2 on
+      this.radialLight.socket2 = 1
+      // Set the position to the player
+      let screenSpacePos = this.toScreenSpace(
+        { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
+      )
+      // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
+      this.radialLight.moveSocket2(screenSpacePos)
     }
     
     // Check state of keys to control main character
