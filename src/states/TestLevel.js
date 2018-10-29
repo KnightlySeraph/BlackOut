@@ -8,7 +8,7 @@ import P2 from 'p2'
 import MainPlayer from '../sprites/Player'
 import Platform from '../sprites/Platform' // Import Platforms
 import Lever from '../sprites/Lever' // import Levers
-import Spring from '../sprites/Spring' // import Springs
+import Jumper from '../sprites/Jumper' // import Springs
 
 // Import config settings
 import config from '../config'
@@ -91,21 +91,21 @@ class TestLevel extends Phaser.State {
       this.game.add.existing(Lever)
     })
 
-    // Make Spring objects in the world
-    this.spring = [
-      new Spring({
+    // Make "Spring" objects in the world
+    this.jumper = [
+      new Jumper({
         game: this.game, x: 800, y: 695, width: 50, height: 50, id: 1
       })
     ]
-    this.lever.forEach((Spring) => {
-      this.game.add.existing(Spring)
+    this.lever.forEach((Jumper) => {
+      this.game.add.existing(Jumper)
     })
 
     // Add player after the floor
     this.game.add.existing(this.player)
 
     // Setup all the text displayed on screen
-    this.setupText(floorHeight)
+    // this.setupText(floorHeight)
 
     // Start playing the background music
     this.game.sounds.play('Rock_Intro_1', config.MUSIC_VOLUME)
@@ -115,6 +115,7 @@ class TestLevel extends Phaser.State {
 
     // Creates the Shader
     this.setupShader()
+    this.socket2Toggle = false
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
@@ -319,13 +320,20 @@ class TestLevel extends Phaser.State {
     if (this.socket2.justPressed()) {
       // Console out the two was pressed
       console.log('Two was pressed')
-      // Turn Socket 2 on
-      this.radialLight.socket2 = 1
+      // Turn Socket 2 on/off
+      if (this.socket2Toggle) {
+        this.radialLight.socket2 = 0
+        this.socket2Toggle = false
+      } else {
+        this.radialLight.socket2 = 1
+        this.socket2Toggle = true
+      }
       // Set the position to the player
       let screenSpacePos = this.toScreenSpace(
-        { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
+        { x: this.player.x, y: this.player.y + this.player.height / 2 }
       )
       // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
+      console.log('running')
       this.radialLight.moveSocket2(screenSpacePos)
     }
 
@@ -335,6 +343,8 @@ class TestLevel extends Phaser.State {
     if (this.leftKey.isDown) { speed-- }
 
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
+      this.player.overrideState = MainPlayer.overrideStates.JUMPING
+    } else if (MainPlayer.isSpring === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
     } else {
       // Update sprite facing direction
