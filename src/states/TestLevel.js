@@ -343,9 +343,9 @@ class TestLevel extends Phaser.State {
 
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
-    } else if (MainPlayer.isSpring === true) {
-      this.player.overrideState = MainPlayer.overrideStates.JUMPING
-    } else {
+    }
+    // else if (MainPlayer.isSpring === true) { this.player.overrideState = MainPlayer.overrideStates.JUMPING }
+    else {
       // Update sprite facing direction
       if (speed > 0 && !this.player.isFacingRight()) {
         this.player.makeFaceRight()
