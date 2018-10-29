@@ -8,7 +8,7 @@ import P2 from 'p2'
 import MainPlayer from '../sprites/Player'
 import Platform from '../sprites/Platform' // Import Platforms
 import Lever from '../sprites/Lever' // import Levers
-import Spring from '../sprites/Spring' // import Springs
+import Jumper from '../sprites/Jumper' // import Springs
 
 // Import config settings
 import config from '../config'
@@ -91,14 +91,14 @@ class TestLevel extends Phaser.State {
       this.game.add.existing(Lever)
     })
 
-    // Make Spring objects in the world
-    this.spring = [
-      new Spring({
+    // Make "Spring" objects in the world
+    this.jumper = [
+      new Jumper({
         game: this.game, x: 800, y: 695, width: 50, height: 50, id: 1
       })
     ]
-    this.lever.forEach((Spring) => {
-      this.game.add.existing(Spring)
+    this.lever.forEach((Jumper) => {
+      this.game.add.existing(Jumper)
     })
 
     // Add player after the floor
@@ -334,6 +334,8 @@ class TestLevel extends Phaser.State {
     if (this.leftKey.isDown) { speed-- }
 
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
+      this.player.overrideState = MainPlayer.overrideStates.JUMPING
+    } else if (MainPlayer.isSpring === true) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
     } else {
       // Update sprite facing direction
