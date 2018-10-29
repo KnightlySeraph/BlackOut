@@ -70,7 +70,7 @@ class MainPlayer extends Phaser.Sprite {
     this.body.damping = 0.5
 
     this.body.setCollisionGroup(this.game.playerGroup)
-    this.body.collides([this.game.platformGroup, this.game.leverGroup, this.game.physics.p2.boundsCollisionGroup])
+    this.body.collides([this.game.platformGroup, this.game.leverGroup, this.game.springGroup, this.game.physics.p2.boundsCollisionGroup])
     this.body.onBeginContact.add(this.onBeginContact, this)
     this.body.onEndContact.add(this.onExitContact, this)
   }

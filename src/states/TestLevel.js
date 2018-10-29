@@ -6,8 +6,9 @@ import P2 from 'p2'
 
 // Import the main player sprite
 import MainPlayer from '../sprites/Player'
-import Platform from '../sprites/Platform'
-import Lever from '../sprites/Lever'
+import Platform from '../sprites/Platform' // Import Platforms
+import Lever from '../sprites/Lever' // import Levers
+import Spring from '../sprites/Spring' // import Springs
 
 // Import config settings
 import config from '../config'
@@ -73,7 +74,6 @@ class TestLevel extends Phaser.State {
         game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
       })
     ]
-
     this.platforms.forEach((plat) => { // forEach(function()) is like a for loop call
       this.game.add.existing(plat)
     })
@@ -81,15 +81,24 @@ class TestLevel extends Phaser.State {
     // Make Levers that can be interacted with
     this.lever = [
       new Lever({
-        game: this.game, x: 1000, y: 670, width: 50, height: 100
+        game: this.game, x: 1000, y: 670, width: 50, height: 100, id: 4, spriteKey: 'blank'
       }),
       new Lever({
-        game: this.game, x: 1200, y: 670, width: 50, height: 100
+        game: this.game, x: 1200, y: 670, width: 50, height: 100, id: 5, spriteKey: 'blank'
       })
     ]
-
     this.lever.forEach((Lever) => {
       this.game.add.existing(Lever)
+    })
+
+    // Make Spring objects in the world
+    this.spring = [
+      new Spring({
+        game: this.game, x: 800, y: 695, width: 50, height: 50, id: 1
+      })
+    ]
+    this.lever.forEach((Spring) => {
+      this.game.add.existing(Spring)
     })
 
     // Add player after the floor
@@ -215,10 +224,12 @@ class TestLevel extends Phaser.State {
 
     // Wind Clock with lshift
     this.clock = this.game.input.keyboard.addKey(Phaser.KeyCode.TAB)
+    // Light Testing Inputs
+    this.socket2 = this.game.input.keyboard.addKey(Phaser.KeyCode.TWO)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO
     ])
   }
 
@@ -249,7 +260,7 @@ class TestLevel extends Phaser.State {
     if (timerTesting > 0) {
       timerTesting -= 0.1
       this.radialLight.timedDistance = timerTesting
-      console.log(timerTesting)
+      // console.log(timerTesting)
     }
     // interactable button
     if (this.interact.justPressed()) {
@@ -301,6 +312,20 @@ class TestLevel extends Phaser.State {
       this.radialLight.timedDistance = 50.0
     } else {
       this.radialLight.timedDistance = 0.0
+    }
+
+    // Seperate from the player light, turn on socket 2
+    if (this.socket2.justPressed()) {
+      // Console out the two was pressed
+      console.log('Two was pressed')
+      // Turn Socket 2 on
+      this.radialLight.socket2 = 1
+      // Set the position to the player
+      let screenSpacePos = this.toScreenSpace(
+        { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
+      )
+      // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
+      this.radialLight.moveSocket2(screenSpacePos)
     }
     
     // Check state of keys to control main character

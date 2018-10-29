@@ -5,10 +5,10 @@ varying vec2 vTextureCoord;
 varying vec4 vColor;
 
 // Socket Booleans ~ Reminder: Socket1 is the player socket and it cannot be removed or
-uniform bool socket2;
-uniform bool socket3;
-uniform bool socket4;
-uniform bool socket5;
+uniform int socket2;
+uniform int socket3;
+uniform int socket4;
+uniform int socket5;
 // Light Locations
 // - Must be in screen space in units of pixels
 uniform vec2 lightPos;
@@ -19,6 +19,12 @@ uniform vec2 socket5Pos;
 
 // Variable Distance
 uniform float timedDistance;
+
+//Socket Timers
+uniform float socket2Decay;
+uniform float socket3Decay;
+uniform float socket4Decay;
+uniform float socket5Decay;
 
 // Phaser Filter built-in uniforms
 uniform vec2 resolution;
@@ -51,14 +57,50 @@ void main() {
     else if (dist < (timedDistance * 2.0) ) { scale = 1.0 - (dist - timedDistance) / 50.0; }
   }
   //Socket2
-  if (socket2) {
-    float dist1 = distance(gl_FragCoord.xy, socket2Pos);
+  if (socket2 == 1) {
+    float dist2 = distance(gl_FragCoord.xy, socket2Pos);
     if (socket2Pos.x >= 0.0) {
-      if (dist1 < (50.0)) {
+      if (dist2 < (50.0)) {
         scale = 1.0;
       }
-      else if (dist1 < (100.0)) {
-        scale = 1.0 - (dist1 - 50.0) / 50.0;
+      else if (dist2 < (100.0)) {
+        scale = 1.0 - (dist2 - 50.0) / 50.0;
+      }
+    }
+  }
+  //Socket3
+  if (socket3 == 1) {
+    float dist3 = distance(gl_FragCoord.xy, socket3Pos);
+    if (socket3Pos.x >= 0.0) {
+      if (dist3 < (50.0)) {
+        scale = 1.0;
+      }
+      else if (dist3 < (100.0)) {
+        scale = 1.0 - (dist3 - 50.0) / 50.0;
+      }
+    }
+  }
+  //Socket4
+  if (socket4 == 1) {
+    float dist4 = distance(gl_FragCoord.xy, socket4Pos);
+    if (socket4Pos.x >= 0.0) {
+      if (dist4 < (50.0)) {
+        scale = 1.0;
+      }
+      else if (dist4 < (100.0)) {
+        scale = 1.0 - (dist4 - 50.0) / 50.0;
+      }
+    }
+  }
+  //Socket5
+  if (socket5 == 1) {
+    float dist5 = distance(gl_FragCoord.xy, socket5Pos);
+    if (socket5Pos.x >= 0.0) {
+      if (dist5 < (50.0)) {
+        scale = 1.0;
+      }
+      else if (dist5 < (100.0)) {
+        scale = 1.0 - (dist5 - 50.0) / 50.0;
       }
     }
   }
