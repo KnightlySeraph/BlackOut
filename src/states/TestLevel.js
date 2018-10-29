@@ -269,7 +269,8 @@ class TestLevel extends Phaser.State {
 
     // create light on the player when shift is pressed
     if (timerTesting < 150.0) {
-      if (this.clock.isDown) {
+      if (this.clock.isDown && this.player.touching(0, 1)) {
+        this.player.overrideState = MainPlayer.overrideStates.WINDING
         timerTesting += 0.7
       }
     }
@@ -327,7 +328,7 @@ class TestLevel extends Phaser.State {
       // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
       this.radialLight.moveSocket2(screenSpacePos)
     }
-    
+
     // Check state of keys to control main character
     let speed = 0
     if (this.rightKey.isDown) { speed++ }
