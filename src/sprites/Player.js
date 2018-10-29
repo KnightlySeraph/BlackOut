@@ -198,6 +198,13 @@ class MainPlayer extends Phaser.Sprite {
         case MainPlayer.overrideStates.FALLING:
           if (__DEV__) console.info('playing "falling"')
           this.animations.play('fall')
+          break
+
+        case MainPlayer.overrideStates.WINDING:
+          if (__DEV__) console.info('playing "winding"')
+          this.animations.play('winding')
+          this._lightTimer = 150
+          break
       }
     } else {
       // Look at the current movement state and adjust the animation accordingly
@@ -242,6 +249,11 @@ class MainPlayer extends Phaser.Sprite {
       if (this.touching(0, 1)) {
         this.overrideState = MainPlayer.overrideStates.NONE
       }
+    } else if (this.overrideState === MainPlayer.overrideStates.WINDING) {
+      if (this.touching(0, 1)) {
+      } else {
+        this.overrideState = MainPlayer.overrideStates.NONE
+      }
     }
 
     // Automatically switch to idle after designated countdown
@@ -271,6 +283,7 @@ class MainPlayer extends Phaser.Sprite {
     this.animations.add('idle', sequentialNumArray(48, 55), 4, true)
     this.animations.add('jump', [80, 96], 10, false)
     this.animations.add('fall', [84], 10, true)
+    this.animations.add('winding', sequentialNumArray(16, 27), 4, false)
   }
 }
 
@@ -287,6 +300,7 @@ MainPlayer.moveStates = Object.freeze({
 MainPlayer.overrideStates = Object.freeze({
   JUMPING: 'jumping',
   FALLING: 'falling',
+  WINDING: 'winding',
   NONE: 'none'
 })
 
