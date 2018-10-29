@@ -40,6 +40,9 @@ class MainPlayer extends Phaser.Sprite {
     // Set a reference to the top-level phaser game object
     this.game = game
 
+    // Set up the reference to call to see if the player has hit a "spring"
+    // this.isSpring = false
+
     // Setup all the animations
     this.setupAnimations()
 
@@ -70,7 +73,7 @@ class MainPlayer extends Phaser.Sprite {
     this.body.damping = 0.5
 
     this.body.setCollisionGroup(this.game.playerGroup)
-    this.body.collides([this.game.platformGroup, this.game.leverGroup, this.game.springGroup, this.game.physics.p2.boundsCollisionGroup])
+    this.body.collides([this.game.platformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
     this.body.onBeginContact.add(this.onBeginContact, this)
     this.body.onEndContact.add(this.onExitContact, this)
   }
@@ -88,6 +91,11 @@ class MainPlayer extends Phaser.Sprite {
       if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
         this._overlapping.add(otherPhaserBody.sprite) // adds object to set
       }
+      else if (otherPhaserBody.sprite.name === 'jumper') { // Is the other object a spring?
+        this._overlapping.add(otherPhaserBody.sprite)
+        // this.isSpring = true
+        this.body.moveUp(1000)
+      }
     }
   }
 
@@ -101,6 +109,10 @@ class MainPlayer extends Phaser.Sprite {
    */
   onExitContact (otherPhaserBody, otherP2Body, myShape, otherShape, contactEquation) {
     if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
+      this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
+    }
+    else if (otherPhaserBody.sprite.name === 'jumper') {
+     // this.isSpring = false
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
     }
   }
