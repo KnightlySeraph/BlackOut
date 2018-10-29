@@ -154,6 +154,13 @@ class TestLevel extends Phaser.State {
     }
   }
 
+  setLightPos (posX, posY) {
+    return {
+      x: posX,
+      y: posY
+    }
+  }
+
   decrementNumber (num, rate) {
     while (num > 0) {
       num -= rate
@@ -328,12 +335,11 @@ class TestLevel extends Phaser.State {
         this.socket2Toggle = true
       }
       // Set the position to the player
-      let screenSpacePos = this.toScreenSpace(
-        { x: this.player.x, y: this.player.y + this.player.height / 2 }
-      )
+      let light2Pos = this.setLightPos(0, 0)
+
       // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
       console.log('running')
-      this.radialLight.moveSocket2(screenSpacePos)
+      this.radialLight.moveSocket2(light2Pos)
     }
     
     // Check state of keys to control main character
