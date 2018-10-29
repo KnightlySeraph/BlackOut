@@ -105,7 +105,7 @@ class TestLevel extends Phaser.State {
     this.game.add.existing(this.player)
 
     // Setup all the text displayed on screen
-    this.setupText(floorHeight)
+    // this.setupText(floorHeight)
 
     // Start playing the background music
     this.game.sounds.play('Rock_Intro_1', config.MUSIC_VOLUME)
@@ -329,9 +329,10 @@ class TestLevel extends Phaser.State {
       }
       // Set the position to the player
       let screenSpacePos = this.toScreenSpace(
-        { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
+        { x: this.player.x, y: this.player.y + this.player.height / 2 }
       )
       // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
+      console.log('running')
       this.radialLight.moveSocket2(screenSpacePos)
     }
     
