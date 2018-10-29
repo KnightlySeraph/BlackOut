@@ -115,6 +115,7 @@ class TestLevel extends Phaser.State {
 
     // Creates the Shader
     this.setupShader()
+    this.socket2Toggle = false
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
@@ -318,8 +319,14 @@ class TestLevel extends Phaser.State {
     if (this.socket2.justPressed()) {
       // Console out the two was pressed
       console.log('Two was pressed')
-      // Turn Socket 2 on
-      this.radialLight.socket2 = 1
+      // Turn Socket 2 on/off
+      if (this.socket2Toggle) {
+        this.radialLight.socket2 = 0
+        this.socket2Toggle = false
+      } else {
+        this.radialLight.socket2 = 1
+        this.socket2Toggle = true
+      }
       // Set the position to the player
       let screenSpacePos = this.toScreenSpace(
         { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
