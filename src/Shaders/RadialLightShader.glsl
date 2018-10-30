@@ -9,6 +9,7 @@ uniform int socket2;
 uniform int socket3;
 uniform int socket4;
 uniform int socket5;
+
 // Light Locations
 // - Must be in screen space in units of pixels
 uniform vec2 lightPos;
@@ -32,12 +33,17 @@ uniform float time;
 uniform vec2 mouse;
 uniform sampler2D uSampler;
 
-float calculateLighting () {
-  if (lightPos.x >= 0.0) {
-    float dist = distance(gl_FragCoord.xy, lightPos);
-    if(dist < (timedDistance)) { return 1.0; }
-    else if (dist < (timedDistance * 2.0) ) { return (1.0 - (dist - timedDistance) / 50.0); }
+float lightSourceCheck(int socketEnabled, vec2 socketPosition) {
+  float scale = 0.0;
+  if (socketEnabled == 1) {
+    float dist = distance(gl_FragCoord.xy, socketPosition);
+    if (socketPosition.x >= 0.0) {
+      if (dist < (50.0)) { scale = 1.0; }
+      else if (dist < (100.0)) { scale = 1.0 - (dist - 50.0) / 50.0; }
+    }
   }
+
+  return scale;
 }
 
 void main() {
@@ -51,86 +57,20 @@ void main() {
 
   //Point Light Calculations
   //Socket1 ~ Player Socket
-  if (lightPos.x >= 0.0) {
-    float dist = distance(gl_FragCoord.xy, lightPos);
-    if(dist < (timedDistance)) { scale = 1.0; }
-    else if (dist < (timedDistance * 2.0) ) { scale = 1.0 - (dist - timedDistance) / 50.0; }
-  }
-  //Socket2
-  if (socket2 == 1) {
-    float dist2 = distance(gl_FragCoord.xy, socket2Pos);
-    if (socket2Pos.x >= 0.0) {
-      if (dist2 < (50.0)) {
-        scale = 1.0;
-      }
-      else if (dist2 < (100.0)) {
-        scale = 1.0 - (dist2 - 50.0) / 50.0;
-      }
-    }
-  }
-  //Socket3
-  if (socket3 == 1) {
-    float dist3 = distance(gl_FragCoord.xy, socket3Pos);
-    if (socket3Pos.x >= 0.0) {
-      if (dist3 < (50.0)) {
-        scale = 1.0;
-      }
-      else if (dist3 < (100.0)) {
-        scale = 1.0 - (dist3 - 50.0) / 50.0;
-      }
-    }
-  }
-  //Socket4
-  if (socket4 == 1) {
-    float dist4 = distance(gl_FragCoord.xy, socket4Pos);
-    if (socket4Pos.x >= 0.0) {
-      if (dist4 < (50.0)) {
-        scale = 1.0;
-      }
-      else if (dist4 < (100.0)) {
-        scale = 1.0 - (dist4 - 50.0) / 50.0;
-      }
-    }
-  }
-  //Socket5
-  if (socket5 == 1) {
-    float dist5 = distance(gl_FragCoord.xy, socket5Pos);
-    if (socket5Pos.x >= 0.0) {
-      if (dist5 < (50.0)) {
-        scale = 1.0;
-      }
-      else if (dist5 < (100.0)) {
-        scale = 1.0 - (dist5 - 50.0) / 50.0;
-      }
-    }
-  }
+  scale = scale + lightSourceCheck(1, lightPos);
+  scale = scale + lightSourceCheck(socket2, socket2Pos);
+  scale = clamp(scale, 0.0, 1.0);
 
   // Scale color by distance to light sources
-  if (timedDistance > 50.0){
-    gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
-  }
-  else if (!(socket2 == 1 || socket3 == 1 || socket4 == 1 || socket5 == 1)) {
-    gl_FragColor = vec4(scale*(baseColor.rgb * color1), 1.0);
-  }
-  else {
-    gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
-  }
+  gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
 
+  // if (timedDistance > 50.0){
+  //   gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
+  // }  
+  // else if (!(socket2 == 1 || socket3 == 1 || socket4 == 1 || socket5 == 1)) {
+  //   gl_FragColor = vec4(scale*(baseColor.rgb * color1), 1.0);
+  // }
+  // else {
+  //   gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
+  // }
 }
-
-// void main() {
-//   // Normal color
-//   vec4 baseColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));
-//   vec3 color1 = vec3(0, 0, 1);
-
-//   // Compare pixel to each light source
-//   float scale = 0.1;
-//   if (lightPos.x >= 0.0) {
-//     float dist = distance(gl_FragCoord.xy, lightPos);
-//     if(dist < timedDistance) { scale = 1.0; }
-//     else if (dist < (timedDistance * 2.0)) { scale = 1.0 - (dist - 50.0) / 50.0; }
-//   }
-
-//   // Scale color by distance to light sources
-//   gl_FragColor = vec4(scale*(baseColor.rgb * color1), 1.0);
-// }
