@@ -41,7 +41,7 @@ class MainPlayer extends Phaser.Sprite {
     this.game = game
 
     // Set up the reference to call to see if the player has hit a "spring"
-     this.isSpring = false
+    this.isSpring = false
 
     // Setup all the animations
     this.setupAnimations()
@@ -90,8 +90,7 @@ class MainPlayer extends Phaser.Sprite {
       console.log('collidable')
       if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
         this._overlapping.add(otherPhaserBody.sprite) // adds object to set
-      }
-      else if (otherPhaserBody.sprite.name === 'jumper') { // Checks if the colliding object is a spring
+      } else if (otherPhaserBody.sprite.name === 'jumper') { // Checks if the colliding object is a spring
         this._overlapping.add(otherPhaserBody.sprite)
         this._override_state = MainPlayer.overrideStates.NONE
         this.body.velocity.y = 0
@@ -121,8 +120,7 @@ class MainPlayer extends Phaser.Sprite {
   onExitContact (otherPhaserBody, otherP2Body, myShape, otherShape, contactEquation) {
     if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
-    }
-    else if (otherPhaserBody.sprite.name === 'jumper') {
+    } else if (otherPhaserBody.sprite.name === 'jumper') {
       this.isSpring = false
       console.log('exit spring')
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
@@ -155,7 +153,13 @@ class MainPlayer extends Phaser.Sprite {
   get overrideState () { return this._override_state }
   set overrideState (newState) {
     if (this._override_state !== newState) {
-      if (this._override_state !== MainPlayer.overrideStates.FALLING || newState === MainPlayer.overrideStates.NONE) {
+      if (this._override_state === MainPlayer.overrideStates.WINDING) {
+        // Winding is only allowed to go back to NONE
+        if (newState === MainPlayer.overrideStates.NONE) {
+          this._override_state = newState
+          this.updateAnimation()
+        }
+      } else if (this._override_state !== MainPlayer.overrideStates.FALLING || newState === MainPlayer.overrideStates.NONE) {
         this._override_state = newState
         this.updateAnimation()
       }
@@ -215,7 +219,6 @@ class MainPlayer extends Phaser.Sprite {
         case MainPlayer.overrideStates.WINDING:
           if (__DEV__) console.info('playing "winding"')
           this.animations.play('winding')
-          this._lightTimer = 150
           break
       }
     } else {
@@ -265,26 +268,23 @@ class MainPlayer extends Phaser.Sprite {
       if (this.touching(0, 1)) {
         this.overrideState = MainPlayer.overrideStates.NONE
       }
-    } else if (this.overrideState === MainPlayer.overrideStates.WINDING) {
-      if (this.touching(0, 1)) {
-      } else {
-        this.overrideState = MainPlayer.overrideStates.NONE
-      }
     }
 
-    // Automatically switch to idle after designated countdown
-    if (this.moveState === MainPlayer.moveStates.STOPPED) {
-      this.body.velocity.x = 0
-      if (this._idle_countdown <= 0) {
-        this.moveState = MainPlayer.moveStates.IDLE
-      } else {
-        this._idle_countdown -= 1
-      }
-    } else if (this.moveState === MainPlayer.moveStates.WALKING) {
-      if (this.isFacingRight()) {
-        this.body.moveRight(500)
-      } else {
-        this.body.moveLeft(500)
+    if (this.overrideState !== MainPlayer.overrideStates.WINDING) {
+      // Automatically switch to idle after designated countdown
+      if (this.moveState === MainPlayer.moveStates.STOPPED) {
+        this.body.velocity.x = 0
+        if (this._idle_countdown <= 0) {
+          this.moveState = MainPlayer.moveStates.IDLE
+        } else {
+          this._idle_countdown -= 1
+        }
+      } else if (this.moveState === MainPlayer.moveStates.WALKING) {
+        if (this.isFacingRight()) {
+          this.body.moveRight(500)
+        } else {
+          this.body.moveLeft(500)
+        }
       }
     }
   }
@@ -299,7 +299,7 @@ class MainPlayer extends Phaser.Sprite {
     this.animations.add('idle', sequentialNumArray(48, 55), 4, true)
     this.animations.add('jump', [80, 96], 10, false)
     this.animations.add('fall', [84], 10, true)
-    this.animations.add('winding', sequentialNumArray(16, 27), 4, false)
+    this.animations.add('winding', sequentialNumArray(16, 27), 4, true)
   }
 }
 

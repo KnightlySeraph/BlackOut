@@ -16,7 +16,7 @@ import config from '../config'
 // Import the filters for the scene
 import PlayerLightFilter from '../Shaders/PlayerLightFilter'
 import RadialLightFilter from '../Shaders/RadialLightFilter'
-import MovingPlatform from '../sprites/MovingPlatform';
+import MovingPlatform from '../sprites/MovingPlatform'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -49,6 +49,9 @@ class TestLevel extends Phaser.State {
       x: this.world.centerX,
       y: this.world.centerY + 32
     })
+
+    this.isWinding = false
+
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
 
@@ -102,8 +105,8 @@ class TestLevel extends Phaser.State {
       this.game.add.existing(Jumper)
     })
 
-     // Make MovingPlatform objects in the world
-     this.mover = [
+    // Make MovingPlatform objects in the world
+    this.mover = [
       new MovingPlatform({
         game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 1, maxVelocity: 200
       })
@@ -244,6 +247,32 @@ class TestLevel extends Phaser.State {
   }
 
   update () {
+    // Check state of keys to control main character
+    let speed = 0
+    if (this.rightKey.isDown) { speed++ }
+    if (this.leftKey.isDown) { speed-- }
+
+    if (this.jumpKey.isDown && this.player.touching(0, 1)) {
+      this.player.overrideState = MainPlayer.overrideStates.JUMPING
+    }
+    // else if (MainPlayer.isSpring === true) { this.player.overrideState = MainPlayer.overrideStates.JUMPING }
+    else {
+      if (this.player.overrideState !== MainPlayer.overrideStates.WINDING) {
+        // Update sprite facing direction
+        if (speed > 0 && !this.player.isFacingRight()) {
+          this.player.makeFaceRight()
+        } else if (speed < 0 && !this.player.isFacingLeft()) {
+          this.player.makeFaceLeft()
+        }
+
+        // Update sprite movement state and playing audio
+        if (Math.abs(speed) > 0) {
+          this.player.moveState = MainPlayer.moveStates.WALKING
+        } else {
+          this.player.moveState = MainPlayer.moveStates.STOPPED
+        }
+      }
+    }
     // Toggle shader off/on
     if (!this.game.world.filters) {
       if (this.dim.justPressed()) {
@@ -282,10 +311,21 @@ class TestLevel extends Phaser.State {
       this.player.interact()
     }
 
+    if (this.clock.justPressed() && this.player.touching(0, 1) && speed === 0) {
+      this.player.overrideState = MainPlayer.overrideStates.WINDING
+      this.isWinding = true
+    }
+
+    if (this.player.overrideState === MainPlayer.overrideStates.WINDING) {
+      if (!this.clock.isDown) {
+        this.isWinding = false
+        this.player.overrideState = MainPlayer.overrideStates.NONE
+      }
+    }
+
     // create light on the player when shift is pressed
     if (timerTesting < 150.0) {
-      if (this.clock.isDown && this.player.touching(0, 1)) {
-        this.player.overrideState = MainPlayer.overrideStates.WINDING
+      if (this.isWinding) {
         timerTesting += 0.7
       }
     }
@@ -356,32 +396,6 @@ class TestLevel extends Phaser.State {
 
     // let lightPos = this.setLightPos(0, 0)
     // this.radialLight.moveSocket2(lightPos)
-
-    // Check state of keys to control main character
-    let speed = 0
-    if (this.rightKey.isDown) { speed++ }
-    if (this.leftKey.isDown) { speed-- }
-
-    if (this.jumpKey.isDown && this.player.touching(0, 1)) {
-      this.player.overrideState = MainPlayer.overrideStates.JUMPING
-    }
-    // else if (MainPlayer.isSpring === true) { this.player.overrideState = MainPlayer.overrideStates.JUMPING }
-    else {
-      // Update sprite facing direction
-      if (speed > 0 && !this.player.isFacingRight()) {
-        this.player.makeFaceRight()
-      } else if (speed < 0 && !this.player.isFacingLeft()) {
-        this.player.makeFaceLeft()
-      }
-
-      // Update sprite movement state and playing audio
-
-      if (Math.abs(speed) > 0) {
-        this.player.moveState = MainPlayer.moveStates.WALKING
-      } else {
-        this.player.moveState = MainPlayer.moveStates.STOPPED
-      }
-    }
   }
 
   render () {
