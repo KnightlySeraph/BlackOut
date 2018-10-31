@@ -16,6 +16,7 @@ import config from '../config'
 // Import the filters for the scene
 import PlayerLightFilter from '../Shaders/PlayerLightFilter'
 import RadialLightFilter from '../Shaders/RadialLightFilter'
+import MovingPlatform from '../sprites/MovingPlatform';
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -99,6 +100,16 @@ class TestLevel extends Phaser.State {
     ]
     this.lever.forEach((Jumper) => {
       this.game.add.existing(Jumper)
+    })
+
+     // Make MovingPlatform objects in the world
+     this.mover = [
+      new MovingPlatform({
+        game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 1, maxVelocity: 200
+      })
+    ]
+    this.lever.forEach((mover) => {
+      this.game.add.existing(mover)
     })
 
     // Add player after the floor
