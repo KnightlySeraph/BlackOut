@@ -154,15 +154,15 @@ class TestLevel extends Phaser.State {
 
   setLightPos (posX, posY) {
     return {
-      x: posX,
-      y: posY
+      x: posX - this.world.camera.x,
+      y: posY + this.world.camera.y
     }
   }
 
   toWorldSpace (point) {
     return {
-      x: point.x - this.world.camera.x,
-      y: point.y
+      x: this.world.camera.x - point.x,
+      y: (point.y - this.world.camera.y) - this.world.height
     }
   }
 
@@ -382,17 +382,31 @@ class TestLevel extends Phaser.State {
         this.radialLight.socket2 = 1
         console.log('Turning Socket 2 on')
         this.socket2Toggle = true
+        this.radialLight.socket3 = 1
+        this.radialLight.socket4 = 1
+        this.radialLight.socket5 = 1
       }
 
-      let lightPos = this.toWorldSpace(500, 150)
+      let screenSpacePos = this.setLightPos(0, 0)
+    
+      this.radialLight.moveSocket2(screenSpacePos)
+
       console.log('Camera Height is ' + this.game.camera.height + '   Camera Width is ' + this.game.camera.width)
-      this.radialLight.moveSocket2(lightPos)
+      console.log('Location of the camera is (' + this.world.camera.x + ', ' + this.world.camera.y + ')')
+      console.log('Location of the player is (' + this.player.world.x + ', ' + this.player.world.y + ')')
+      console.log('Size of the world is Height: ' + this.world.height + ' Width: ' + this.world.width)
+      console.log('Player height is' + this.player.height)
 
       // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
     }
     if (this.socket2Toggle) {
-      this.radialLight.moveSocket2(this.toScreenSpace(0, 0))
+      this.radialLight.moveSocket2(this.setLightPos(1240, 200))
+      this.radialLight.moveSocket3(this.setLightPos(1000, 150))
+      this.radialLight.moveSocket4(this.setLightPos(1350, 150))
+      this.radialLight.moveSocket5(this.setLightPos(1550, 150))
+      console.log('setting light')
     }
+
 
     // let lightPos = this.setLightPos(0, 0)
     // this.radialLight.moveSocket2(lightPos)
