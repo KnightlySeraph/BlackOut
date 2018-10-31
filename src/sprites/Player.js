@@ -90,8 +90,7 @@ class MainPlayer extends Phaser.Sprite {
       console.log('collidable')
       if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
         this._overlapping.add(otherPhaserBody.sprite) // adds object to set
-      }
-      else if (otherPhaserBody.sprite.name === 'jumper') { // Is the other object a spring?
+      } else if (otherPhaserBody.sprite.name === 'jumper') { // Is the other object a spring?
         this._overlapping.add(otherPhaserBody.sprite)
         // this.isSpring = true
         this.body.moveUp(1000)
@@ -110,9 +109,8 @@ class MainPlayer extends Phaser.Sprite {
   onExitContact (otherPhaserBody, otherP2Body, myShape, otherShape, contactEquation) {
     if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
-    }
-    else if (otherPhaserBody.sprite.name === 'jumper') {
-     // this.isSpring = false
+    } else if (otherPhaserBody.sprite.name === 'jumper') {
+      // this.isSpring = false
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
     }
   }
