@@ -128,7 +128,7 @@ class TestLevel extends Phaser.State {
     this.radialLight.timedDistance = 50
     this.game.world.filters = [ this.radialLight ]
 
-    this.radialLight.moveSocket2(this.toScreenSpace({ x: 1000, y: 500 }))
+    // this.radialLight.moveSocket2(this.toScreenSpace({ x: 1000, y: 500 }))
   }
 
   toScreenSpace (point) {
@@ -142,6 +142,13 @@ class TestLevel extends Phaser.State {
     return {
       x: posX,
       y: posY
+    }
+  }
+
+  toWorldSpace (point) {
+    return {
+      x: point.x - this.world.camera.x,
+      y: point.y
     }
   }
 
@@ -249,9 +256,9 @@ class TestLevel extends Phaser.State {
       }
     }
 
-    this.radialLight.moveSocket2(
-      this.toScreenSpace({ x: 1000, y: 300 })
-    )
+    // this.radialLight.moveSocket2(
+    //   this.setLightPos({ x: 50, y: 50 })
+    // )
 
     // Testing a numbers deacrese rate
     if (timerTesting > 0) {
@@ -322,12 +329,22 @@ class TestLevel extends Phaser.State {
         this.socket2Toggle = false
       } else {
         this.radialLight.socket2 = 1
+        console.log('Turning Socket 2 on')
         this.socket2Toggle = true
       }
 
+      let lightPos = this.toWorldSpace(500, 150)
+      console.log('Camera Height is ' + this.game.camera.height + '   Camera Width is ' + this.game.camera.width)
+      this.radialLight.moveSocket2(lightPos)
+
       // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
-      console.log('running')
     }
+    if (this.socket2Toggle) {
+      this.radialLight.moveSocket2(this.toScreenSpace(0, 0))
+    }
+
+    // let lightPos = this.setLightPos(0, 0)
+    // this.radialLight.moveSocket2(lightPos)
 
     // Check state of keys to control main character
     let speed = 0
