@@ -73,7 +73,7 @@ class MainPlayer extends Phaser.Sprite {
     this.body.damping = 0.5
 
     this.body.setCollisionGroup(this.game.playerGroup)
-    this.body.collides([this.game.platformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
+    this.body.collides([this.game.platformGroup, this.game.movingPlatformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
     this.body.onBeginContact.add(this.onBeginContact, this)
     this.body.onEndContact.add(this.onExitContact, this)
   }
@@ -91,13 +91,21 @@ class MainPlayer extends Phaser.Sprite {
       if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
         this._overlapping.add(otherPhaserBody.sprite) // adds object to set
       }
-      else if (otherPhaserBody.sprite.name === 'jumper') { // Is the other object a spring?
+      else if (otherPhaserBody.sprite.name === 'jumper') { // Checks if the colliding object is a spring
         this._overlapping.add(otherPhaserBody.sprite)
         this._override_state = MainPlayer.overrideStates.NONE
         this.body.velocity.y = 0
         this.overrideState = MainPlayer.overrideStates.JUMPING
         this.jumpingFromJumper = true
-        // jumping animation needs to occur
+      } else if (otherPhaserBody.sprite.name === 'mover') { // checks if colliding object is a moving platform
+        // Check for a specific MovingPlatform id
+        if (otherP2Body.id === 1) { // Player collition activated
+
+        } else if (otherP2Body.id === 2) { // Lever Activated
+
+        } else { // Player Collition Activated
+
+        }
       }
     }
   }
