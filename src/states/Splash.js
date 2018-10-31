@@ -55,6 +55,7 @@ class Splash extends Phaser.State {
     this.game.platformGroup = this.game.physics.p2.createCollisionGroup()
     this.game.leverGroup = this.game.physics.p2.createCollisionGroup()
     this.game.jumperGroup = this.game.physics.p2.createCollisionGroup()
+    this.game.movingPlatformGroup = this.game.physics.p2.createCollisionGroup()
 
     // The main player spritesheet
     this.load.spritesheet('player-main', 'assets/images/player-main.png', 64, 64)

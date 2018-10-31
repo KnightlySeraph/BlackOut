@@ -117,20 +117,3 @@ void main() {
   }
 
 }
-
-// void main() {
-//   // Normal color
-//   vec4 baseColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));
-//   vec3 color1 = vec3(0, 0, 1);
-
-//   // Compare pixel to each light source
-//   float scale = 0.1;
-//   if (lightPos.x >= 0.0) {
-//     float dist = distance(gl_FragCoord.xy, lightPos);
-//     if(dist < timedDistance) { scale = 1.0; }
-//     else if (dist < (timedDistance * 2.0)) { scale = 1.0 - (dist - 50.0) / 50.0; }
-//   }
-
-//   // Scale color by distance to light sources
-//   gl_FragColor = vec4(scale*(baseColor.rgb * color1), 1.0);
-// }

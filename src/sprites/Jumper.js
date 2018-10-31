@@ -26,7 +26,7 @@ class Jumper extends Phaser.Sprite {
     this.body.setRectangle(width, height, 0, 0)
     this.body.debug = __DEV__
 
-    this.isSpring = true
+    // this.isSpring = true
 
     this.body.setCollisionGroup(this.game.jumperGroup)
     this.body.data.shapes[0].sensor = true // Makes the object pass throughable
