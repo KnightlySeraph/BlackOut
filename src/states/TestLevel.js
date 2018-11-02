@@ -256,6 +256,7 @@ class TestLevel extends Phaser.State {
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
     }
+
     // else if (MainPlayer.isSpring === true) { this.player.overrideState = MainPlayer.overrideStates.JUMPING }
     else {
       if (this.player.overrideState !== MainPlayer.overrideStates.WINDING) {
@@ -389,7 +390,7 @@ class TestLevel extends Phaser.State {
       }
 
       let screenSpacePos = this.setLightPos(0, 0)
-    
+
       this.radialLight.moveSocket2(screenSpacePos)
 
       console.log('Camera Height is ' + this.game.camera.height + '   Camera Width is ' + this.game.camera.width)

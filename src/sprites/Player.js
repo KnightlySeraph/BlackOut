@@ -21,7 +21,7 @@ import config from '../config'
 class MainPlayer extends Phaser.Sprite {
   constructor ({ game, x, y }) {
     // Initialize object basics
-    super(game, x, y, 'player-main-test', 0)
+    super(game, x, y, 'toki-main', 0)
     this.name = 'Main Player'
     this.anchor.setTo(0.5, 1.0)
 
@@ -292,14 +292,14 @@ class MainPlayer extends Phaser.Sprite {
   // Function to setup all the animation data
   setupAnimations () {
     // Basic movement animations
-    this.animations.add('stop', [48], 1, false)
+    this.animations.add('stop', [32], 1, false)
     this.animations.add('walk', [0, 1, 2, 3, 4, 5, 6, 7], 10, true)
 
     // Different parts of the idle animation
-    this.animations.add('idle', sequentialNumArray(48, 55), 4, true)
-    this.animations.add('jump', [80, 96], 10, false)
-    this.animations.add('fall', [84], 10, true)
-    this.animations.add('winding', sequentialNumArray(16, 27), 4, true)
+    this.animations.add('idle', sequentialNumArray(32, 55), 4, true)
+    this.animations.add('jump', [24, 25], 4, false)
+    this.animations.add('fall', [26], 4, true)
+    this.animations.add('winding', sequentialNumArray(8, 19), 10, true)
   }
 }
 
