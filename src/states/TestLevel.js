@@ -239,6 +239,7 @@ class TestLevel extends Phaser.State {
     this.clock = this.game.input.keyboard.addKey(Phaser.KeyCode.TAB)
     // Light Testing Inputs
     this.socket2 = this.game.input.keyboard.addKey(Phaser.KeyCode.TWO)
+    this.debugLight = this.game.input.keyboard.addKey(Phaser.KeyCode.THREE)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
@@ -405,6 +406,10 @@ class TestLevel extends Phaser.State {
       this.radialLight.moveSocket4(this.setLightPos(1350, 150))
       this.radialLight.moveSocket5(this.setLightPos(1550, 150))
       console.log('setting light')
+    }
+
+    if (this.debugLight.justPressed()) {
+      this.radialLight.createLight(40, 40, 40, 40)
     }
 
 
