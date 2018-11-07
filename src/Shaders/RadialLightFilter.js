@@ -178,6 +178,7 @@ class RadialLightFilter extends Phaser.Filter {
       console.log('ERROR: Potential Socket out of range, potential socket must be -1, 2, 3, 4, or 5 other values not excepted')
     }
   }
+
 }
 
 export default RadialLightFilter

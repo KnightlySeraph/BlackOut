@@ -425,6 +425,9 @@ class TestLevel extends Phaser.State {
     // this.radialLight.moveSocket2(lightPos)
   }
 
+  // Lighting updates
+  
+
   render () {
     // Optionally render some development/debugging info
     if (__DEV__) {
