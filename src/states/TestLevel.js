@@ -55,6 +55,13 @@ class TestLevel extends Phaser.State {
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
 
+    this.map = this.game.add.tilemap('Mytilemap')
+    this.map.addTilesetImage('tiles1')
+    this.layer = this.map.createLayer('main_level')
+    this.layer.resizeWorld()
+    this.layer.wrap = true
+
+
     // Create the "floor" as a manually drawn rectangle
     // this.floor = this.game.add.graphics(0, 0)
     // this.floor.beginFill(0x5e7ca0)
