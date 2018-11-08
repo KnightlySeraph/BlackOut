@@ -40,6 +40,7 @@ class TestLevel extends Phaser.State {
 
   preload () {
     console.log('preload has run once')
+    this.game.load.image('light', 'assets/images/magicParticle.png')
   }
 
   create () {
@@ -51,6 +52,16 @@ class TestLevel extends Phaser.State {
     })
 
     this.isWinding = false
+
+    // Testing particles
+    this.emit = this.game.add.emitter(this.game.world.centerX, 500, 500)
+    this.emit.makeParticles('light')
+    this.emit.setRotation(0, 0)
+    this.emit.setAlpha(0.3, 0.8)
+    this.emit.setScale(0.5, 1)
+    this.emit.gravity = -200
+
+    this.emit.start(false, 5000, 100)
 
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
