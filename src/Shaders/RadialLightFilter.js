@@ -33,6 +33,10 @@ class RadialLightFilter extends Phaser.Filter {
     this.fragmentSrc = RadialLightShader
   }
 
+  // Create a timer
+ 
+
+
   // Uniforms Sets
   moveLight (pos) {
     this.uniforms.lightPos.value[0] = pos.x
@@ -176,6 +180,11 @@ class RadialLightFilter extends Phaser.Filter {
       this.moveSocket5 = (locX, locY)
     } else {
       console.log('ERROR: Potential Socket out of range, potential socket must be -1, 2, 3, 4, or 5 other values not excepted')
+    }
+
+    // Run loops to decrement values
+    while(this.socket2) {
+      console.log('2 is looping')
     }
   }
 

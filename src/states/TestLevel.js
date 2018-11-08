@@ -55,11 +55,11 @@ class TestLevel extends Phaser.State {
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
 
-    this.map = this.game.add.tilemap('Mytilemap')
-    this.map.addTilesetImage('tiles1')
-    this.layer = this.map.createLayer('main_level')
-    this.layer.resizeWorld()
-    this.layer.wrap = true
+    // this.map = this.game.add.tilemap('Mytilemap')
+    // this.map.addTilesetImage('tiles1')
+    // this.layer = this.map.createLayer('main_level')
+    // this.layer.resizeWorld()
+    // this.layer.wrap = true
 
 
     // Create the "floor" as a manually drawn rectangle
@@ -67,7 +67,9 @@ class TestLevel extends Phaser.State {
     // this.floor.beginFill(0x5e7ca0)
     // this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
     // this.floor.endFill()
-
+    this.timer = new Phaser.Timer(this.game)
+    this.timer.add(4000, this.consoleLogDebug(), this.game)
+    this.timer.start(3000)
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
       new Platform({
@@ -136,7 +138,19 @@ class TestLevel extends Phaser.State {
 
     // Creates the Shader
     this.setupShader()
+    // Lighting vars, must be made here in every level that uses the lighting system
     this.socket2Toggle = false
+    this.socket3Toggle = false
+    this.socket4Toggle = false
+    this.socket5Toggle = false
+    this.socket2Size = 150.0
+    this.socket3Size = 150.0
+    this.socket4Size = 150.0
+    this.socket5Size = 150.0
+    this.socket2Rate = 0.1
+    this.socket3Rate = 0.1
+    this.socket4Rate = 0.1
+    this.socket5Rate = 0.1
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
@@ -150,6 +164,13 @@ class TestLevel extends Phaser.State {
     this.game.world.filters = [ this.radialLight ]
 
     // this.radialLight.moveSocket2(this.toScreenSpace({ x: 1000, y: 500 }))
+  }
+
+  consoleLogDebug () {
+    console.log('Timers are working')
+    this.timer.stop()
+    // this.timer.add(2000, this.consoleLogDebug(), this.game)
+    this.timer.start()
   }
 
   toScreenSpace (point) {
@@ -417,15 +438,34 @@ class TestLevel extends Phaser.State {
     }
 
     if (this.debugLight.justPressed()) {
-      this.radialLight.createLight(40, 40, 40, 40)
+      this.radialLight.createLight(500, 150, 40, 40)
     }
+
 
 
     // let lightPos = this.setLightPos(0, 0)
     // this.radialLight.moveSocket2(lightPos)
+
+    // update lights
+    // This block of code uses the update function to
+    // drive certain timed events, such as light fade
+    // and must be in all updates the use the create light function
+    if (this.radialLight.socket2) {
+      
+    }
+    if (this.radialLight.socket3) {
+
+    }
+    if (this.radialLight.socket4) {
+
+    }
+    if (this.radialLight.socket5) {
+
+    }
   }
 
-  // Lighting updates
+  
+  
   
 
   render () {
