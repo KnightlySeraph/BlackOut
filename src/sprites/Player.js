@@ -71,6 +71,7 @@ class MainPlayer extends Phaser.Sprite {
 
     // Configure custom physics properties
     this.body.damping = 0.5
+    this.body.allowGravity = true
 
     // Set up collision groups
     this.body.setCollisionGroup(this.game.playerGroup)

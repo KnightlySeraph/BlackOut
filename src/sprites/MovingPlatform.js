@@ -68,15 +68,17 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
     if (type === 1) { // If leftward platform
       if (this.body.x > point2) {
         console.log('Moving Leftward')
-        this.game.add.tween(this.body).to({ x: 1000 }, 2000, Phaser.Easing.Linear.None, true)
-         this.game.add.tween(this.player.body).to({ x: 1000 }, 2000, Phaser.Easing.Linear.None, true)
+        this.game.add.tween(this.body).to({ x: point2 }, 2000, Phaser.Easing.Linear.None, true)
+        // this.player.body.velocity.x -= 10
+        this.player.body.gravity.y = 10000
+        // this.game.add.tween(this.player.body).to({ x: 1000 }, 2000, Phaser.Easing.Linear.None, true)
 
         // this.body.velocity.x -= 0.1
         // this.player.body.velocity.x = -1000
       }
     } else if (type === 2) { // If rightward platform
       console.log('Moving Rightward')
-      if (this.body.x === point2) {
+      if (this.body.x < point2) {
         // this.game.add.tween(this.body).to({ alpha: 0, x: 200 }, 1000, Phaser.Easing.Linear.None, true, 500, -1, true)
         // this.game.add.tween(this.player.body).to({ alpha: 0, x: 200 }, 1000, Phaser.Easing.Linear.None, true, 500, -1, true)
         // .x += 0.01
@@ -92,7 +94,7 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
   update () {
     super.update()
     if (this.player != null) {
-      this.moveMe(1, 100)
+      this.moveMe(1, 1000)
     } else {
 
     }
