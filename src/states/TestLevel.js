@@ -16,8 +16,7 @@ import config from '../config'
 // Import the filters for the scene
 import PlayerLightFilter from '../Shaders/PlayerLightFilter'
 import RadialLightFilter from '../Shaders/RadialLightFilter'
-import MovingPlatform from '../sprites/MovingPlatform';
-import { Button } from 'phaser-ce';
+import MovingPlatform from '../sprites/MovingPlatform'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -41,6 +40,7 @@ class TestLevel extends Phaser.State {
 
   preload () {
     console.log('preload has run once')
+    this.game.load.image('light', 'assets/images/magicParticle.png')
   }
 
   create () {
@@ -50,15 +50,37 @@ class TestLevel extends Phaser.State {
       x: this.world.centerX,
       y: this.world.centerY + 32
     })
+
+    this.isWinding = false
+
+    // Testing particles
+    this.emit = this.game.add.emitter(this.game.world.centerX, 500, 500)
+    this.emit.makeParticles('light')
+    this.emit.setRotation(0, 0)
+    this.emit.setAlpha(0.3, 0.8)
+    this.emit.setScale(0.5, 1)
+    this.emit.gravity = -200
+
+    this.emit.start(false, 5000, 100)
+
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
+
+    // this.map = this.game.add.tilemap('Mytilemap')
+    // this.map.addTilesetImage('tiles1')
+    // this.layer = this.map.createLayer('main_level')
+    // this.layer.resizeWorld()
+    // this.layer.wrap = true
+
 
     // Create the "floor" as a manually drawn rectangle
     // this.floor = this.game.add.graphics(0, 0)
     // this.floor.beginFill(0x5e7ca0)
     // this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
     // this.floor.endFill()
-
+    this.timer = new Phaser.Timer(this.game)
+    this.timer.add(4000, this.consoleLogDebug(), this.game)
+    this.timer.start(3000)
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
       new Platform({
@@ -127,7 +149,19 @@ class TestLevel extends Phaser.State {
 
     // Creates the Shader
     this.setupShader()
+    // Lighting vars, must be made here in every level that uses the lighting system
     this.socket2Toggle = false
+    this.socket3Toggle = false
+    this.socket4Toggle = false
+    this.socket5Toggle = false
+    this.socket2Size = 150.0
+    this.socket3Size = 150.0
+    this.socket4Size = 150.0
+    this.socket5Size = 150.0
+    this.socket2Rate = 0.1
+    this.socket3Rate = 0.1
+    this.socket4Rate = 0.1
+    this.socket5Rate = 0.1
 
     // Set up a camera to follow the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
@@ -143,6 +177,13 @@ class TestLevel extends Phaser.State {
     // this.radialLight.moveSocket2(this.toScreenSpace({ x: 1000, y: 500 }))
   }
 
+  consoleLogDebug () {
+    console.log('Timers are working')
+    this.timer.stop()
+    // this.timer.add(2000, this.consoleLogDebug(), this.game)
+    this.timer.start()
+  }
+
   toScreenSpace (point) {
     return {
       x: point.x - this.world.camera.x,
@@ -152,15 +193,15 @@ class TestLevel extends Phaser.State {
 
   setLightPos (posX, posY) {
     return {
-      x: posX,
-      y: posY
+      x: posX - this.world.camera.x,
+      y: posY + this.world.camera.y
     }
   }
 
   toWorldSpace (point) {
     return {
-      x: point.x - this.world.camera.x,
-      y: point.y
+      x: this.world.camera.x - point.x,
+      y: (point.y - this.world.camera.y) - this.world.height
     }
   }
 
@@ -237,6 +278,7 @@ class TestLevel extends Phaser.State {
     this.clock = this.game.input.keyboard.addKey(Phaser.KeyCode.TAB)
     // Light Testing Inputs
     this.socket2 = this.game.input.keyboard.addKey(Phaser.KeyCode.TWO)
+    this.debugLight = this.game.input.keyboard.addKey(Phaser.KeyCode.THREE)
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
@@ -245,6 +287,33 @@ class TestLevel extends Phaser.State {
   }
 
   update () {
+    // Check state of keys to control main character
+    let speed = 0
+    if (this.rightKey.isDown) { speed++ }
+    if (this.leftKey.isDown) { speed-- }
+
+    if (this.jumpKey.isDown && this.player.touching(0, 1)) {
+      this.player.overrideState = MainPlayer.overrideStates.JUMPING
+    }
+
+    // else if (MainPlayer.isSpring === true) { this.player.overrideState = MainPlayer.overrideStates.JUMPING }
+    else {
+      if (this.player.overrideState !== MainPlayer.overrideStates.WINDING) {
+        // Update sprite facing direction
+        if (speed > 0 && !this.player.isFacingRight()) {
+          this.player.makeFaceRight()
+        } else if (speed < 0 && !this.player.isFacingLeft()) {
+          this.player.makeFaceLeft()
+        }
+
+        // Update sprite movement state and playing audio
+        if (Math.abs(speed) > 0) {
+          this.player.moveState = MainPlayer.moveStates.WALKING
+        } else {
+          this.player.moveState = MainPlayer.moveStates.STOPPED
+        }
+      }
+    }
     // Toggle shader off/on
     if (!this.game.world.filters) {
       if (this.dim.justPressed()) {
@@ -283,10 +352,21 @@ class TestLevel extends Phaser.State {
       this.player.interact()
     }
 
+    if (this.clock.justPressed() && this.player.touching(0, 1) && speed === 0) {
+      this.player.overrideState = MainPlayer.overrideStates.WINDING
+      this.isWinding = true
+    }
+
+    if (this.player.overrideState === MainPlayer.overrideStates.WINDING) {
+      if (!this.clock.isDown) {
+        this.isWinding = false
+        this.player.overrideState = MainPlayer.overrideStates.NONE
+      }
+    }
+
     // create light on the player when shift is pressed
     if (timerTesting < 150.0) {
-      if (this.clock.isDown && this.player.touching(0, 1)) {
-        this.player.overrideState = MainPlayer.overrideStates.WINDING
+      if (this.isWinding) {
         timerTesting += 0.7
       }
     }
@@ -343,47 +423,61 @@ class TestLevel extends Phaser.State {
         this.radialLight.socket2 = 1
         console.log('Turning Socket 2 on')
         this.socket2Toggle = true
+        this.radialLight.socket3 = 1
+        this.radialLight.socket4 = 1
+        this.radialLight.socket5 = 1
       }
 
-      let lightPos = this.toWorldSpace(500, 150)
+      let screenSpacePos = this.setLightPos(0, 0)
+
+      this.radialLight.moveSocket2(screenSpacePos)
+
       console.log('Camera Height is ' + this.game.camera.height + '   Camera Width is ' + this.game.camera.width)
-      this.radialLight.moveSocket2(lightPos)
+      console.log('Location of the camera is (' + this.world.camera.x + ', ' + this.world.camera.y + ')')
+      console.log('Location of the player is (' + this.player.world.x + ', ' + this.player.world.y + ')')
+      console.log('Size of the world is Height: ' + this.world.height + ' Width: ' + this.world.width)
+      console.log('Player height is' + this.player.height)
 
       // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
     }
     if (this.socket2Toggle) {
-      this.radialLight.moveSocket2(this.toScreenSpace(0, 0))
+      this.radialLight.moveSocket2(this.setLightPos(1240, 200))
+      this.radialLight.moveSocket3(this.setLightPos(1000, 150))
+      this.radialLight.moveSocket4(this.setLightPos(1350, 150))
+      this.radialLight.moveSocket5(this.setLightPos(1550, 150))
+      console.log('setting light')
     }
+
+    if (this.debugLight.justPressed()) {
+      this.radialLight.createLight(500, 150, 40, 40)
+    }
+
+
 
     // let lightPos = this.setLightPos(0, 0)
     // this.radialLight.moveSocket2(lightPos)
 
-    // Check state of keys to control main character
-    let speed = 0
-    if (this.rightKey.isDown) { speed++ }
-    if (this.leftKey.isDown) { speed-- }
-
-    if (this.jumpKey.isDown && this.player.touching(0, 1)) {
-      this.player.overrideState = MainPlayer.overrideStates.JUMPING
+    // update lights
+    // This block of code uses the update function to
+    // drive certain timed events, such as light fade
+    // and must be in all updates the use the create light function
+    if (this.radialLight.socket2) {
+      
     }
-    // else if (MainPlayer.isSpring === true) { this.player.overrideState = MainPlayer.overrideStates.JUMPING }
-    else {
-      // Update sprite facing direction
-      if (speed > 0 && !this.player.isFacingRight()) {
-        this.player.makeFaceRight()
-      } else if (speed < 0 && !this.player.isFacingLeft()) {
-        this.player.makeFaceLeft()
-      }
+    if (this.radialLight.socket3) {
 
-      // Update sprite movement state and playing audio
+    }
+    if (this.radialLight.socket4) {
 
-      if (Math.abs(speed) > 0) {
-        this.player.moveState = MainPlayer.moveStates.WALKING
-      } else {
-        this.player.moveState = MainPlayer.moveStates.STOPPED
-      }
+    }
+    if (this.radialLight.socket5) {
+
     }
   }
+
+  
+  
+  
 
   render () {
     // Optionally render some development/debugging info

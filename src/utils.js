@@ -3,6 +3,7 @@
  * throughout your game. Put short, reusable code snippits in here.
  */
 import Phaser from 'phaser'
+// import RadialLightFilter from '../Shaders/RadialLightFilter'
 /**
  * Set the anchor of all passed in objects to be (0.5, 0.5) so they
  * are drawn around their own logical center.
@@ -30,15 +31,5 @@ export const sequentialNumArray = (first, last) => {
   return newArray
 }
 
-/**
- * 
- * @param {*} locationX The X Location of where to place the light gradient
- * @param {*} locationY The Y Location of where to place the light gradiet
- * @param {*} light1 The color of the inner light
- * @param {*} light2 The color of the outer light
- * @param {*} intensity The intensity of the light
- * @param {*} duration How long the light lasts
- */
-export function createLight (locationX, locationY, light1, light2, intensity, duration) {
-  this.lightBmd = new Phaser.BitmapData(locationX, locationY, 0.5, 0.5)
-}
+
+

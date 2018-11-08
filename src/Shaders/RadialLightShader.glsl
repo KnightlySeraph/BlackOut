@@ -60,10 +60,10 @@ void main() {
   if (socket2 == 1) {
     float dist2 = distance(gl_FragCoord.xy, socket2Pos);
     if (socket2Pos.x >= 0.0) {
-      if (dist2 < (50.0)) {
+      if (dist2 < (75.0)) {
         scale = 1.0;
       }
-      else if (dist2 < (100.0)) {
+      else if (dist2 < (150.0)) {
         scale = 1.0 - (dist2 - 50.0) / 50.0;
       }
     }
