@@ -17,6 +17,7 @@ import config from '../config'
 import PlayerLightFilter from '../Shaders/PlayerLightFilter'
 import RadialLightFilter from '../Shaders/RadialLightFilter'
 import MovingPlatform from '../sprites/MovingPlatform';
+import { Button } from 'phaser-ce';
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -75,8 +76,8 @@ class TestLevel extends Phaser.State {
         game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
       })
     ]
-    this.platforms.forEach((plat) => { // forEach(function()) is like a for loop call
-      this.game.add.existing(plat)
+    this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
+      this.game.add.existing(obj)
     })
 
     // Make Levers that can be interacted with
@@ -88,8 +89,8 @@ class TestLevel extends Phaser.State {
         game: this.game, x: 1200, y: 670, width: 50, height: 100, id: 5, spriteKey: 'blank'
       })
     ]
-    this.lever.forEach((Lever) => {
-      this.game.add.existing(Lever)
+    this.lever.forEach((obj) => {
+      this.game.add.existing(obj)
     })
 
     // Make "Spring" objects in the world
@@ -98,18 +99,18 @@ class TestLevel extends Phaser.State {
         game: this.game, x: 800, y: 695, width: 50, height: 50, id: 1
       })
     ]
-    this.lever.forEach((Jumper) => {
-      this.game.add.existing(Jumper)
+    this.jumper.forEach((obj) => {
+      this.game.add.existing(obj)
     })
 
-     // Make MovingPlatform objects in the world
-     this.mover = [
+    // Make MovingPlatform objects in the world
+    this.mover = [
       new MovingPlatform({
         game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 1, maxVelocity: 200
       })
     ]
-    this.lever.forEach((mover) => {
-      this.game.add.existing(mover)
+    this.mover.forEach((obj) => {
+      this.game.add.existing(obj)
     })
 
     // Add player after the floor

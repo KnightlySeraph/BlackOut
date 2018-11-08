@@ -72,6 +72,7 @@ class MainPlayer extends Phaser.Sprite {
     // Configure custom physics properties
     this.body.damping = 0.5
 
+    // Set up collision groups
     this.body.setCollisionGroup(this.game.playerGroup)
     this.body.collides([this.game.platformGroup, this.game.movingPlatformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
     this.body.onBeginContact.add(this.onBeginContact, this)
@@ -125,6 +126,9 @@ class MainPlayer extends Phaser.Sprite {
     else if (otherPhaserBody.sprite.name === 'jumper') {
       this.isSpring = false
       console.log('exit spring')
+      this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
+    } else if (otherPhaserBody.sprite.name === 'mover') {
+      console.log('exit mover')
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
     }
   }

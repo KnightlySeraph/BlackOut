@@ -13,7 +13,7 @@ import config from '../config'
  *
  * See Phaser.Sprite for more about sprite objects and what they support.
  */
-class MovingPlatform extends Phaser.Sprite {
+class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
   constructor ({ game, x, y, width, height, id, maxVelocity }) {
     super(game, 0, 0, 'blank', 0)
     this.name = 'mover'
@@ -25,48 +25,77 @@ class MovingPlatform extends Phaser.Sprite {
     this.body.setRectangle(width, height, 0, 0)
     this.body.debug = __DEV__
 
+    this.body.mass = 0
+
+    this.topSensor = this.body.addRectangle(width, 10, 0, -height / 2)
+    this.topSensor.sensor = true
+    this.topSensor.name = 'Top Sensor'
+   
+
     this.body.setCollisionGroup(this.game.movingPlatformGroup)
     this.body.collides(this.game.playerGroup)
 
     this.anchor.setTo(0, 0)
 
-    // Create a new sensor to see if player has collided
-    /* WIP
-    let checker = new MovingPlatform(game, x, y, width, height, id, maxVelocity)
-    checker.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
-    checker.body.x = this.body.x
-    checker.body.y = this.body.y
-    checker.body.dynamic = false
-    checker.body.setRectangle(width, height, 0, height)
+    this.playerIsOnTop = false
+    this.player = null
+    this.body.onBeginContact.add(this.steppedOn, this)
+    this.body.onEndContact.add(this.steppedOff, this)
+  }
 
-    checker.body.data.shapes[0].sensor = true
+  steppedOn (otherPhaserBody, otherP2Body, myShape, otherShape, contactEqns) {
+    if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
+      if (myShape === this.topSensor) {
+        this.player = otherPhaserBody.sprite
+      }
+    }
+  }
 
-    checker.body.setCollisionGroup(this.game.movingPlatformGroup)
-    checker.body.collides(this.game.playerGroup)
-
-    checker.anchor.setTo(0, 0)
-    */
-
+  steppedOff (otherPhaserBody, otherP2Body, myShape, otherShape) {
+    if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
+      if (myShape === this.topSensor) {
+        this.player = null
+      }
+    }
   }
 
   /**
    * Moves a movable platform up, dow, left, or right based on the type of movement indicated
-   * 
-   * @param {*} mp the MovingPlatform
-   * @param {*} p the player
    * @param {*} type integer: 1 for left, 2 for right, 3 for up, 4 for down
+   * @param {*} p2 the position to move to
    */
-  moveMe (mp, p, type) {
-  // mp.body.velocity.x = 0
+  moveMe (type, point2) { // TODO: use tweening for smooth animation
     if (type === 1) { // If leftward platform
-      console.log('Moving Leftward')
+      if (this.body.x > point2) {
+        console.log('Moving Leftward')
+        this.game.add.tween(this.body).to({ x: 1000 }, 2000, Phaser.Easing.Linear.None, true)
+         this.game.add.tween(this.player.body).to({ x: 1000 }, 2000, Phaser.Easing.Linear.None, true)
+
+        // this.body.velocity.x -= 0.1
+        // this.player.body.velocity.x = -1000
+      }
     } else if (type === 2) { // If rightward platform
       console.log('Moving Rightward')
+      if (this.body.x === point2) {
+        // this.game.add.tween(this.body).to({ alpha: 0, x: 200 }, 1000, Phaser.Easing.Linear.None, true, 500, -1, true)
+        // this.game.add.tween(this.player.body).to({ alpha: 0, x: 200 }, 1000, Phaser.Easing.Linear.None, true, 500, -1, true)
+        // .x += 0.01
+      }
     } else if (type === 3) { // If upward platform
       console.log('Moving Upward')
+      // .y 
     } else if (type === 4) { // If downward platform
       console.log('Moving Downward')
     } else { console.log('Error not a valid type: please choose 1-4') }
+  }
+
+  update () {
+    super.update()
+    if (this.player != null) {
+      this.moveMe(1, 100)
+    } else {
+
+    }
   }
 }
 
