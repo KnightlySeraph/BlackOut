@@ -43,7 +43,7 @@ float calculateLighting () {
 void main() {
   // Normal color
   vec4 baseColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));
-  vec3 color1 = vec3(1, 0, 0);
+  vec3 color1 = vec3(0.97, 0.77, 0.008);
 
   // Compare pixel to each light source
   // This Scale is, essentially, how dark the world is

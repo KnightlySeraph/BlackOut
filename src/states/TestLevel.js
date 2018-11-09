@@ -40,7 +40,7 @@ class TestLevel extends Phaser.State {
 
   preload () {
     console.log('preload has run once')
-    this.game.load.image('light', 'assets/images/magicParticle.png')
+    this.game.load.image('light', 'assets/images/light.png')
   }
 
   create () {
@@ -68,14 +68,18 @@ class TestLevel extends Phaser.State {
     this.isWinding = false
 
     // Testing particles
-    this.emit = this.game.add.emitter(this.game.world.centerX, 500, 500)
+    this.emit = this.game.add.emitter(this.game.world.centerX, 300, 700)
     this.emit.makeParticles('light')
-    this.emit.setRotation(0, 0)
-    this.emit.setAlpha(0.3, 0.8)
-    this.emit.setScale(0.5, 1)
-    this.emit.gravity = -200
+    this.emit.setRotation(0, 360)
+    this.emit.setAlpha(1.0, 0.1, 1000)
+    this.emit.setScale(1, 1)
+    this.emit.blendMode = 'ADD'
+    // this.emit.particleDrag = { x: 0, y: -100 }
+    this.emit.bounce = 0.0
+    this.emit.gravity = 10
+    
 
-    this.emit.start(false, 5000, 100)
+    this.emit.start(false, 10000, 1)
 
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
@@ -298,6 +302,12 @@ class TestLevel extends Phaser.State {
     let speed = 0
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
+
+    if (speed !== 0) {
+      this.mover.forEach((obj) => {
+        obj.changeOffset(speed * 5)
+      })
+    }
 
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING

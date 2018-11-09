@@ -27,10 +27,9 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
 
     this.body.mass = 0
 
-    this.topSensor = this.body.addRectangle(width, 10, 0, -height / 2)
+    this.topSensor = this.body.addRectangle(width * 0.9, 5, 0, -height / 2)
     this.topSensor.sensor = true
     this.topSensor.name = 'Top Sensor'
-   
 
     this.body.setCollisionGroup(this.game.movingPlatformGroup)
     this.body.collides(this.game.playerGroup)
@@ -41,12 +40,17 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
     this.player = null
     this.body.onBeginContact.add(this.steppedOn, this)
     this.body.onEndContact.add(this.steppedOff, this)
+
+    this.tween = this.game.add.tween(this.body).to(
+      { x: x - 1000 }, 5000, Phaser.Easing.Linear.None, false, 100, -1, true)
   }
 
   steppedOn (otherPhaserBody, otherP2Body, myShape, otherShape, contactEqns) {
     if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
       if (myShape === this.topSensor) {
         this.player = otherPhaserBody.sprite
+        this.playerOffset = this.player.body.x - this.body.x
+        this.tween.start()
       }
     }
   }
@@ -54,49 +58,22 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
   steppedOff (otherPhaserBody, otherP2Body, myShape, otherShape) {
     if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
       if (myShape === this.topSensor) {
+        this.player.dynamic = true
         this.player = null
       }
     }
   }
 
-  /**
-   * Moves a movable platform up, dow, left, or right based on the type of movement indicated
-   * @param {*} type integer: 1 for left, 2 for right, 3 for up, 4 for down
-   * @param {*} p2 the position to move to
-   */
-  moveMe (type, point2) { // TODO: use tweening for smooth animation
-    if (type === 1) { // If leftward platform
-      if (this.body.x > point2) {
-        console.log('Moving Leftward')
-        this.game.add.tween(this.body).to({ x: point2 }, 2000, Phaser.Easing.Linear.None, true)
-        // this.player.body.velocity.x -= 10
-        this.player.body.gravity.y = 10000
-        // this.game.add.tween(this.player.body).to({ x: 1000 }, 2000, Phaser.Easing.Linear.None, true)
-
-        // this.body.velocity.x -= 0.1
-        // this.player.body.velocity.x = -1000
-      }
-    } else if (type === 2) { // If rightward platform
-      console.log('Moving Rightward')
-      if (this.body.x < point2) {
-        // this.game.add.tween(this.body).to({ alpha: 0, x: 200 }, 1000, Phaser.Easing.Linear.None, true, 500, -1, true)
-        // this.game.add.tween(this.player.body).to({ alpha: 0, x: 200 }, 1000, Phaser.Easing.Linear.None, true, 500, -1, true)
-        // .x += 0.01
-      }
-    } else if (type === 3) { // If upward platform
-      console.log('Moving Upward')
-      // .y 
-    } else if (type === 4) { // If downward platform
-      console.log('Moving Downward')
-    } else { console.log('Error not a valid type: please choose 1-4') }
+  changeOffset (deltaX) {
+    if (this.player != null) {
+      this.playerOffset += deltaX
+    }
   }
 
   update () {
     super.update()
     if (this.player != null) {
-      this.moveMe(1, 1000)
-    } else {
-
+      this.player.body.x = this.body.x + this.playerOffset
     }
   }
 }
