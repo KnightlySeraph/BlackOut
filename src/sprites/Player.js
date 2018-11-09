@@ -71,7 +71,9 @@ class MainPlayer extends Phaser.Sprite {
 
     // Configure custom physics properties
     this.body.damping = 0.5
+    this.body.allowGravity = true
 
+    // Set up collision groups
     this.body.setCollisionGroup(this.game.playerGroup)
     this.body.collides([this.game.platformGroup, this.game.movingPlatformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
     this.body.onBeginContact.add(this.onBeginContact, this)
@@ -96,15 +98,6 @@ class MainPlayer extends Phaser.Sprite {
         this.body.velocity.y = 0
         this.overrideState = MainPlayer.overrideStates.JUMPING
         this.jumpingFromJumper = true
-      } else if (otherPhaserBody.sprite.name === 'mover') { // checks if colliding object is a moving platform
-        // Check for a specific MovingPlatform id
-        if (otherP2Body.id === 1) { // Player collition activated
-
-        } else if (otherP2Body.id === 2) { // Lever Activated
-
-        } else { // Player Collition Activated
-
-        }
       }
     }
   }
@@ -123,6 +116,9 @@ class MainPlayer extends Phaser.Sprite {
     } else if (otherPhaserBody.sprite.name === 'jumper') {
       this.isSpring = false
       console.log('exit spring')
+      this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
+    } else if (otherPhaserBody.sprite.name === 'mover') {
+      console.log('exit mover')
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
     }
   }
