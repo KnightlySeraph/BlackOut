@@ -98,15 +98,6 @@ class MainPlayer extends Phaser.Sprite {
         this.body.velocity.y = 0
         this.overrideState = MainPlayer.overrideStates.JUMPING
         this.jumpingFromJumper = true
-      } else if (otherPhaserBody.sprite.name === 'mover') { // checks if colliding object is a moving platform
-        // Check for a specific MovingPlatform id
-        if (otherP2Body.id === 1) { // Player collition activated
-
-        } else if (otherP2Body.id === 2) { // Lever Activated
-
-        } else { // Player Collition Activated
-
-        }
       }
     }
   }

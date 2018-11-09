@@ -58,6 +58,7 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
   steppedOff (otherPhaserBody, otherP2Body, myShape, otherShape) {
     if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
       if (myShape === this.topSensor) {
+        this.player.dynamic = true
         this.player = null
       }
     }
