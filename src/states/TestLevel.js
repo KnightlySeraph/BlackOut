@@ -44,6 +44,20 @@ class TestLevel extends Phaser.State {
   }
 
   create () {
+    // this.map = this.game.add.tilemap('Mytilemap')
+    // this.map.addTilesetImage('tiles1', 'tiles1')
+    // this.map.addTilesetImage('tiles2', 'tiles2')
+    
+    // this.layer3 = this.map.createLayer('bg_black')
+    // this.layer2 = this.map.createLayer('bg_close')
+    // this.layer1 = this.map.createLayer('bg_decor')
+    // this.layer0 = this.map.createLayer('main_level')
+
+    // this.layer0.resizeWorld()
+    // this.layer1.resizeWorld()
+    // this.layer2.resizeWorld()
+    // this.layer3.resizeWorld()
+
     // Create and add the main player object
     this.player = new MainPlayer({
       game: this.game,
@@ -65,13 +79,6 @@ class TestLevel extends Phaser.State {
 
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
-
-    // this.map = this.game.add.tilemap('Mytilemap')
-    // this.map.addTilesetImage('tiles1')
-    // this.layer = this.map.createLayer('main_level')
-    // this.layer.resizeWorld()
-    // this.layer.wrap = true
-
 
     // Create the "floor" as a manually drawn rectangle
     // this.floor = this.game.add.graphics(0, 0)
@@ -452,8 +459,6 @@ class TestLevel extends Phaser.State {
       this.radialLight.createLight(500, 150, 40, 40)
     }
 
-
-
     // let lightPos = this.setLightPos(0, 0)
     // this.radialLight.moveSocket2(lightPos)
 
@@ -462,7 +467,7 @@ class TestLevel extends Phaser.State {
     // drive certain timed events, such as light fade
     // and must be in all updates the use the create light function
     if (this.radialLight.socket2) {
-      
+
     }
     if (this.radialLight.socket3) {
 
@@ -474,10 +479,6 @@ class TestLevel extends Phaser.State {
 
     }
   }
-
-  
-  
-  
 
   render () {
     // Optionally render some development/debugging info
