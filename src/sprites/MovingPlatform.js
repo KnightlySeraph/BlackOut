@@ -47,6 +47,7 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
     if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
       if (myShape === this.topSensor) {
         this.player = otherPhaserBody.sprite
+        this.player.dynamic = false
       }
     }
   }
@@ -54,6 +55,7 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
   steppedOff (otherPhaserBody, otherP2Body, myShape, otherShape) {
     if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
       if (myShape === this.topSensor) {
+        this.player.dynamic = true
         this.player = null
       }
     }
@@ -69,8 +71,12 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
       if (this.body.x > point2) {
         console.log('Moving Leftward')
         this.game.add.tween(this.body).to({ x: point2 }, 2000, Phaser.Easing.Linear.None, true)
-        // this.player.body.velocity.x -= 10
-        this.player.body.gravity.y = 10000
+        console.log(this.player.body.velocity.x)
+        if (this.player.body.velocity.x > this.player.minVelocity) {
+          console.log('minus velocity')
+          this.player.body.velocity.x -= 250
+        }
+        //this.player.body.gravity.y = 10000
         // this.game.add.tween(this.player.body).to({ x: 1000 }, 2000, Phaser.Easing.Linear.None, true)
 
         // this.body.velocity.x -= 0.1

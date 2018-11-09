@@ -25,6 +25,9 @@ class MainPlayer extends Phaser.Sprite {
     this.name = 'Main Player'
     this.anchor.setTo(0.5, 1.0)
 
+    this.maxVelocity = 100000
+    this.minVelocity = -100000
+
     // Boolean to see if object is being interacted with
     this._interact = false
 
@@ -98,7 +101,7 @@ class MainPlayer extends Phaser.Sprite {
         this.body.velocity.y = 0
         this.overrideState = MainPlayer.overrideStates.JUMPING
         this.jumpingFromJumper = true
-      } else if (otherPhaserBody.sprite.name === 'mover') { // checks if colliding object is a moving platform
+      } /*else if (otherPhaserBody.sprite.name === 'mover') { // checks if colliding object is a moving platform
         // Check for a specific MovingPlatform id
         if (otherP2Body.id === 1) { // Player collition activated
 
@@ -107,7 +110,7 @@ class MainPlayer extends Phaser.Sprite {
         } else { // Player Collition Activated
 
         }
-      }
+      }*/
     }
   }
 
