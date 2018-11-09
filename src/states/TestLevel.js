@@ -292,6 +292,12 @@ class TestLevel extends Phaser.State {
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
 
+    if (speed !== 0) {
+      this.mover.forEach((obj) => {
+        obj.changeOffset(speed * 5)
+      })
+    }
+
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
     }
