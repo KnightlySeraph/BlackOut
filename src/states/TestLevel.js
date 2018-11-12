@@ -90,8 +90,8 @@ class TestLevel extends Phaser.State {
     // this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
     // this.floor.endFill()
     this.timer = new Phaser.Timer(this.game)
-    this.timer.add(4000, this.consoleLogDebug(), this.game)
-    this.timer.start(3000)
+    this.timer.add(4000, this.consoleLogDebug, this)
+    this.timer.start()
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
       new Platform({
@@ -190,9 +190,6 @@ class TestLevel extends Phaser.State {
 
   consoleLogDebug () {
     console.log('Timers are working')
-    this.timer.stop()
-    // this.timer.add(2000, this.consoleLogDebug(), this.game)
-    this.timer.start()
   }
 
   toScreenSpace (point) {
