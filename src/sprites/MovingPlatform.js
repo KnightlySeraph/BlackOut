@@ -41,16 +41,51 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
     this.body.onBeginContact.add(this.steppedOn, this)
     this.body.onEndContact.add(this.steppedOff, this)
 
-    this.tween = this.game.add.tween(this.body).to(
-      { x: x - 1000 }, 5000, Phaser.Easing.Linear.None, false, 100, -1, true)
+    this.setupTween(this.id)
+  }
+
+  setupTween (id) {
+    let duration = 5000
+    let destination = {}
+
+    switch (id) {
+      case 1: destination = { x: this.x - 100 }; break
+      case 2: destination = { x: this.x + 100 }; break
+      case 3: destination = { y: this.y - 100 }; break
+      case 4: destination = { y: this.y + 100 }; break
+      // case 5:
+      //   // move left and up
+      //   this.tween = this.game.add.tween(this.body).to({ x: this.x - 100 }, 5000, Phaser.Easing.Linear.None, false, 100, -1, true)
+      //   this.tween = this.game.add.tween(this.body).to({ y: this.y - 100 }, 5000, Phaser.Easing.Linear.None, false, 100, -1, true)
+      //   // tween left and up
+      //   break
+      default:
+        console.log('Error steppedOn: this moving platform id is not valid.')
+    }
+
+    this.tween = this.game.add.tween(this.body).to(destination, duration, Phaser.Easing.Linear.None, false, 100, -1, true)
+  }
+
+  startMovement () {
+    if (this.tween.isPaused) {
+      this.tween.resume()
+    } else if (!this.tween.isRunning) {
+      this.tween.start()
+    }
+  }
+
+  stopMovement () {
+    if (this.tween.isRunning) {
+      this.tween.pause()
+    }
   }
 
   steppedOn (otherPhaserBody, otherP2Body, myShape, otherShape, contactEqns) {
     if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
       if (myShape === this.topSensor) {
         this.player = otherPhaserBody.sprite
-        this.playerOffset = this.player.body.x - this.body.x
-        this.tween.start()
+        this.playerOffsetX = this.player.body.x - this.body.x
+        // this.tween.start()
       }
     }
   }
@@ -64,16 +99,69 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
     }
   }
 
-  changeOffset (deltaX) {
+  changeOffset (deltaX, deltaY) {
     if (this.player != null) {
-      this.playerOffset += deltaX
+      /*switch (this.id) {
+        case 1:
+          // move left
+          this.playerOffsetX += deltaX
+          break
+        case 2:
+          // move right
+          this.playerOffsetX -= deltaX
+          break
+        case 3:
+          // move up
+          this.playerOffsetY += deltaY
+          break
+        case 4:
+          // move down
+          this.playerOffsetY -= deltaY
+          break
+        case 5:
+          // move left and up
+          this.playerOffsetX += deltaX
+          this.playerOffsetY += deltaY
+          break
+        default:
+          console.log('Error changeOffset: this moving platform id is not valid.')
+      }*/
+       this.playerOffsetX += deltaX
+      // this.playerOffsetX -= deltaX
+      // this.playerOffsetY += deltaY
+      // this.playerOffsetY -= deltaY
     }
   }
 
   update () {
     super.update()
     if (this.player != null) {
-      this.player.body.x = this.body.x + this.playerOffset
+      /*switch (this.id) {
+        case 1:
+          this.player.body.x = this.body.x + this.playerOffsetX
+          console.log('move left')
+          break
+        case 2:
+          this.player.body.x = this.body.x + this.playerOffsetX
+          console.log('move right')
+          break
+        case 3:
+          this.player.body.y = this.body.y + this.playerOffsetY
+          console.log('move up')
+          break
+        case 4:
+          this.player.body.y = this.body.y + this.playerOffsetY
+          console.log('move down')
+          break
+        case 5:
+          this.player.body.x = this.body.x + this.playerOffsetX
+          this.player.body.y = this.body.y + this.playerOffsetY
+          console.log('move left UP')
+          break
+        default:
+          console.log('Error Update: this moving platform id is not valid.')
+      }*/
+      this.player.body.x = this.body.x + this.playerOffsetX
     }
   }
 }
