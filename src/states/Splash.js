@@ -41,7 +41,7 @@ class Splash extends Phaser.State {
     this.load.setPreloadSprite(this.loaderBar)
 
     // Tiled Map
-    this.load.tilemap('Mytilemap', 'assets/images/testlevel_01..json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('Mytilemap', 'assets/images/testlevel_01.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.image('tiles1', 'assets/images/tiles1.png')
     this.load.image('tiles2', 'assets/images/tiles2.png')
     this.load.image('tiles2_t', 'assets/images/tiles2_transparent.png')
@@ -84,6 +84,9 @@ class Splash extends Phaser.State {
 
     // Setup the audio which should now be loaded
     this.setupAudio()
+
+    // let sprite = this.game.add.sprite(0, 0, 'toki-main')
+    // sprite.scale.setTo(2, 2)
   }
 
   setupAudio () {
