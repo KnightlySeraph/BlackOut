@@ -130,13 +130,14 @@ class TestLevel extends Phaser.State {
     })
 
     // Make MovingPlatform objects in the world
-    this.mover = [
+    this.autoMover = [
       new MovingPlatform({
-        game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 1, maxVelocity: 200
+        game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 2, maxVelocity: 200
       })
     ]
-    this.mover.forEach((obj) => {
+    this.autoMover.forEach((obj) => {
       this.game.add.existing(obj)
+      obj.startMovement()
     })
 
     // Add player after the floor
@@ -297,7 +298,7 @@ class TestLevel extends Phaser.State {
     if (this.leftKey.isDown) { speed-- }
 
     if (speed !== 0) {
-      this.mover.forEach((obj) => {
+      this.autoMover.forEach((obj) => {
         obj.changeOffset(speed * 5)
       })
     }
