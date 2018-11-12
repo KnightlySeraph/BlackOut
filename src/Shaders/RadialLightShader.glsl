@@ -40,6 +40,22 @@ float calculateLighting () {
   }
 }
 
+int overlapsLight (vec2 lightLoc) {
+  //Collect the distances from each light
+  float pointToPlayer = distance(lightLoc, lightPos );
+  float lightDistance0 = distance(lightLoc, socket2Pos);
+  float lightDistance1 = distance(lightLoc, socket3Pos);
+  float lightDistance2 = distance(lightLoc, socket4Pos);
+  float lightDistance3 = distance(lightLoc, socket5Pos);
+  //Check the distances of every single possible light for the given range ~ 150.0
+  if ((pointToPlayer > 0.0 && pointToPlayer <= 300.0) || (lightDistance0 > 0.0 && lightDistance0 <= 150.0) || (lightDistance1 > 0.0 && lightDistance1 <= 150.0) || (lightDistance2 > 0.0 && lightDistance2 <= 150.0) || (lightDistance3 > 0.0 && lightDistance3 <= 150.0)){
+    return 1;
+  }
+  else {
+    return 0;
+  }
+}
+
 void main() {
   // Normal color
   vec4 baseColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));
@@ -48,6 +64,7 @@ void main() {
   // Compare pixel to each light source
   // This Scale is, essentially, how dark the world is
   float scale = 0.1;
+  
 
   //Point Light Calculations
   //Socket1 ~ Player Socket
@@ -59,51 +76,88 @@ void main() {
   //Socket2
   if (socket2 == 1) {
     float dist2 = distance(gl_FragCoord.xy, socket2Pos);
-    if (socket2Pos.x >= 0.0) {
-      if (dist2 < (75.0)) {
-        scale = 1.0;
-      }
-      else if (dist2 < (150.0)) {
-        scale = 1.0 - (dist2 - 50.0) / 50.0;
+    if(overlapsLight(socket2Pos) != 1){
+      if (socket2Pos.x >= 0.0) {
+        if (dist2 < (75.0)) {
+          scale = 1.0;
+        }
+        else if (dist2 < (150.0)) {
+          scale = 1.0 - (dist2 - 50.0) / 50.0;
+        }
       }
     }
+    else{
+      if (socket2Pos.x >= 0.0) {
+        if (dist2 < (75.0)) {
+          scale = 1.0;
+        }
+      }
+    }   
   }
   //Socket3
   if (socket3 == 1) {
     float dist3 = distance(gl_FragCoord.xy, socket3Pos);
-    if (socket3Pos.x >= 0.0) {
-      if (dist3 < (50.0)) {
-        scale = 1.0;
-      }
-      else if (dist3 < (100.0)) {
-        scale = 1.0 - (dist3 - 50.0) / 50.0;
+    if (overlapsLight(socket3Pos) != 1){
+      if (socket3Pos.x >= 0.0) {
+        if (dist3 < (75.0)) {
+          scale = 1.0;
+        }
+        else if (dist3 < (150.0)) {
+          scale = 1.0 - (dist3 - 50.0) / 50.0;
+        }
       }
     }
+    else{
+      if (dist3 < (75.0)) {
+          scale = 1.0;
+      }
+    }   
   }
   //Socket4
   if (socket4 == 1) {
     float dist4 = distance(gl_FragCoord.xy, socket4Pos);
-    if (socket4Pos.x >= 0.0) {
-      if (dist4 < (50.0)) {
-        scale = 1.0;
+    if(overlapsLight(socket4Pos) != 1){
+      if (socket4Pos.x >= 0.0) {
+        if (dist4 < (50.0)) {
+          scale = 1.0;
+        }
+        else if (dist4 < (100.0)) {
+          scale = 1.0 - (dist4 - 50.0) / 50.0;
+        }
       }
-      else if (dist4 < (100.0)) {
-        scale = 1.0 - (dist4 - 50.0) / 50.0;
+    }
+    else{
+      if (socket4Pos.x >= 0.0) {
+        if (dist4 < (50.0)) {
+          scale = 1.0;
+        }
       }
     }
   }
   //Socket5
   if (socket5 == 1) {
     float dist5 = distance(gl_FragCoord.xy, socket5Pos);
-    if (socket5Pos.x >= 0.0) {
-      if (dist5 < (50.0)) {
-        scale = 1.0;
-      }
-      else if (dist5 < (100.0)) {
-        scale = 1.0 - (dist5 - 50.0) / 50.0;
+    if (overlapsLight(socket5Pos) != 1){
+      if (socket5Pos.x >= 0.0) {
+        if (dist5 < (50.0)) {
+          scale = 1.0;
+        }
+        else if (dist5 < (100.0)) {
+          scale = 1.0 - (dist5 - 50.0) / 50.0;
+        }
       }
     }
+    else {
+      if (socket5Pos.x >= 0.0) {
+        if (dist5 < (50.0)) {
+          scale = 1.0;
+        }
+      }
+    }
+    
   }
+
+  scale = clamp(scale, 0.1, 1.0);
 
   // Scale color by distance to light sources
   if (timedDistance > 50.0){
