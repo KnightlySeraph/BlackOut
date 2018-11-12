@@ -118,17 +118,17 @@ void main() {
     float dist4 = distance(gl_FragCoord.xy, socket4Pos);
     if(overlapsLight(socket4Pos) != 1){
       if (socket4Pos.x >= 0.0) {
-        if (dist4 < (50.0)) {
+        if (dist4 < (75.0)) {
           scale = 1.0;
         }
-        else if (dist4 < (100.0)) {
+        else if (dist4 < (150.0)) {
           scale = 1.0 - (dist4 - 50.0) / 50.0;
         }
       }
     }
     else{
       if (socket4Pos.x >= 0.0) {
-        if (dist4 < (50.0)) {
+        if (dist4 < (75.0)) {
           scale = 1.0;
         }
       }
@@ -139,17 +139,17 @@ void main() {
     float dist5 = distance(gl_FragCoord.xy, socket5Pos);
     if (overlapsLight(socket5Pos) != 1){
       if (socket5Pos.x >= 0.0) {
-        if (dist5 < (50.0)) {
+        if (dist5 < (75.0)) {
           scale = 1.0;
         }
-        else if (dist5 < (100.0)) {
+        else if (dist5 < (150.0)) {
           scale = 1.0 - (dist5 - 50.0) / 50.0;
         }
       }
     }
     else {
       if (socket5Pos.x >= 0.0) {
-        if (dist5 < (50.0)) {
+        if (dist5 < (75.0)) {
           scale = 1.0;
         }
       }

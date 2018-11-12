@@ -71,15 +71,15 @@ class TestLevel extends Phaser.State {
     this.emit = this.game.add.emitter(this.game.world.centerX, 300, 700)
     this.emit.makeParticles('light')
     this.emit.setRotation(0, 360)
-    this.emit.setAlpha(1.0, 0.1, 1000)
-    this.emit.setScale(1, 1)
+    this.emit.setAlpha(0.5, 0.1, 2000)
+    this.emit.setScale(1.0, 1.0)
     this.emit.blendMode = 'ADD'
     // this.emit.particleDrag = { x: 0, y: -100 }
-    this.emit.bounce = 0.0
-    this.emit.gravity = 10
+    this.emit.bounce = 0.5
+    this.emit.gravity = 50
     
 
-    this.emit.start(false, 10000, 1)
+    this.emit.start(true, 0, null, 5000)
 
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
