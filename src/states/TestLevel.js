@@ -81,14 +81,14 @@ class TestLevel extends Phaser.State {
     this.emit = this.game.add.emitter(this.game.world.centerX, 300, 700)
     this.emit.makeParticles('light')
     this.emit.setRotation(0, 360)
-    this.emit.setAlpha(1.0, 0.1, 1000)
-    this.emit.setScale(1, 1)
+    this.emit.setAlpha(0.5, 0.1, 2000)
+    this.emit.setScale(1.0, 1.0)
     this.emit.blendMode = 'ADD'
     // this.emit.particleDrag = { x: 0, y: -100 }
-    this.emit.bounce = 0.0
-    this.emit.gravity = 10
+    this.emit.bounce = 0.5
+    this.emit.gravity = 50
 
-    this.emit.start(false, 10000, 1)
+    this.emit.start(true, 0, null, 5000)
 
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
@@ -99,8 +99,8 @@ class TestLevel extends Phaser.State {
     // this.floor.drawRect(0, floorHeight, this.game.world.width, this.game.world.height * 2)
     // this.floor.endFill()
     this.timer = new Phaser.Timer(this.game)
-    this.timer.add(4000, this.consoleLogDebug(), this.game)
-    this.timer.start(3000)
+    this.timer.add(4000, this.consoleLogDebug, this)
+    this.timer.start()
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     this.platforms = [
       new Platform({
@@ -146,13 +146,14 @@ class TestLevel extends Phaser.State {
     })
 
     // Make MovingPlatform objects in the world
-    this.mover = [
+    this.autoMover = [
       new MovingPlatform({
-        game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 1, maxVelocity: 200
+        game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 2, maxVelocity: 200
       })
     ]
-    this.mover.forEach((obj) => {
+    this.autoMover.forEach((obj) => {
       this.game.add.existing(obj)
+      obj.startMovement()
     })
 
     // Add player after the floor
@@ -199,9 +200,6 @@ class TestLevel extends Phaser.State {
 
   consoleLogDebug () {
     console.log('Timers are working')
-    this.timer.stop()
-    // this.timer.add(2000, this.consoleLogDebug(), this.game)
-    this.timer.start()
   }
 
   toScreenSpace (point) {
@@ -313,7 +311,7 @@ class TestLevel extends Phaser.State {
     if (this.leftKey.isDown) { speed-- }
 
     if (speed !== 0) {
-      this.mover.forEach((obj) => {
+      this.autoMover.forEach((obj) => {
         obj.changeOffset(speed * 5)
       })
     }
