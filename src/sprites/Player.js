@@ -66,7 +66,7 @@ class MainPlayer extends Phaser.Sprite {
 
     // Create a custom shape for the collider body
     this.body.clearShapes()
-    this.body.setRectangle(55, 170, 0, -30)
+    this.body.setRectangle(20, 85, 0, -35)
     this.body.offset.setTo(0, -40)
 
     // Configure custom physics properties
@@ -76,6 +76,7 @@ class MainPlayer extends Phaser.Sprite {
     // Set up collision groups
     this.body.setCollisionGroup(this.game.playerGroup)
     this.body.collides([this.game.platformGroup, this.game.movingPlatformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
+
     this.body.onBeginContact.add(this.onBeginContact, this)
     this.body.onEndContact.add(this.onExitContact, this)
   }
@@ -88,6 +89,8 @@ class MainPlayer extends Phaser.Sprite {
  * @param {*} contactEquation  //IDK
  */
   onBeginContact (otherPhaserBody, otherP2Body, myShape, otherShape, contactEquation) {
+    if (otherPhaserBody === null || otherPhaserBody.sprite === null) return
+
     if ((otherPhaserBody.x <= this.body.x + 1 || otherPhaserBody.x >= this.body.x - 1) && (otherPhaserBody.y <= this.body.y + 1 || otherPhaserBody.y >= this.body.y - 1)) {
       console.log('collidable')
       if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
@@ -108,9 +111,10 @@ class MainPlayer extends Phaser.Sprite {
    * @param {P2.Body} otherP2Body
    * @param {P2.Shape} myShape
    * @param {P2.Shape} otherShape
-   * @param {*} contactEquation
    */
-  onExitContact (otherPhaserBody, otherP2Body, myShape, otherShape, contactEquation) {
+  onExitContact (otherPhaserBody, otherP2Body, myShape, otherShape) {
+    if (otherPhaserBody === null || otherPhaserBody.sprite === null) return
+
     if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
     } else if (otherPhaserBody.sprite.name === 'jumper') {

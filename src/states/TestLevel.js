@@ -44,19 +44,29 @@ class TestLevel extends Phaser.State {
   }
 
   create () {
-    // this.map = this.game.add.tilemap('Mytilemap')
-    // this.map.addTilesetImage('tiles1', 'tiles1')
-    // this.map.addTilesetImage('tiles2', 'tiles2')
-    
-    // this.layer3 = this.map.createLayer('bg_black')
-    // this.layer2 = this.map.createLayer('bg_close')
-    // this.layer1 = this.map.createLayer('bg_decor')
-    // this.layer0 = this.map.createLayer('main_level')
+    this.map = this.game.add.tilemap('Mytilemap')
+    this.map.addTilesetImage('tiles1', 'tiles1')
+    this.map.addTilesetImage('tiles2', 'tiles2')
 
-    // this.layer0.resizeWorld()
-    // this.layer1.resizeWorld()
-    // this.layer2.resizeWorld()
-    // this.layer3.resizeWorld()
+    this.layer3 = this.map.createLayer('bg_black')
+    this.layer2 = this.map.createLayer('bg_close')
+    this.layer1 = this.map.createLayer('bg_decor')
+    this.layer0 = this.map.createLayer('main_level')
+
+    this.map.setCollisionBetween(18, 114, true, this.layer0, true)
+
+    this.bodieslevel = this.game.physics.p2.convertTilemap(this.map, this.layer0)
+
+    this.bodieslevel.forEach((curBody) => {
+      curBody.setCollisionGroup(this.game.platformGroup)
+      curBody.collides([this.game.playerGroup])
+      curBody.debug = __DEV__
+    })
+
+    this.layer0.resizeWorld()
+    this.layer1.resizeWorld()
+    this.layer2.resizeWorld()
+    this.layer3.resizeWorld()
 
     // Create and add the main player object
     this.player = new MainPlayer({
@@ -77,7 +87,6 @@ class TestLevel extends Phaser.State {
     // this.emit.particleDrag = { x: 0, y: -100 }
     this.emit.bounce = 0.0
     this.emit.gravity = 10
-    
 
     this.emit.start(false, 10000, 1)
 
