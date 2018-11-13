@@ -22,3 +22,7 @@ function moveToTestLevel () {
 }
 
 export default MainMenu
+
+/*
+array of tweening platforms with a function call on what to do after the tween has finnished, turn off looping
+*/
