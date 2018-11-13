@@ -84,9 +84,6 @@ class Splash extends Phaser.State {
 
     // Setup the audio which should now be loaded
     this.setupAudio()
-
-    // let sprite = this.game.add.sprite(0, 0, 'toki-main')
-    // sprite.scale.setTo(2, 2)
   }
 
   setupAudio () {
