@@ -44,29 +44,29 @@ class TestLevel extends Phaser.State {
   }
 
   create () {
-    this.map = this.game.add.tilemap('Mytilemap')
-    this.map.addTilesetImage('tiles1', 'tiles1')
-    this.map.addTilesetImage('tiles2', 'tiles2')
+    // this.map = this.game.add.tilemap('Mytilemap')
+    // this.map.addTilesetImage('tiles1', 'tiles1')
+    // this.map.addTilesetImage('tiles2', 'tiles2')
 
-    this.layer3 = this.map.createLayer('bg_black')
-    this.layer2 = this.map.createLayer('bg_close')
-    this.layer1 = this.map.createLayer('bg_decor')
-    this.layer0 = this.map.createLayer('main_level')
+    // this.layer3 = this.map.createLayer('bg_black')
+    // this.layer2 = this.map.createLayer('bg_close')
+    // this.layer1 = this.map.createLayer('bg_decor')
+    // this.layer0 = this.map.createLayer('main_level')
 
-    this.map.setCollisionBetween(18, 114, true, this.layer0, true)
+    // this.map.setCollisionBetween(18, 114, true, this.layer0, true)
 
-    this.bodieslevel = this.game.physics.p2.convertTilemap(this.map, this.layer0)
+    // this.bodieslevel = this.game.physics.p2.convertTilemap(this.map, this.layer0)
 
-    this.bodieslevel.forEach((curBody) => {
-      curBody.setCollisionGroup(this.game.platformGroup)
-      curBody.collides([this.game.playerGroup])
-      curBody.debug = __DEV__
-    })
+    // this.bodieslevel.forEach((curBody) => {
+    //   curBody.setCollisionGroup(this.game.platformGroup)
+    //   curBody.collides([this.game.playerGroup])
+    //   curBody.debug = __DEV__
+    // })
 
-    this.layer0.resizeWorld()
-    this.layer1.resizeWorld()
-    this.layer2.resizeWorld()
-    this.layer3.resizeWorld()
+    // this.layer0.resizeWorld()
+    // this.layer1.resizeWorld()
+    // this.layer2.resizeWorld()
+    // this.layer3.resizeWorld()
 
     // Create and add the main player object
     this.player = new MainPlayer({
@@ -389,51 +389,54 @@ class TestLevel extends Phaser.State {
     }
 
     // create light on the player when shift is pressed
-    if (timerTesting < 150.0) {
+    if (this.radialLight.GetTimer() < 150.0) {
       if (this.isWinding) {
-        timerTesting += 0.7
+        this.radialLight.SetTimer(this.radialLight.GetTimer() + 0.7)
       }
     }
-    if (timerTesting <= 0.0) {
-      lightSize = 0
-    } else if (timerTesting <= 50.0) {
-      lightSize = 1
-    } else if (timerTesting <= 75.0) {
-      lightSize = 2
-    } else if (timerTesting <= 100.0) {
-      lightSize = 3
-    } else if (timerTesting <= 125.0) {
-      lightSize = 4
-    } else {
-      lightSize = 5
-    }
-    // blink light
-    blink++
-    if (lightSize !== 1) {
-      if (blink > 30) {
-        blink = 0
-        lightSize = 0
-      }
-    } else {
-      if (blink > 10) {
-        blink = 0
-        lightSize = 0
-      }
-    }
-    // update the player light source
-    if (lightSize === 5) {
-      this.radialLight.timedDistance = 150.0
-    } else if (lightSize === 4) {
-      this.radialLight.timedDistance = 125.0
-    } else if (lightSize === 3) {
-      this.radialLight.timedDistance = 100.0
-    } else if (lightSize === 2) {
-      this.radialLight.timedDistance = 75.0
-    } else if (lightSize === 1) {
-      this.radialLight.timedDistance = 50.0
-    } else {
-      this.radialLight.timedDistance = 0.0
-    }
+
+    // if (timerTesting <= 0.0) {
+    //   lightSize = 0
+    // } else if (timerTesting <= 50.0) {
+    //   lightSize = 1
+    // } else if (timerTesting <= 75.0) {
+    //   lightSize = 2
+    // } else if (timerTesting <= 100.0) {
+    //   lightSize = 3
+    // } else if (timerTesting <= 125.0) {
+    //   lightSize = 4
+    // } else {
+    //   lightSize = 5
+    // }
+    // // blink light
+    // blink++
+    // if (lightSize !== 1) {
+    //   if (blink > 30) {
+    //     blink = 0
+    //     lightSize = 0
+    //   }
+    // } else {
+    //   if (blink > 10) {
+    //     blink = 0
+    //     lightSize = 0
+    //   }
+    // }
+    // // update the player light source
+    // if (lightSize === 5) {
+    //   this.radialLight.timedDistance = 150.0
+    // } else if (lightSize === 4) {
+    //   this.radialLight.timedDistance = 125.0
+    // } else if (lightSize === 3) {
+    //   this.radialLight.timedDistance = 100.0
+    // } else if (lightSize === 2) {
+    //   this.radialLight.timedDistance = 75.0
+    // } else if (lightSize === 1) {
+    //   this.radialLight.timedDistance = 50.0
+    // } else {
+    //   this.radialLight.timedDistance = 0.0
+    // }
+
+    this.radialLight.iterate()
 
     // Seperate from the player light, turn on socket 2
     if (this.socket2.justPressed()) {
