@@ -6,14 +6,12 @@ import Phaser from 'phaser'
 class MainMenu extends Phaser.State {
 
   preload () {
-    // put in button sprites here
-    // this.game.load.spriteSheet( name of sprite, 'link to sprite', size of grid slice (x,y, max of sprites in sheet))
   }
 
   create () {
     let buttonPlay, buttonSettings, buttonControls
 
-    buttonPlay = this.game.add.button(this.game.world.centerX - 1000, this.game.world.centerY, 'PlayButton', moveToTestLevel, this, 'hover', 0, 0)
+    buttonPlay = this.game.add.button(this.game.world.centerX - 100, this.game.world.centerY, 'PlayButton', moveToTestLevel, this, 0, 1, 2, 3)
   }
 }
 
@@ -22,3 +20,7 @@ function moveToTestLevel () {
 }
 
 export default MainMenu
+
+/*
+array of tweening platforms with a function call on what to do after the tween has finnished, turn off looping
+*/

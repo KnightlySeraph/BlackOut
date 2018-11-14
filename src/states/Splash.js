@@ -62,6 +62,18 @@ class Splash extends Phaser.State {
     this.game.jumperGroup = this.game.physics.p2.createCollisionGroup()
     this.game.movingPlatformGroup = this.game.physics.p2.createCollisionGroup()
 
+    // put in button sprites here
+    this.game.load.spritesheet('PlayButton', 'play.png', 10, 10, 1)// size of grid slice (x,y, max of sprites in sheet))
+    this.game.load.spritesheet('PlayButtonClick', 'playHover.png', 10, 10, 1)
+    this.game.load.spritesheet('SettingsButton', 'settings.png', 10, 10, 1)
+    this.game.load.spritesheet('SettingsButtonClick', 'settingsHover.png', 10, 10, 1)
+    this.game.load.spritesheet('ControlsButton', 'controls.png', 10, 10, 1)
+    this.game.load.spritesheet('ControlsButtonClick', 'controlsHover.png', 10, 10, 1)
+    this.game.load.spritesheet('ExitButton', 'exit.png', 10, 10, 1)
+    this.game.load.spritesheet('ExitButtonClick', 'exitHover.png', 10, 10, 1)
+    this.game.load.spritesheet('VolumeButton', 'volume.png', 10, 10, 1)
+    this.game.load.spritesheet('VolumeButtonClick', 'volumeHover.png', 10, 10, 1)
+    
     // The main player spritesheet
     // this.load.spritesheet('player-main', 'assets/images/player-main.png', 64, 64)
     // this.load.spritesheet('player-main-test', 'assets/images/player-main-test.png', 64, 64)
@@ -118,8 +130,9 @@ class Splash extends Phaser.State {
     // proceed once MIN_SPLASH_SECONDS or more has elapsed
     if (this.game.time.elapsedSecondsSince(this.started) >= config.MIN_SPLASH_SECONDS) {
       // Make sure the audio is not only loaded but also decoded before advancing
+      // TODO: Re-name if you don't have 'music-intro' anymore
       if (this.game.sounds.get('music-intro').isDecoded) {
-        this.state.start('TestLevel') // change to MainMenu
+        this.state.start('MainMenu') // change to MainMenu
       }
     }
   }
