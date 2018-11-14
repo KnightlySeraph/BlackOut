@@ -53,11 +53,7 @@ class TestLevel extends Phaser.State {
     // this.layer1 = this.map.createLayer('bg_decor')
     // this.layer0 = this.map.createLayer('main_level')
 
-<<<<<<< HEAD
-    // this.map.setCollision([20, 37], true, this.layer0, true)
-=======
     // this.map.setCollisionBetween(18, 114, true, this.layer0, true)
->>>>>>> 9fa056b2a3b4e91dcfb5e25aaf4cf47e250bf62f
 
     // this.bodieslevel = this.game.physics.p2.convertTilemap(this.map, this.layer0)
 
