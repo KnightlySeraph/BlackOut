@@ -31,11 +31,15 @@ class RadialLightFilter extends Phaser.Filter {
 
     // Setup the glsl fragment shader source
     this.fragmentSrc = RadialLightShader
+
+    // Vars used by the iterate function declared at bottom of class
+    this.timer = 150
+    this.blink = 0
+    this.lightSize = 0
   }
 
   // Create a timer
  
-
 
   // Uniforms Sets
   moveLight (pos) {
@@ -136,6 +140,14 @@ class RadialLightFilter extends Phaser.Filter {
   get socket5Decay () {
     return this.uniforms.socket5Decay.value
   }
+
+  // Get and Set functions for this.timer since it neads to read and write between level clases and this class
+  SetTimer (value) {
+    this.timer = value
+  }
+  GetTimer () {
+    return this.timer
+  }
   /**
    * 
    * @param {number} locX X position of the point light, float expected
@@ -181,8 +193,58 @@ class RadialLightFilter extends Phaser.Filter {
     } else {
       console.log('ERROR: Potential Socket out of range, potential socket must be -1, 2, 3, 4, or 5 other values not excepted')
     }
+  }
 
-   
+  
+
+  iterate () {
+    // Dim the player lights
+    if (this.timer > 0.0) {
+      this.timer -= 0.1 // decrease the timer over time
+    }
+    console.log(this.timer)
+
+    // change var light size based off of timer
+    if (this.timer <= 0.0) {
+      this.lightSize = 0
+    } else if (this.timer <= 50.0) {
+      this.lightSize = 1
+    } else if (this.timer <= 75.0) {
+      this.lightSize = 2
+    } else if (this.timer <= 100.0) {
+      this.lightsize = 3
+    } else if (this.timer <= 125.0) {
+      this.lightsize = 4
+    } else {
+      this.lightSize = 5
+    }
+    // blink the light around the player
+    this.blink++
+    if (this.lightSize !== 1) {
+      if (this.blink > 30) {
+        this.blink = 0
+        this.lightSize = 0
+      }
+    } else {
+      if (this.blink > 10) {
+        this.blink = 0
+        this.lightSize = 0
+      }
+    }
+    // Update the light around the player
+    if (this.lightsize === 5) {
+      this.timedDistance = 150.0
+    } else if (this.lightsize === 4) {
+      this.timedDistance = 125.0
+    } else if (this.lightSize === 3) {
+      this.timedDistance = 100.0
+    } else if (this.lightsize === 2) {
+      this.timedDistance = 75.0
+    } else if (this.lightsize === 2) {
+      this.timedDistance = 50.0
+    } else {
+      this.timedDistance = 0.0
+    }
   }
 
 }
