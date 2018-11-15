@@ -141,6 +141,10 @@ class RadialLightFilter extends Phaser.Filter {
     return this.uniforms.socket5Decay.value
   }
 
+  get timedDistance () {
+    return this.uniforms.timedDistance.value
+  }
+
   // Get and Set functions for this.timer since it neads to read and write between level clases and this class
   SetTimer (value) {
     this.timer = value
@@ -202,7 +206,11 @@ class RadialLightFilter extends Phaser.Filter {
     if (this.timer > 0.0) {
       this.timer -= 0.1 // decrease the timer over time
     }
+
+  
     console.log(this.timer)
+    console.log('Light Size uniform is ' + this.timedDistance)
+    console.log('Light Size is ' + this.lightSize)
 
     // change var light size based off of timer
     if (this.timer <= 0.0) {
@@ -218,21 +226,10 @@ class RadialLightFilter extends Phaser.Filter {
     } else {
       this.lightSize = 5
     }
-    // blink the light around the player
-    this.blink++
-    if (this.lightSize !== 1) {
-      if (this.blink > 30) {
-        this.blink = 0
-        this.lightSize = 0
-      }
-    } else {
-      if (this.blink > 10) {
-        this.blink = 0
-        this.lightSize = 0
-      }
-    }
+    
     // Update the light around the player
     if (this.lightsize === 5) {
+      console.log('Entered light5 size statement')
       this.timedDistance = 150.0
     } else if (this.lightsize === 4) {
       this.timedDistance = 125.0
@@ -240,7 +237,7 @@ class RadialLightFilter extends Phaser.Filter {
       this.timedDistance = 100.0
     } else if (this.lightsize === 2) {
       this.timedDistance = 75.0
-    } else if (this.lightsize === 2) {
+    } else if (this.lightsize === 1) {
       this.timedDistance = 50.0
     } else {
       this.timedDistance = 0.0
