@@ -30,8 +30,8 @@ import MovingPlatform from '../sprites/MovingPlatform'
  * See Phaser.State for more about game states.
  */
 var timerTesting = 150.0
-var lightSize = 0
-var blink = 0
+// var lightSize = 0
+// var blink = 0
 class TestLevel extends Phaser.State {
   init () {
     // Set / Reset world bounds (based off of world bounds)
@@ -394,47 +394,6 @@ class TestLevel extends Phaser.State {
         this.radialLight.SetTimer(this.radialLight.GetTimer() + 0.7)
       }
     }
-
-    // if (timerTesting <= 0.0) {
-    //   lightSize = 0
-    // } else if (timerTesting <= 50.0) {
-    //   lightSize = 1
-    // } else if (timerTesting <= 75.0) {
-    //   lightSize = 2
-    // } else if (timerTesting <= 100.0) {
-    //   lightSize = 3
-    // } else if (timerTesting <= 125.0) {
-    //   lightSize = 4
-    // } else {
-    //   lightSize = 5
-    // }
-    // // blink light
-    // blink++
-    // if (lightSize !== 1) {
-    //   if (blink > 30) {
-    //     blink = 0
-    //     lightSize = 0
-    //   }
-    // } else {
-    //   if (blink > 10) {
-    //     blink = 0
-    //     lightSize = 0
-    //   }
-    // }
-    // // update the player light source
-    // if (lightSize === 5) {
-    //   this.radialLight.timedDistance = 150.0
-    // } else if (lightSize === 4) {
-    //   this.radialLight.timedDistance = 125.0
-    // } else if (lightSize === 3) {
-    //   this.radialLight.timedDistance = 100.0
-    // } else if (lightSize === 2) {
-    //   this.radialLight.timedDistance = 75.0
-    // } else if (lightSize === 1) {
-    //   this.radialLight.timedDistance = 50.0
-    // } else {
-    //   this.radialLight.timedDistance = 0.0
-    // }
 
     this.radialLight.iterate()
 
