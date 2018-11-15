@@ -208,9 +208,9 @@ class RadialLightFilter extends Phaser.Filter {
     }
 
   
-    console.log(this.timer)
-    console.log('Light Size uniform is ' + this.timedDistance)
-    console.log('Light Size is ' + this.lightSize)
+    // console.log(this.timer)
+    // console.log('Light Size uniform is ' + this.timedDistance)
+    // console.log('Light Size is ' + this.lightSize)
 
     // change var light size based off of timer
     if (this.timer <= 0.0) {
@@ -226,6 +226,8 @@ class RadialLightFilter extends Phaser.Filter {
     } else {
       this.lightSize = 5
     }
+
+    console.log(this.lightSize)
     
     // Update the light around the player
     if (this.lightsize === 5) {
