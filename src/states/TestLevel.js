@@ -354,7 +354,7 @@ class TestLevel extends Phaser.State {
         console.log('Shader Disabled')
       } else {
         let screenSpacePos = this.toScreenSpace(
-          { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
+          { x: this.player.world.x, y: this.player.world.y - this.player.height * 2 }
         )
         this.radialLight.moveLight(screenSpacePos)
         // this.radialLight.varyDist = 50
@@ -388,7 +388,7 @@ class TestLevel extends Phaser.State {
       }
     }
 
-    // create light on the player when shift is pressed
+    // Interactive light increase block, must exists in any level's update where the player exists
     if (this.radialLight.GetTimer() < 150.0) {
       if (this.isWinding) {
         this.radialLight.SetTimer(this.radialLight.GetTimer() + 0.7)
@@ -434,8 +434,10 @@ class TestLevel extends Phaser.State {
       console.log('setting light')
     }
 
+    // Camera needs to be passed every frame
+    this.radialLight.SetCam(this.world.camera)
     if (this.debugLight.justPressed()) {
-      this.radialLight.createLight(500, 150, 40, 40)
+      this.radialLight.createLight(496, 502, 75.0, 0.1)
     }
 
     // let lightPos = this.setLightPos(0, 0)
