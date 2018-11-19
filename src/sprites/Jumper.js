@@ -17,13 +17,15 @@ import MainPlayer from './Player.js'
  */
 class Jumper extends Phaser.Sprite {
   constructor ({ game, x, y, width, height, id }) {
-    super(game, 0, 0, 'blank', 0)
+    super(game, 0, 0, 'Spring', 0)
     this.name = 'jumper'
-//    this.scale.setTo(width / 10, height / 10)
+    this.smoothed = false
+    //this.scale.setTo(2, 2)
+    this.scale.setTo(width / 24.8, height / 24.8)
     this.id = id
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
-    this.body.setRectangle(width, height, 0, 0)
+    this.body.setRectangle(width, height / 3.2, 31, 56)
     this.body.debug = __DEV__
 
     // this.isSpring = true

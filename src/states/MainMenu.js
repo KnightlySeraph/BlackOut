@@ -6,6 +6,9 @@ import Phaser from 'phaser'
 class MainMenu extends Phaser.State {
 
   preload () {
+    this.game.load.spritesheet('LeverFloor', 'assets/images/leverSpriteSheet.png', 32, 32, 5, 0, 0)
+    this.game.load.spritesheet('LeverWall', 'assets/images/leverWallSpriteSheet.png', 32, 32, 5, 0, 0)
+    this.game.load.spritesheet('Spring', 'assets/images/springSpriteSheet.png', 32, 32, 10, 0, 0)
   }
 
   create () {

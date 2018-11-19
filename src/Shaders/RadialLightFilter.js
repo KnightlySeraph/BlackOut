@@ -18,10 +18,10 @@ class RadialLightFilter extends Phaser.Filter {
 
     // Light Decay Uniforms
     this.uniforms.timedDistance = { type: '1f', value: 0 }
-    this.uniforms.socket2Decay = { type: '1f', value: 0 }
-    this.uniforms.socket3Decay = { type: '1f', value: 0 }
-    this.uniforms.socket4Decay = { type: '1f', value: 0 }
-    this.uniforms.socket5Decay = { type: '1f', value: 0 }
+    this.uniforms.socket2Decay = { type: '1f', value: 75 }
+    this.uniforms.socket3Decay = { type: '1f', value: 75 }
+    this.uniforms.socket4Decay = { type: '1f', value: 75 }
+    this.uniforms.socket5Decay = { type: '1f', value: 75 }
     
     // Socket on/off uniforms
     this.uniforms.socket2 = { type: '1i', value: 0 }
@@ -36,6 +36,14 @@ class RadialLightFilter extends Phaser.Filter {
     this.timer = 150
     this.blink = 0
     this.lightSize = 0
+    this.camera = { x: 0, y: 0 }
+
+    // Rates of decrease, used by the iterate function
+    this.rateDecay2 = 0.1
+    this.rateDecay3 = 0.1
+    this.rateDecay4 = 0.1
+    this.rateDecay5 = 0.1
+
   }
 
   // Create a timer
@@ -145,12 +153,46 @@ class RadialLightFilter extends Phaser.Filter {
     return this.uniforms.timedDistance.value
   }
 
+  // Gets for the positions of the lights
+  GetSocket2Pos () {
+    return {
+      x: this.socket2Pos.value[0],
+      y: this.socket2Pos.value[1]
+    }
+  }
+
+  GetSocket3Pos () {
+    return {
+      x: this.socket3Pos.value[0],
+      y: this.socket3Pos.value[1]
+    }
+  }
+
+  GetSocket4Pos () {
+    return {
+      x: this.socket4Pos.value[0],
+      y: this.socket4Pos.value[1]
+    }
+  }
+
+  GetSocket5Pos () {
+    return {
+      x: this.socket5Pos.value[0],
+      y: this.socket5Pos.value[1]
+    }
+  }
+
   // Get and Set functions for this.timer since it neads to read and write between level clases and this class
   SetTimer (value) {
     this.timer = value
   }
   GetTimer () {
     return this.timer
+  }
+
+  // Function used to add the camera to the class
+  SetCam (camera) {
+    this.camera = camera
   }
   /**
    * 
@@ -184,7 +226,10 @@ class RadialLightFilter extends Phaser.Filter {
       console.log('ERROR: Out of sockets, Failed to create point light, try freeing sockets')
     } else if (this.potentialSocket === 2) {
       this.socket2 = 1
+      console.log('Just set this.socket2 to be one')
       this.moveSocket2 = (locX, locY)
+      this.socket2Decay = intensity
+      this.rateDecay2 = duration
     } else if (this.potentialSocket === 3) {
       this.socket3 = 1
       this.moveSocket3 = (locX, locY)
@@ -199,18 +244,19 @@ class RadialLightFilter extends Phaser.Filter {
     }
   }
 
-  
+  // This function is used to keep the lights situated in world space
+  toWorld (camera, posX, posY) {
+    return {
+      x: posX - this.camera.x,
+      y: posY + this.camera.y
+    }
+  }
 
   iterate () {
     // Dim the player lights
     if (this.timer > 0.0) {
       this.timer -= 0.1 // decrease the timer over time
     }
-
-  
-    // console.log(this.timer)
-    // console.log('Light Size uniform is ' + this.timedDistance)
-    // console.log('Light Size is ' + this.lightSize)
 
     // change var light size based off of timer
     if (this.timer <= 0.0) {
@@ -220,32 +266,89 @@ class RadialLightFilter extends Phaser.Filter {
     } else if (this.timer <= 75.0) {
       this.lightSize = 2
     } else if (this.timer <= 100.0) {
-      this.lightsize = 3
+      this.lightSize = 3
     } else if (this.timer <= 125.0) {
-      this.lightsize = 4
+      this.lightSize = 4
     } else {
       this.lightSize = 5
     }
-
-    console.log(this.lightSize)
     
     // Update the light around the player
-    if (this.lightsize === 5) {
-      console.log('Entered light5 size statement')
+    if (this.lightSize === 5) {
       this.timedDistance = 150.0
-    } else if (this.lightsize === 4) {
+    } else if (this.lightSize === 4) {
       this.timedDistance = 125.0
     } else if (this.lightSize === 3) {
       this.timedDistance = 100.0
-    } else if (this.lightsize === 2) {
+    } else if (this.lightSize === 2) {
       this.timedDistance = 75.0
-    } else if (this.lightsize === 1) {
+    } else if (this.lightSize === 1) {
       this.timedDistance = 50.0
     } else {
       this.timedDistance = 0.0
     }
-  }
 
+    // The following will decrement the other lights within the system
+    // Check if socket 2 is on
+    if (this.socket2 === 1) {
+      // Make sure this.socket2Decay does not fall below zero
+      if (this.socket2Decay > 0.0) {
+        // Decrease this.socket2Decay by the designated rateDecay
+        this.socket2Decay -= this.rateDecay2
+      }
+      // Kill light
+      if (this.socket2Decay < 30.0) {
+        this.socket2Decay = 0.0
+        this.socket2 = 0
+      }
+    }
+    // Check if socket 3 is on
+    if (this.socket3 === 1) {
+      // Make sure this.socket3Decay does not fall below zero
+      if (this.socket3Decay > 0.0) {
+        // Decrease this.socket3Decay by the designated rateDecay
+        this.socket3Decay -= this.rateDecay3
+      }
+      // Kill light
+      if (this.socket3Decay < 30.0) {
+        this.socket3Decay = 0.0
+        this.socket3 = 0
+      }
+    }
+    // Check if socket 4 is on
+    if (this.socket4 === 1) {
+      // Make sure this.socket4Decay does not fall below zero
+      if (this.socket4Decay > 0.0) {
+        // Decrease this.socket4Decay by the designated rateDecay
+        this.socket4Decay -= this.rateDecay4
+      }
+      // Kill light
+      if (this.socket4Decay < 30.0) {
+        this.socket4Decay = 0.0
+        this.socket4 = 0
+      }
+    }
+    // Check if socket 5 is on
+    if (this.socket5 === 1) {
+      // Make sure this.socket5Decay does not fall below zero
+      if (this.socket5Decay > 0.0) {
+        // Decrease this.socket5Decay by the designated rateDecay
+        this.socket5Decay -= this.rateDecay5
+        // Kill light
+        if (this.socket5Decay < 30.0) {
+          this.socket5Decay = 0.0
+          this.socket5 = 0
+        }
+      }
+    }
+
+    // Keep the active lights situated in world space
+    // check if Socket 2 is on
+    if (this.socket2 === 1) {
+      // call the to world function defined above
+      // this.socket2Pos = this.toWorld(this.camera, this.GetSocket2Pos.x, this.GetSocket2Pos.y)
+    }
+  }
 }
 
 export default RadialLightFilter
