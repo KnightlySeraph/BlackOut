@@ -125,10 +125,10 @@ class TestLevel extends Phaser.State {
     // Make Levers that can be interacted with
     this.lever = [
       new Lever({
-        game: this.game, x: 1000, y: 670, width: 50, height: 100, id: 4, spriteKey: 'blank'
+        game: this.game, x: 1000, y: 670, width: 50, height: 100, id: 4, spriteKey: 'LeverFloor'
       }),
       new Lever({
-        game: this.game, x: 1200, y: 670, width: 50, height: 100, id: 5, spriteKey: 'blank'
+        game: this.game, x: 1200, y: 670, width: 50, height: 100, id: 5, spriteKey: 'LeverFloor'
       })
     ]
     this.lever.forEach((obj) => {
@@ -138,7 +138,7 @@ class TestLevel extends Phaser.State {
     // Make "Spring" objects in the world
     this.jumper = [
       new Jumper({
-        game: this.game, x: 800, y: 695, width: 50, height: 50, id: 1
+        game: this.game, x: 800, y: 655, width: 50, height: 50, id: 1
       })
     ]
     this.jumper.forEach((obj) => {
@@ -146,15 +146,15 @@ class TestLevel extends Phaser.State {
     })
 
     // Make MovingPlatform objects in the world
-    this.autoMover = [
-      new MovingPlatform({
-        game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 2, maxVelocity: 200
-      })
-    ]
-    this.autoMover.forEach((obj) => {
-      this.game.add.existing(obj)
-      obj.startMovement()
-    })
+    // this.autoMover = [
+    //   new MovingPlatform({
+    //     game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 2, maxVelocity: 200
+    //   })
+    // ]
+    // this.autoMover.forEach((obj) => {
+    //   this.game.add.existing(obj)
+    //   obj.startMovement()
+    // })
 
     // Add player after the floor
     this.game.add.existing(this.player)
@@ -311,9 +311,9 @@ class TestLevel extends Phaser.State {
     if (this.leftKey.isDown) { speed-- }
 
     if (speed !== 0) {
-      this.autoMover.forEach((obj) => {
-        obj.changeOffset(speed * 5)
-      })
+      // this.autoMover.forEach((obj) => {
+      //   obj.changeOffset(speed * 5)
+      // })
     }
 
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
