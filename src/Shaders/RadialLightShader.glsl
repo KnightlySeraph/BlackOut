@@ -78,17 +78,17 @@ void main() {
     float dist2 = distance(gl_FragCoord.xy, socket2Pos);
     if(overlapsLight(socket2Pos) != 1){
       if (socket2Pos.x >= 0.0) {
-        if (dist2 < (75.0)) {
+        if (dist2 < (socket2Decay)) {
           scale = 1.0;
         }
-        else if (dist2 < (150.0)) {
+        else if (dist2 < (socket2Decay * 2.0)) {
           scale = 1.0 - (dist2 - 50.0) / 50.0;
         }
       }
     }
     else{
       if (socket2Pos.x >= 0.0) {
-        if (dist2 < (75.0)) {
+        if (dist2 < (socket2Decay)) {
           scale = 1.0;
         }
       }
@@ -99,16 +99,16 @@ void main() {
     float dist3 = distance(gl_FragCoord.xy, socket3Pos);
     if (overlapsLight(socket3Pos) != 1){
       if (socket3Pos.x >= 0.0) {
-        if (dist3 < (75.0)) {
+        if (dist3 < (socket3Decay)) {
           scale = 1.0;
         }
-        else if (dist3 < (150.0)) {
+        else if (dist3 < (socket3Decay * 2.0)) {
           scale = 1.0 - (dist3 - 50.0) / 50.0;
         }
       }
     }
     else{
-      if (dist3 < (75.0)) {
+      if (dist3 < (socket3Decay)) {
           scale = 1.0;
       }
     }   
@@ -118,17 +118,17 @@ void main() {
     float dist4 = distance(gl_FragCoord.xy, socket4Pos);
     if(overlapsLight(socket4Pos) != 1){
       if (socket4Pos.x >= 0.0) {
-        if (dist4 < (75.0)) {
+        if (dist4 < (socket4Decay)) {
           scale = 1.0;
         }
-        else if (dist4 < (150.0)) {
+        else if (dist4 < (socket4Decay * 2.0)) {
           scale = 1.0 - (dist4 - 50.0) / 50.0;
         }
       }
     }
     else{
       if (socket4Pos.x >= 0.0) {
-        if (dist4 < (75.0)) {
+        if (dist4 < (socket4Decay)) {
           scale = 1.0;
         }
       }
@@ -139,17 +139,17 @@ void main() {
     float dist5 = distance(gl_FragCoord.xy, socket5Pos);
     if (overlapsLight(socket5Pos) != 1){
       if (socket5Pos.x >= 0.0) {
-        if (dist5 < (75.0)) {
+        if (dist5 < (socket5Decay)) {
           scale = 1.0;
         }
-        else if (dist5 < (150.0)) {
+        else if (dist5 < (socket5Decay * 2.0)) {
           scale = 1.0 - (dist5 - 50.0) / 50.0;
         }
       }
     }
     else {
       if (socket5Pos.x >= 0.0) {
-        if (dist5 < (75.0)) {
+        if (dist5 < (socket5Decay)) {
           scale = 1.0;
         }
       }

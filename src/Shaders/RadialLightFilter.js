@@ -18,10 +18,10 @@ class RadialLightFilter extends Phaser.Filter {
 
     // Light Decay Uniforms
     this.uniforms.timedDistance = { type: '1f', value: 0 }
-    this.uniforms.socket2Decay = { type: '1f', value: 0 }
-    this.uniforms.socket3Decay = { type: '1f', value: 0 }
-    this.uniforms.socket4Decay = { type: '1f', value: 0 }
-    this.uniforms.socket5Decay = { type: '1f', value: 0 }
+    this.uniforms.socket2Decay = { type: '1f', value: 75 }
+    this.uniforms.socket3Decay = { type: '1f', value: 75 }
+    this.uniforms.socket4Decay = { type: '1f', value: 75 }
+    this.uniforms.socket5Decay = { type: '1f', value: 75 }
     
     // Socket on/off uniforms
     this.uniforms.socket2 = { type: '1i', value: 0 }
@@ -205,7 +205,13 @@ class RadialLightFilter extends Phaser.Filter {
     }
   }
 
-  
+  // This function is used to keep the lights situated in world space
+  toWorld (camera, posX, posY) {
+    return {
+      x: posX - this.camera.x,
+      y: posY + this.camera.y
+    }
+  }
 
   iterate () {
     // Dim the player lights
@@ -251,6 +257,10 @@ class RadialLightFilter extends Phaser.Filter {
         // Decrease this.socket2Decay by the designated rateDecay
         this.socket2Decay -= this.rateDecay2
       }
+      // Kill light
+      if (this.socket2Decay < 30.0) {
+        this.socket2Decay = 0.0
+      }
     }
     // Check if socket 3 is on
     if (this.socket3 === 1) {
@@ -258,6 +268,10 @@ class RadialLightFilter extends Phaser.Filter {
       if (this.socket3Decay > 0.0) {
         // Decrease this.socket3Decay by the designated rateDecay
         this.socket3Decay -= this.rateDecay3
+      }
+      // Kill light
+      if (this.socket3Decay < 30.0) {
+        this.socket3Decay = 0.0
       }
     }
     // Check if socket 4 is on
@@ -267,6 +281,10 @@ class RadialLightFilter extends Phaser.Filter {
         // Decrease this.socket4Decay by the designated rateDecay
         this.socket4Decay -= this.rateDecay4
       }
+      // Kill light
+      if (this.socket4Decay < 30.0) {
+        this.socket4Decay = 0.0
+      }
     }
     // Check if socket 5 is on
     if (this.socket5 === 1) {
@@ -274,6 +292,10 @@ class RadialLightFilter extends Phaser.Filter {
       if (this.socket5Decay > 0.0) {
         // Decrease this.socket5Decay by the designated rateDecay
         this.socket5Decay -= this.rateDecay5
+        // Kill light
+        if (this.socket5Decay < 30.0) {
+          this.socket5Decay = 0.0
+        }
       }
     }
   }

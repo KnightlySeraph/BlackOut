@@ -388,7 +388,7 @@ class TestLevel extends Phaser.State {
       }
     }
 
-    // create light on the player when shift is pressed
+    // Interactive light increase block, must exists in any level's update where the player exists
     if (this.radialLight.GetTimer() < 150.0) {
       if (this.isWinding) {
         this.radialLight.SetTimer(this.radialLight.GetTimer() + 0.7)
