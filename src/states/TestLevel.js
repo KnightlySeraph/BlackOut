@@ -434,9 +434,10 @@ class TestLevel extends Phaser.State {
       console.log('setting light')
     }
 
+    // Camera needs to be passed every frame
+    this.radialLight.SetCam(this.world.camera)
     if (this.debugLight.justPressed()) {
-      this.radialLight.SetCam(this.world.camera)
-      this.radialLight.createLight(1240, 200, 75.0, 0.1)
+      this.radialLight.createLight(496, 502, 75.0, 0.1)
     }
 
     // let lightPos = this.setLightPos(0, 0)

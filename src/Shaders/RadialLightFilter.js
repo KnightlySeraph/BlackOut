@@ -346,7 +346,7 @@ class RadialLightFilter extends Phaser.Filter {
     // check if Socket 2 is on
     if (this.socket2 === 1) {
       // call the to world function defined above
-      this.socket2Pos = this.toWorld(this.camera, this.GetSocket2Pos.x, this.GetSocket2Pos.y)
+      // this.socket2Pos = this.toWorld(this.camera, this.GetSocket2Pos.x, this.GetSocket2Pos.y)
     }
   }
 }
