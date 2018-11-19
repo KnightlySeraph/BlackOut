@@ -354,7 +354,7 @@ class TestLevel extends Phaser.State {
         console.log('Shader Disabled')
       } else {
         let screenSpacePos = this.toScreenSpace(
-          { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
+          { x: this.player.world.x, y: this.player.world.y - this.player.height * 2 }
         )
         this.radialLight.moveLight(screenSpacePos)
         // this.radialLight.varyDist = 50
@@ -435,7 +435,8 @@ class TestLevel extends Phaser.State {
     }
 
     if (this.debugLight.justPressed()) {
-      this.radialLight.createLight(500, 150, 40, 40)
+      this.radialLight.SetCam(this.world.camera)
+      this.radialLight.createLight(1240, 200, 75.0, 0.1)
     }
 
     // let lightPos = this.setLightPos(0, 0)
