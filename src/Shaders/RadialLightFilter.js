@@ -36,6 +36,12 @@ class RadialLightFilter extends Phaser.Filter {
     this.timer = 150
     this.blink = 0
     this.lightSize = 0
+
+    // Rates of decrease, used by the iterate function
+    this.rateDecay2 = 0.1
+    this.rateDecay3 = 0.1
+    this.rateDecay4 = 0.1
+    this.rateDecay5 = 0.1
   }
 
   // Create a timer
@@ -207,11 +213,6 @@ class RadialLightFilter extends Phaser.Filter {
       this.timer -= 0.1 // decrease the timer over time
     }
 
-  
-    // console.log(this.timer)
-    // console.log('Light Size uniform is ' + this.timedDistance)
-    // console.log('Light Size is ' + this.lightSize)
-
     // change var light size based off of timer
     if (this.timer <= 0.0) {
       this.lightSize = 0
@@ -220,20 +221,15 @@ class RadialLightFilter extends Phaser.Filter {
     } else if (this.timer <= 75.0) {
       this.lightSize = 2
     } else if (this.timer <= 100.0) {
-      this.lightsize = 3
+      this.lightSize = 3
     } else if (this.timer <= 125.0) {
-      this.lightsize = 4
+      this.lightSize = 4
     } else {
       this.lightSize = 5
-    }
-
-    if (this.lightSize === 5) {
-      console.log('The light size is 5')
     }
     
     // Update the light around the player
     if (this.lightSize === 5) {
-      console.log('Entered light5 size statement')
       this.timedDistance = 150.0
     } else if (this.lightSize === 4) {
       this.timedDistance = 125.0
@@ -245,6 +241,40 @@ class RadialLightFilter extends Phaser.Filter {
       this.timedDistance = 50.0
     } else {
       this.timedDistance = 0.0
+    }
+
+    // The following will decrement the other lights within the system
+    // Check if socket 2 is on
+    if (this.socket2 === 1) {
+      // Make sure this.socket2Decay does not fall below zero
+      if (this.socket2Decay > 0.0) {
+        // Decrease this.socket2Decay by the designated rateDecay
+        this.socket2Decay -= this.rateDecay2
+      }
+    }
+    // Check if socket 3 is on
+    if (this.socket3 === 1) {
+      // Make sure this.socket3Decay does not fall below zero
+      if (this.socket3Decay > 0.0) {
+        // Decrease this.socket3Decay by the designated rateDecay
+        this.socket3Decay -= this.rateDecay3
+      }
+    }
+    // Check if socket 4 is on
+    if (this.socket4 === 1) {
+      // Make sure this.socket4Decay does not fall below zero
+      if (this.socket4Decay > 0.0) {
+        // Decrease this.socket4Decay by the designated rateDecay
+        this.socket4Decay -= this.rateDecay4
+      }
+    }
+    // Check if socket 5 is on
+    if (this.socket5 === 1) {
+      // Make sure this.socket5Decay does not fall below zero
+      if (this.socket5Decay > 0.0) {
+        // Decrease this.socket5Decay by the designated rateDecay
+        this.socket5Decay -= this.rateDecay5
+      }
     }
   }
 }
