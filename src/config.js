@@ -8,8 +8,8 @@
  */
 
 export default {
-  gameWidth: 1000, // The width of the game viewport in the browser
-  gameHeight: 666, // The height of the game viewport in the browser
+  gameWidth: 1920, // The width of the game viewport in the browser
+  gameHeight: 938, // The height of the game viewport in the browser // taskbar not hidden value: 938
   localStorageName: 'stoutGDD325', // Prefix for cookie & session storage
   
   // List of webfonts you want to load
