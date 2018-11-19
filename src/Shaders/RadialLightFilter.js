@@ -227,25 +227,26 @@ class RadialLightFilter extends Phaser.Filter {
       this.lightSize = 5
     }
 
-    console.log(this.lightSize)
+    if (this.lightSize === 5) {
+      console.log('The light size is 5')
+    }
     
     // Update the light around the player
-    if (this.lightsize === 5) {
+    if (this.lightSize === 5) {
       console.log('Entered light5 size statement')
       this.timedDistance = 150.0
-    } else if (this.lightsize === 4) {
+    } else if (this.lightSize === 4) {
       this.timedDistance = 125.0
     } else if (this.lightSize === 3) {
       this.timedDistance = 100.0
-    } else if (this.lightsize === 2) {
+    } else if (this.lightSize === 2) {
       this.timedDistance = 75.0
-    } else if (this.lightsize === 1) {
+    } else if (this.lightSize === 1) {
       this.timedDistance = 50.0
     } else {
       this.timedDistance = 0.0
     }
   }
-
 }
 
 export default RadialLightFilter
