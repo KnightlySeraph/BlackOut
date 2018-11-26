@@ -44,6 +44,11 @@ class RadialLightFilter extends Phaser.Filter {
     this.rateDecay4 = 0.1
     this.rateDecay5 = 0.1
 
+    // Permenant locations
+    this.passLoc2 = { x: 0.0, y: 0.0 }
+    this.passLoc3 = { x: 0.0, y: 0.0 }
+    this.passLoc4 = { x: 0.0, y: 0.0 }
+    this.passLoc5 = { x: 0.0, y: 0.0 }
   }
 
   // Create a timer
@@ -132,6 +137,11 @@ class RadialLightFilter extends Phaser.Filter {
     return this.uniforms.socket5.value
   }
 
+  // Alternative gets for sockets to circumvent a bug
+  gSocket2 () {
+    return this.uniforms.socket2.value
+  }
+
   // Gets for the decays
   get socket2Decay () {
     return this.uniforms.socket2Decay.value
@@ -190,16 +200,23 @@ class RadialLightFilter extends Phaser.Filter {
     return this.timer
   }
 
+  // These gets grab the values for the permenant locations of lights passed by the create light function
+  gPassLoc2 () {
+    return {
+      x: this.passLoc2.x,
+      y: this.passLoc2.y
+    }
+  }
+
   // Function used to add the camera to the class
   SetCam (camera) {
-    this.camera = camera
+     this.camera = camera
   }
   /**
-   * 
    * @param {number} locX X position of the point light, float expected
    * @param {number} locY Y position of the point light, float expected
    * @param {number} intensity Size of light, float expected
-   * @param {number} duration Duration of the light, float expected
+   * @param {number} duration Rate of decay, takes (intensity - duration) every frame, float expected
    */
   createLight (locX, locY, intensity, duration) {
   // Potential Socket will be used to keep track of which socket that is being set
@@ -227,18 +244,28 @@ class RadialLightFilter extends Phaser.Filter {
     } else if (this.potentialSocket === 2) {
       this.socket2 = 1
       console.log('Just set this.socket2 to be one')
-      this.moveSocket2 = (locX, locY)
+      this.passLoc2.x = locX
+      this.passLoc2.y = locY
       this.socket2Decay = intensity
       this.rateDecay2 = duration
     } else if (this.potentialSocket === 3) {
       this.socket3 = 1
-      this.moveSocket3 = (locX, locY)
+      this.passLoc3.x = locX
+      this.passLoc3.y = locY
+      this.socket3Decay = intensity
+      this.rateDecay3 = duration
     } else if (this.potentialSocket === 4) {
       this.socket4 = 1
-      this.moveSocket4 = (locX, locY)
+      this.passLoc4.x = locX
+      this.passLoc4.y = locY
+      this.socket4Decay = intensity
+      this.rateDecay4 = duration
     } else if (this.potentialSocket === 5) {
       this.socket5 = 1
-      this.moveSocket5 = (locX, locY)
+      this.passLoc5.x = locX
+      this.passLoc5.y = locY
+      this.socket5Decay = intensity
+      this.rateDecay5 = duration
     } else {
       console.log('ERROR: Potential Socket out of range, potential socket must be -1, 2, 3, 4, or 5 other values not excepted')
     }

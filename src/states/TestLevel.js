@@ -173,19 +173,6 @@ class TestLevel extends Phaser.State {
 
     // Creates the Shader
     this.setupShader()
-    // Lighting vars, must be made here in every level that uses the lighting system
-    this.socket2Toggle = false
-    this.socket3Toggle = false
-    this.socket4Toggle = false
-    this.socket5Toggle = false
-    this.socket2Size = 150.0
-    this.socket3Size = 150.0
-    this.socket4Size = 150.0
-    this.socket5Size = 150.0
-    this.socket2Rate = 0.1
-    this.socket3Rate = 0.1
-    this.socket4Rate = 0.1
-    this.socket5Rate = 0.1
 
     // Set up a camera to follow the player
     // Zoom in camera
@@ -207,8 +194,6 @@ class TestLevel extends Phaser.State {
     this.radialLight = new RadialLightFilter(this.game)
     this.radialLight.timedDistance = 50
     this.game.world.filters = [ this.radialLight ]
-
-    // this.radialLight.moveSocket2(this.toScreenSpace({ x: 1000, y: 500 }))
   }
 
   consoleLogDebug () {
@@ -233,13 +218,6 @@ class TestLevel extends Phaser.State {
     return {
       x: this.world.camera.x - point.x,
       y: (point.y - this.world.camera.y) - this.world.height
-    }
-  }
-
-  decrementNumber (num, rate) {
-    while (num > 0) {
-      num -= rate
-      console.log(num)
     }
   }
 
@@ -374,10 +352,6 @@ class TestLevel extends Phaser.State {
       }
     }
 
-    // this.radialLight.moveSocket2(
-    //   this.setLightPos({ x: 50, y: 50 })
-    // )
-
     // Testing a numbers deacrese rate
     if (timerTesting > 0) {
       timerTesting -= 0.1
@@ -407,70 +381,28 @@ class TestLevel extends Phaser.State {
         this.radialLight.SetTimer(this.radialLight.GetTimer() + 0.7)
       }
     }
-
+    // Absolutely vital to the lights working, do not remove this line
     this.radialLight.iterate()
-
-    // Seperate from the player light, turn on socket 2
-    if (this.socket2.justPressed()) {
-      // Console out the two was pressed
-      console.log('Two was pressed')
-      // Turn Socket 2 on/off
-      if (this.socket2Toggle) {
-        this.radialLight.socket2 = 0
-        this.socket2Toggle = false
-      } else {
-        this.radialLight.socket2 = 1
-        console.log('Turning Socket 2 on')
-        this.socket2Toggle = true
-        this.radialLight.socket3 = 1
-        this.radialLight.socket4 = 1
-        this.radialLight.socket5 = 1
-      }
-
-      let screenSpacePos = this.setLightPos(0, 0)
-
-      this.radialLight.moveSocket2(screenSpacePos)
-
-      console.log('Camera Height is ' + this.game.camera.height + '   Camera Width is ' + this.game.camera.width)
-      console.log('Location of the camera is (' + this.world.camera.x + ', ' + this.world.camera.y + ')')
-      console.log('Location of the player is (' + this.player.world.x + ', ' + this.player.world.y + ')')
-      console.log('Size of the world is Height: ' + this.world.height + ' Width: ' + this.world.width)
-      console.log('Player height is' + this.player.height)
-
-      // this.radialLight.moveSocket2([this.player.world.x, this.player.world.y + this.player.height / 2])
-    }
-    if (this.socket2Toggle) {
-      this.radialLight.moveSocket2(this.setLightPos(1240, 200))
-      this.radialLight.moveSocket3(this.setLightPos(1000, 150))
-      this.radialLight.moveSocket4(this.setLightPos(1350, 150))
-      this.radialLight.moveSocket5(this.setLightPos(1550, 150))
-      console.log('setting light')
-    }
-
-    // Camera needs to be passed every frame
-    this.radialLight.SetCam(this.world.camera)
+    // Debug button bound to three, tests the createLight function
     if (this.debugLight.justPressed()) {
-      this.radialLight.createLight(496, 502, 75.0, 0.1)
+      this.radialLight.createLight(1000, 150, 75.0, 0.1)
     }
 
     // let lightPos = this.setLightPos(0, 0)
     // this.radialLight.moveSocket2(lightPos)
 
-    // update lights
-    // This block of code uses the update function to
-    // drive certain timed events, such as light fade
-    // and must be in all updates the use the create light function
-    if (this.radialLight.socket2) {
-
+    // Light Positioning Block ~ This must be in a level update, it keeps the lights situated in world space
+    if (this.radialLight.socket2 === 1) {
+      this.radialLight.moveSocket2(this.setLightPos(this.radialLight.passLoc2.x, this.radialLight.passLoc2.y))
     }
-    if (this.radialLight.socket3) {
-
+    if (this.radialLight.socket3 === 1) {
+      this.radialLight.moveSocket3(this.setLightPos(this.radialLight.passLoc3.x, this.radialLight.passLoc3.y))
     }
-    if (this.radialLight.socket4) {
-
+    if (this.radialLight.socket4 === 1) {
+      this.radialLight.moveSocket4(this.setLightPos(this.radialLight.passLoc4.x, this.radialLight.passLoc4.y))
     }
-    if (this.radialLight.socket5) {
-
+    if (this.radialLight.socket5 === 1) {
+      this.radialLight.moveSocket5(this.setLightPos(this.radialLight.passLoc5.x, this.radialLight.passLoc5.y))
     }
   }
 
