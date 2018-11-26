@@ -12,24 +12,35 @@ class MainMenu extends Phaser.State {
   }
 
   create () {
+    let mainMenuBG = this.game.add.sprite(0, 0, 'mainMenu', 0)
+    mainMenuBG.smoothed = false
+
+    let logo = this.game.add.sprite(this.game.world.centerX - 800, this.game.world.centerY - 400, 'mmLogo', 0)
+    logo.scale.setTo(9, 9)
+    logo.smoothed = false
+
+    let sethsBastment = this.game.add.sprite(this.game.world.centerX - 620, this.game.world.centerY + 370, 'sethsBastment', 0)
+    sethsBastment.scale.setTo(3, 3)
+    sethsBastment.smoothed = false
+
     let buttonPlay, buttonSettings, buttonControls, buttonExit
     
-    buttonPlay = this.game.add.button(this.game.world.centerX - 400, this.game.world.centerY - 150, 'PlayButton', moveToTestLevel, this, 2, 2, 3, 3) // hover, idle, on click,  
-    buttonControls = this.game.add.button(this.game.world.centerX - 400, this.game.world.centerY - 50, 'ControlsButton', moveToSettings, this, 4, 4, 5, 5)
-    buttonSettings = this.game.add.button(this.game.world.centerX - 400, this.game.world.centerY + 50, 'SettingsButton', moveToSettings, this, 6, 6, 7, 7)
-    buttonExit = this.game.add.button(this.game.world.centerX - 400, this.game.world.centerY + 150, 'SettingsButton', moveToExit, this, 12, 12, 13, 13)
+    buttonPlay = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 190, 'PlayButton', moveToTestLevel, this, 2, 2, 3, 3) // hover, idle, on click,  
+    buttonControls = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 40, 'ControlsButton', moveToSettings, this, 4, 4, 5, 5)
+    buttonSettings = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY + 100, 'SettingsButton', moveToSettings, this, 6, 6, 7, 7)
+    buttonExit = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY + 220, 'SettingsButton', moveToExit, this, 12, 12, 13, 13)
  
     buttonPlay.smoothed = false
-    buttonPlay.scale.setTo(5, 5)
+    buttonPlay.scale.setTo(8, 8)
 
     buttonControls.smoothed = false
-    buttonControls.scale.setTo(5, 5)
+    buttonControls.scale.setTo(8, 8)
 
     buttonSettings.smoothed = false
-    buttonSettings.scale.setTo(5, 5)
+    buttonSettings.scale.setTo(8, 8)
 
     buttonExit.smoothed = false
-    buttonExit.scale.setTo(5, 5)
+    buttonExit.scale.setTo(8, 8)
   }
 
 }
