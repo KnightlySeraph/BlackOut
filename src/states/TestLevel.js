@@ -188,6 +188,16 @@ class TestLevel extends Phaser.State {
     this.socket5Rate = 0.1
 
     // Set up a camera to follow the player
+    // Zoom in camera
+    let center = Phaser.Point.add(this.game.camera.position, new Phaser.Point(this.game.camera.view.halfWidth, this.game.camera.view.halfHeight))
+    let oldCameraScale = this.game.camera.scale.clone()
+      
+    this.game.camera.scale.x += 0.5
+    this.game.camera.scale.y += 0.5
+
+    let cameraScaleRatio = Phaser.Point.divide(this.game.camera.scale, oldCameraScale)
+    this.game.camera.focusOn(Phaser.Point.multiply(center, cameraScaleRatio))
+    // camera follows the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
   }
 
