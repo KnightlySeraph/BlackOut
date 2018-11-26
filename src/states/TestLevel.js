@@ -44,18 +44,36 @@ class TestLevel extends Phaser.State {
   }
 
   create () {
-    // // Imports level
+    // // // Imports level
     // this.map = this.game.add.tilemap('Mytilemap')
     // this.map.addTilesetImage('tiles1', 'tiles1')
     // // this.map.addTilesetImage('tiles2', 'tiles2')
 
-    // // Creates Layers
+    // // // Creates Layers
     // this.layer3 = this.map.createLayer('bg_black')
     // this.layer2 = this.map.createLayer('bg_close')
     // this.layer1 = this.map.createLayer('bg_decor')
     // this.layer0 = this.map.createLayer('main_level')
 
-    // // Creates colliders for the level
+    // // // Creates colliders for the level
+    // // let customCollider = this.map.objects['collision']
+    // // customCollider.forEach(element => {
+    // //   if (element.rectangle) {
+    // //     this.Collider = this.game.add.sprite(element.x, element.y)
+    // //     this.game.physics.p2.enable(this.Collider)
+    // //     this.Collider.body.debug = __DEV__
+    // //     this.Collider.body.addRectangle(element.width, element.height)
+    // //     this.Collider.body.static = true
+    // //   } else if (element.polygon) {
+    // //     this.Collider = this.game.add.sprite(element.x, element.y)
+    // //     this.game.physics.p2.enable(this.Collider)
+    // //     this.Collider.body.debug = __DEV__
+    // //     this.Collider.body.addPolygon({}, element.polygon)
+    // //     this.Collider.body.static = true
+    // //   }
+    // // })
+
+    // Main collider
     // let customCollider = this.map.objects['collision']
     // customCollider.forEach(element => {
     //   this.Collider = this.game.add.sprite(element.x, element.y)
@@ -63,9 +81,10 @@ class TestLevel extends Phaser.State {
     //   this.Collider.body.debug = __DEV__
     //   this.Collider.body.addPolygon({}, element.polygon)
     //   this.Collider.body.static = true
+    //   this.Collider.body.setCollisionGroup(this.game.platformGroup)
     // })
 
-    // // REsize the world to the layers
+    // // // Resize the world to the layers
     // this.layer0.resizeWorld()
     // this.layer1.resizeWorld()
     // this.layer2.resizeWorld()
