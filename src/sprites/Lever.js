@@ -25,7 +25,16 @@ class Lever extends Phaser.Sprite {
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     // this.body.dynamic = false
     this.body.static = true
-    this.body.setRectangle(width, height, 0, 0)
+    this.smoothed = false
+
+    if (spriteKey === 'LeverWall') {
+      this.scale.setTo(width / 28, height / 58)
+      this.body.setRectangle(width / 2, height / 2, 28, 28)
+    } else {
+      this.scale.setTo(width / 24, height / 36)
+      this.body.setRectangle(width * 1.5, height / 1.3, 32, 50)
+    }
+    
     this.body.debug = __DEV__
 
     this.body.setCollisionGroup(this.game.leverGroup)

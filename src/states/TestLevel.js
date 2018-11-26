@@ -125,10 +125,10 @@ class TestLevel extends Phaser.State {
     // Make Levers that can be interacted with
     this.lever = [
       new Lever({
-        game: this.game, x: 1000, y: 670, width: 50, height: 100, id: 4, spriteKey: 'LeverFloor'
+        game: this.game, x: 1000, y: 630, width: 50, height: 100, id: 4, spriteKey: 'LeverFloor'
       }),
       new Lever({
-        game: this.game, x: 1200, y: 670, width: 50, height: 100, id: 5, spriteKey: 'LeverFloor'
+        game: this.game, x: 1200, y: 650, width: 50, height: 100, id: 5, spriteKey: 'LeverWall'
       })
     ]
     this.lever.forEach((obj) => {
