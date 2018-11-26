@@ -78,6 +78,10 @@ class Splash extends Phaser.State {
     this.game.load.spritesheet('PauseButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
     this.game.load.spritesheet('ExitButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
     this.game.load.spritesheet('ExitButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+
+    this.game.load.spritesheet('mainMenu', 'assets/images/mainMenuBG.png', 1920, 938, 1, 0, 0)
+    this.game.load.spritesheet('mmLogo', 'assets/images/blackoutLogo.png', 80, 16, 1, 0, 0)
+    this.game.load.spritesheet('sethsBastment', 'assets/images/sethsBasement.png', 128, 14, 1, 0, 0)
     
     // The main player spritesheet
     // this.load.spritesheet('player-main', 'assets/images/player-main.png', 64, 64)
