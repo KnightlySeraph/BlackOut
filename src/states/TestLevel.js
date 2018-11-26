@@ -438,29 +438,26 @@ class TestLevel extends Phaser.State {
     }
 
     // Camera needs to be passed every frame
-    this.radialLight.SetCam(this.world.camera)
+    // this.radialLight.SetCam(this.world.camera)
     if (this.debugLight.justPressed()) {
-      this.radialLight.createLight(496, 502, 75.0, 0.1)
+      this.radialLight.createLight(1000, 150, 75.0, 0.1)
     }
 
     // let lightPos = this.setLightPos(0, 0)
     // this.radialLight.moveSocket2(lightPos)
 
-    // update lights
-    // This block of code uses the update function to
-    // drive certain timed events, such as light fade
-    // and must be in all updates the use the create light function
-    if (this.radialLight.socket2) {
-
+    // Light Positioning Block ~ This must be in a level update, it keeps the lights situated in world space
+    if (this.radialLight.socket2 === 1) {
+      this.radialLight.moveSocket2(this.setLightPos(this.radialLight.passLoc2.x, this.radialLight.passLoc2.y))
     }
-    if (this.radialLight.socket3) {
-
+    if (this.radialLight.socket3 === 1) {
+      this.radialLight.moveSocket3(this.setLightPos(this.radialLight.passLoc3.x, this.radialLight.passLoc3.y))
     }
-    if (this.radialLight.socket4) {
-
+    if (this.radialLight.socket4 === 1) {
+      this.radialLight.moveSocket4(this.setLightPos(this.radialLight.passLoc4.x, this.radialLight.passLoc4.y))
     }
-    if (this.radialLight.socket5) {
-
+    if (this.radialLight.socket5 === 1) {
+      this.radialLight.moveSocket5(this.setLightPos(this.radialLight.passLoc5.x, this.radialLight.passLoc5.y))
     }
   }
 
