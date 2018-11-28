@@ -28,6 +28,8 @@ class Jumper extends Phaser.Sprite {
     this.body.setRectangle(width, height / 3.2, 31, 56)
     this.body.debug = __DEV__
 
+    this.myAnimations()
+
     // this.isSpring = true
 
     this.body.setCollisionGroup(this.game.jumperGroup)
@@ -35,6 +37,28 @@ class Jumper extends Phaser.Sprite {
     this.body.collides(this.game.playerGroup)
 
     this.anchor.setTo(0, 0)
+  }
+
+  myAnimations () {
+    // add animations
+    this.animations.add('stopped', [0], 1, true)
+    this.animations.add('jumping', [1, 2, 3, 4, 5, 6, 7, 8, 9], 10, false)
+
+    // Configure 'jumping' to change to 'stopped' when it ends
+    this.animations.getAnimation('jumping').onComplete.add(() => {
+      this.animations.play('stopped', 10, true)
+    }, this)
+
+    // Start in the 'stopped' animation
+    this.animations.play('stopped', 10, true)
+  }
+
+  animate (isOn) {
+    if (isOn === true) {
+      this.animations.play('jumping', 10, false)
+    } else {
+      this.animations.play('stopped', 10, true)
+    }
   }
 }
 

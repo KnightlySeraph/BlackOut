@@ -34,6 +34,8 @@ class Lever extends Phaser.Sprite {
       this.scale.setTo(width / 24, height / 36)
       this.body.setRectangle(width * 1.5, height / 1.3, 32, 50)
     }
+
+    this.myAnimations()
     
     this.body.debug = __DEV__
 
@@ -48,11 +50,27 @@ class Lever extends Phaser.Sprite {
     this.ispulled = false
   }
 
+  myAnimations () {
+    // add animations
+    //if (this.sprite.name === 'LeverFloor') {
+      this.animations.add('off', [4, 3, 2, 1, 0], 10, false)
+      this.animations.add('on', [0, 1, 2, 3, 4], 10, false)
+    //}
+    // if (this.sprite.name === 'LeverWall') {
+    //   this.animations.add('on', [4, 3, 2, 1, 0], 10, false)
+    //   this.animations.add('off', [0, 1, 2, 3, 4], 10, false)
+    // }
+  }
+
   interact () {
     console.log('In pull func')
     // Check to see whether the lever is left or right (pulled or not)
-    if ( this.ispulled === false) {
+    if (this.ispulled === false) {
       console.log('lever on')
+      this.animations.play('on')
+      this.animations.getAnimation('on').onComplete.add(() => {
+
+      }, this)
       this.ispulled = true
 
       switch (this.id) {
@@ -74,6 +92,10 @@ class Lever extends Phaser.Sprite {
       }
     } else if (this.ispulled === true) {
       console.log('lever off')
+      this.animations.play('off')
+      this.animations.getAnimation('off').onComplete.add(() => {
+
+      }, this)
       this.ispulled = false
       this.removePlatform(this.id)
     }
