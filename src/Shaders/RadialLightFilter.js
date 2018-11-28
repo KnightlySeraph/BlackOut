@@ -210,7 +210,7 @@ class RadialLightFilter extends Phaser.Filter {
 
   // Function used to add the camera to the class
   SetCam (camera) {
-     this.camera = camera
+    this.camera = camera
   }
   /**
    * @param {number} locX X position of the point light, float expected
