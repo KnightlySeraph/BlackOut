@@ -44,18 +44,36 @@ class TestLevel extends Phaser.State {
   }
 
   create () {
-    // // Imports level
+    // // // Imports level
     // this.map = this.game.add.tilemap('Mytilemap')
     // this.map.addTilesetImage('tiles1', 'tiles1')
     // // this.map.addTilesetImage('tiles2', 'tiles2')
 
-    // // Creates Layers
+    // // // Creates Layers
     // this.layer3 = this.map.createLayer('bg_black')
     // this.layer2 = this.map.createLayer('bg_close')
     // this.layer1 = this.map.createLayer('bg_decor')
     // this.layer0 = this.map.createLayer('main_level')
 
-    // // Creates colliders for the level
+    // // // Creates colliders for the level
+    // // let customCollider = this.map.objects['collision']
+    // // customCollider.forEach(element => {
+    // //   if (element.rectangle) {
+    // //     this.Collider = this.game.add.sprite(element.x, element.y)
+    // //     this.game.physics.p2.enable(this.Collider)
+    // //     this.Collider.body.debug = __DEV__
+    // //     this.Collider.body.addRectangle(element.width, element.height)
+    // //     this.Collider.body.static = true
+    // //   } else if (element.polygon) {
+    // //     this.Collider = this.game.add.sprite(element.x, element.y)
+    // //     this.game.physics.p2.enable(this.Collider)
+    // //     this.Collider.body.debug = __DEV__
+    // //     this.Collider.body.addPolygon({}, element.polygon)
+    // //     this.Collider.body.static = true
+    // //   }
+    // // })
+
+    // Main collider
     // let customCollider = this.map.objects['collision']
     // customCollider.forEach(element => {
     //   this.Collider = this.game.add.sprite(element.x, element.y)
@@ -63,9 +81,10 @@ class TestLevel extends Phaser.State {
     //   this.Collider.body.debug = __DEV__
     //   this.Collider.body.addPolygon({}, element.polygon)
     //   this.Collider.body.static = true
+    //   this.Collider.body.setCollisionGroup(this.game.platformGroup)
     // })
 
-    // // REsize the world to the layers
+    // // // Resize the world to the layers
     // this.layer0.resizeWorld()
     // this.layer1.resizeWorld()
     // this.layer2.resizeWorld()
@@ -175,6 +194,16 @@ class TestLevel extends Phaser.State {
     this.setupShader()
 
     // Set up a camera to follow the player
+    // Zoom in camera
+    let center = Phaser.Point.add(this.game.camera.position, new Phaser.Point(this.game.camera.view.halfWidth, this.game.camera.view.halfHeight))
+    let oldCameraScale = this.game.camera.scale.clone()
+      
+    this.game.camera.scale.x += 0.5
+    this.game.camera.scale.y += 0.5
+
+    let cameraScaleRatio = Phaser.Point.divide(this.game.camera.scale, oldCameraScale)
+    this.game.camera.focusOn(Phaser.Point.multiply(center, cameraScaleRatio))
+    // camera follows the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
   }
 
