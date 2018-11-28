@@ -44,51 +44,52 @@ class TestLevel extends Phaser.State {
   }
 
   create () {
-    // // // Imports level
-    // this.map = this.game.add.tilemap('Mytilemap')
-    // this.map.addTilesetImage('tiles1', 'tiles1')
-    // // this.map.addTilesetImage('tiles2', 'tiles2')
+    // Imports level
+    this.map = this.game.add.tilemap('Mytilemap')
+    this.map.addTilesetImage('tiles1', 'tiles1')
+    // this.map.addTilesetImage('tiles2', 'tiles2')
 
-    // // // Creates Layers
-    // this.layer3 = this.map.createLayer('bg_black')
-    // this.layer2 = this.map.createLayer('bg_close')
-    // this.layer1 = this.map.createLayer('bg_decor')
-    // this.layer0 = this.map.createLayer('main_level')
+    // // Creates Layers
+    this.layer3 = this.map.createLayer('bg_black')
+    this.layer2 = this.map.createLayer('bg_close')
+    this.layer1 = this.map.createLayer('bg_decor')
+    this.layer0 = this.map.createLayer('main_level')
 
-    // // // Creates colliders for the level
-    // // let customCollider = this.map.objects['collision']
-    // // customCollider.forEach(element => {
-    // //   if (element.rectangle) {
-    // //     this.Collider = this.game.add.sprite(element.x, element.y)
-    // //     this.game.physics.p2.enable(this.Collider)
-    // //     this.Collider.body.debug = __DEV__
-    // //     this.Collider.body.addRectangle(element.width, element.height)
-    // //     this.Collider.body.static = true
-    // //   } else if (element.polygon) {
-    // //     this.Collider = this.game.add.sprite(element.x, element.y)
-    // //     this.game.physics.p2.enable(this.Collider)
-    // //     this.Collider.body.debug = __DEV__
-    // //     this.Collider.body.addPolygon({}, element.polygon)
-    // //     this.Collider.body.static = true
-    // //   }
-    // // })
-
-    // Main collider
+    // // Creates colliders for the level
     // let customCollider = this.map.objects['collision']
     // customCollider.forEach(element => {
-    //   this.Collider = this.game.add.sprite(element.x, element.y)
-    //   this.game.physics.p2.enable(this.Collider)
-    //   this.Collider.body.debug = __DEV__
-    //   this.Collider.body.addPolygon({}, element.polygon)
-    //   this.Collider.body.static = true
-    //   this.Collider.body.setCollisionGroup(this.game.platformGroup)
+    //   if (element.rectangle) {
+    //     this.Collider = this.game.add.sprite(element.x, element.y)
+    //     this.game.physics.p2.enable(this.Collider)
+    //     this.Collider.body.debug = __DEV__
+    //     this.Collider.body.addRectangle(element.width, element.height)
+    //     this.Collider.body.static = true
+    //   } else if (element.polygon) {
+    //     this.Collider = this.game.add.sprite(element.x, element.y)
+    //     this.game.physics.p2.enable(this.Collider)
+    //     this.Collider.body.debug = __DEV__
+    //     this.Collider.body.addPolygon({}, element.polygon)
+    //     this.Collider.body.static = true
+    //   }
     // })
 
-    // // // Resize the world to the layers
-    // this.layer0.resizeWorld()
-    // this.layer1.resizeWorld()
-    // this.layer2.resizeWorld()
-    // this.layer3.resizeWorld()
+    // Main collider
+    let customCollider = this.map.objects['collision']
+    customCollider.forEach(element => {
+      this.Collider = this.game.add.sprite(element.x, element.y)
+      this.game.physics.p2.enable(this.Collider)
+      this.Collider.body.debug = __DEV__
+      this.Collider.body.addPolygon({}, element.polygon)
+      this.Collider.body.static = true
+      this.Collider.body.setCollisionGroup(this.game.platformGroup)
+      this.Collider.body.collides(this.game.playerGroup)
+    })
+
+    // // Resize the world to the layers
+    this.layer0.resizeWorld()
+    this.layer1.resizeWorld()
+    this.layer2.resizeWorld()
+    this.layer3.resizeWorld()
 
     // Create and add the main player object
     this.player = new MainPlayer({
@@ -110,7 +111,7 @@ class TestLevel extends Phaser.State {
     this.emit.bounce = 0.5
     this.emit.gravity = 50
 
-    this.emit.start(true, 0, null, 5000)
+    // this.emit.start(true, 0, null, 5000)
 
     // Compute a reasonable height for the floor based on the height of the player sprite
     let floorHeight = this.player.bottom
@@ -195,14 +196,13 @@ class TestLevel extends Phaser.State {
 
     // Set up a camera to follow the player
     // Zoom in camera
-    let center = Phaser.Point.add(this.game.camera.position, new Phaser.Point(this.game.camera.view.halfWidth, this.game.camera.view.halfHeight))
-    let oldCameraScale = this.game.camera.scale.clone()
-      
-    this.game.camera.scale.x += 0.5
-    this.game.camera.scale.y += 0.5
+    // let center = Phaser.Point.add(this.game.camera.position, new Phaser.Point(this.game.camera.view.halfWidth, this.game.camera.view.halfHeight))
+    // let oldCameraScale = this.game.camera.scale.clone()
+    // this.game.camera.scale.x += 0.5
+    // this.game.camera.scale.y += 0.5
 
-    let cameraScaleRatio = Phaser.Point.divide(this.game.camera.scale, oldCameraScale)
-    this.game.camera.focusOn(Phaser.Point.multiply(center, cameraScaleRatio))
+    // let cameraScaleRatio = Phaser.Point.divide(this.game.camera.scale, oldCameraScale)
+    // this.game.camera.focusOn(Phaser.Point.multiply(center, cameraScaleRatio))
     // camera follows the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
   }

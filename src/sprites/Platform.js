@@ -17,7 +17,7 @@ class Platform extends Phaser.Sprite {
   constructor ({ game, x, y, width, height, id }) {
     super(game, 0, 0, 'blank', 0)
     this.name = 'plat'
-//    this.scale.setTo(width / 10, height / 10)
+    // this.scale.setTo(width / 10, height / 10)
     this.id = id
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
