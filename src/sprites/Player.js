@@ -4,6 +4,8 @@
 import Phaser from 'phaser'
 import P2 from 'p2'
 
+import Jumper from './Jumper.js'
+
 // Import needed functions from utils and config settings
 import { sequentialNumArray } from '../utils.js'
 import config from '../config'
@@ -100,6 +102,7 @@ class MainPlayer extends Phaser.Sprite {
         this._override_state = MainPlayer.overrideStates.NONE
         this.body.velocity.y = 0
         this.overrideState = MainPlayer.overrideStates.JUMPING
+        otherPhaserBody.sprite.animate(true)
         this.jumpingFromJumper = true
       }
     }
@@ -118,6 +121,8 @@ class MainPlayer extends Phaser.Sprite {
     if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
     } else if (otherPhaserBody.sprite.name === 'jumper') {
+     // Jumper.animate(false)
+     // otherPhaserBody.sprite.animations.play('stopped', 10, true)
       this.isSpring = false
       console.log('exit spring')
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
