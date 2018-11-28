@@ -404,7 +404,10 @@ class TestLevel extends Phaser.State {
     this.radialLight.iterate()
     // Debug button bound to three, tests the createLight function
     if (this.debugLight.justPressed()) {
-      this.radialLight.createLight(1000, 150, 75.0, 0.1)
+      this.radialLight.createLight(600, 100, 150.0, 0.1)
+      this.radialLight.createLight(700, 100, 200.0, 0.1)
+      this.radialLight.createLight(800, 100, 75.0, 0.1)
+      this.radialLight.createLight(900, 100, 400.0, 1.5)
     }
 
     // let lightPos = this.setLightPos(0, 0)
