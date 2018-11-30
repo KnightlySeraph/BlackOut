@@ -86,10 +86,10 @@ class TestLevel extends Phaser.State {
     })
 
     // // Resize the world to the layers
-    // this.layer0.resizeWorld()
-    // this.layer1.resizeWorld()
-    // this.layer2.resizeWorld()
-    // this.layer3.resizeWorld()
+    this.layer0.resizeWorld()
+    this.layer1.resizeWorld()
+    this.layer2.resizeWorld()
+    this.layer3.resizeWorld()
 
     // Create and add the main player object
     this.player = new MainPlayer({
