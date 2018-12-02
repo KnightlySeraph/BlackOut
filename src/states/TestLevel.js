@@ -302,6 +302,9 @@ class TestLevel extends Phaser.State {
     this.logInfo = this.game.input.keyboard.addKey(Phaser.KeyCode.D)
     this.interact = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
 
+    // Returns to main menu
+    this.return = this.game.input.keyboard.addKey(Phaser.KeyCode.ESC)
+
     // Wind Clock with lshift
     this.clock = this.game.input.keyboard.addKey(Phaser.KeyCode.TAB)
     // Light Testing Inputs
@@ -310,7 +313,7 @@ class TestLevel extends Phaser.State {
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO, Phaser.KeyCode.ESC
     ])
   }
 
@@ -369,6 +372,11 @@ class TestLevel extends Phaser.State {
         this.radialLight.moveLight(screenSpacePos)
         // this.radialLight.varyDist = 50
       }
+    }
+
+    // Return to main menu
+    if (this.return.justPressed()) {
+      this.state.start('MainMenu')
     }
 
     // Testing a numbers deacrese rate
