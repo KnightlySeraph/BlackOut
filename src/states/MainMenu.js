@@ -26,7 +26,7 @@ class MainMenu extends Phaser.State {
     let buttonPlay, buttonSettings, buttonControls, buttonExit
     
     buttonPlay = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 190, 'PlayButton', moveToTestLevel, this, 2, 2, 3, 3) // hover, idle, on click,  
-    buttonControls = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 40, 'ControlsButton', moveToSettings, this, 4, 4, 5, 5)
+    buttonControls = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 40, 'ControlsButton', moveToControls, this, 4, 4, 5, 5)
     buttonSettings = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY + 100, 'SettingsButton', moveToSettings, this, 6, 6, 7, 7)
     buttonExit = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY + 220, 'SettingsButton', moveToExit, this, 12, 12, 13, 13)
  
@@ -47,6 +47,10 @@ class MainMenu extends Phaser.State {
 
 function moveToTestLevel () {
   this.state.start('TestLevel')
+}
+
+function moveToControls () {
+  this.state.start('ControlPage')
 }
 
 function moveToSettings () {
