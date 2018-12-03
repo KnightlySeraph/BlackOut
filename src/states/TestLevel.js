@@ -132,26 +132,26 @@ class TestLevel extends Phaser.State {
     this.timer = new Phaser.Timer(this.game)
     this.timer.add(4000, this.consoleLogDebug, this)
     this.timer.start()
-    // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
-    // this.platforms = [
-    //   new Platform({
-    //     game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
-    //   }),
+   // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
+    this.platforms = [
+      new Platform({
+        game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
+      }),
 
-    //   // Side Platforms to mimic World Bounds while they are "broken"
-    //   new Platform({ // Temp Ground
-    //     game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
-    //   }),
-    //   new Platform({ // Right Side Wall
-    //     game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
-    //   }),
-    //   new Platform({ // Left Side Wall
-    //     game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
-    //   })
-    // ]
-    // this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
-    //   this.game.add.existing(obj)
-    // })
+      // Side Platforms to mimic World Bounds while they are "broken"
+      new Platform({ // Temp Ground
+        game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
+      }),
+      new Platform({ // Right Side Wall
+        game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
+      }),
+      new Platform({ // Left Side Wall
+        game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
+      })
+    ]
+    this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
+      this.game.add.existing(obj)
+    })
 
     // Make Levers that can be interacted with
     this.lever = [
@@ -339,6 +339,7 @@ class TestLevel extends Phaser.State {
 
     // Return to main menu
     if (this.return.justPressed()) {
+      this.game.world.setBounds(0, 0, this.game.width, this.game.height)
       this.state.start('MainMenu')
     }
 
