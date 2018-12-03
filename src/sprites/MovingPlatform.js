@@ -14,20 +14,25 @@ import config from '../config'
  * See Phaser.Sprite for more about sprite objects and what they support.
  */
 class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
-  constructor ({ game, x, y, width, height, id, maxVelocity }) {
-    super(game, 0, 0, 'blank', 0)
+  constructor ({ game, x, y, id, spriteName, light }) {
+    super(game, 0, 0, spriteName, 0)
     this.name = 'mover'
+    this.light = light
 //    this.scale.setTo(width / 10, height / 10)
     this.id = id
-    this.maxVelocity = maxVelocity
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
-    this.body.setRectangle(width, height, 0, 0)
+    if (spriteName === 'Elevator') {
+      this.body.setRectangle(125, 95, 63.5, 239.5)
+      this.topSensor = this.body.addRectangle(125 * 0.9, 5, 63.5, 190)
+    }
+    else if (spriteName === 'smallPlatform') {
+      this.body.setRectangle(57, 16, 31, 15)
+      this.topSensor = this.body.addRectangle(57 * 0.9, 5, 31, 7)
+    }
     this.body.debug = __DEV__
 
     this.body.mass = 0
-
-    this.topSensor = this.body.addRectangle(width * 0.9, 5, 0, -height / 2)
     this.topSensor.sensor = true
     this.topSensor.name = 'Top Sensor'
 
@@ -45,7 +50,7 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
   }
 
   setupTween (id) {
-    let duration = 5000
+    let duration = 8000
     let destination = {}
 
     switch (id) {
@@ -64,6 +69,11 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
     }
 
     this.tween = this.game.add.tween(this.body).to(destination, duration, Phaser.Easing.Linear.None, false, 100, -1, true)
+    if (this.spriteName === 'Elevator') { 
+    this.light.createLight(this.body.x + 30, this.body.y - 600, 250.0, 0.5)
+    } else if (this.spriteName === 'smallPlatform'){
+      this.light.createLight(this.body.x + 30, this.body.y - 400, 150.0, 0.5)
+    }
   }
 
   startMovement () {
