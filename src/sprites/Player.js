@@ -77,7 +77,7 @@ class MainPlayer extends Phaser.Sprite {
 
     // Set up collision groups
     this.body.setCollisionGroup(this.game.playerGroup)
-    this.body.collides([this.game.platformGroup, this.game.movingPlatformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
+    this.body.collides([this.game.platformGroup, this.game.deathGroup, this.game.movingPlatformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
 
     this.body.onBeginContact.add(this.onBeginContact, this)
     this.body.onEndContact.add(this.onExitContact, this)
@@ -104,6 +104,8 @@ class MainPlayer extends Phaser.Sprite {
         this.overrideState = MainPlayer.overrideStates.JUMPING
         otherPhaserBody.sprite.animate(true)
         this.jumpingFromJumper = true
+      } else if (otherPhaserBody.sprite.name === 'pitOfDeath') {
+        this.game.state.start(this.game.state.current)
       }
     }
   }
@@ -129,6 +131,8 @@ class MainPlayer extends Phaser.Sprite {
     } else if (otherPhaserBody.sprite.name === 'mover') {
       console.log('exit mover')
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
+    } else if (otherPhaserBody.sprite.name === 'pitOfDeath') {
+      console.log('Left the pit')
     }
   }
 

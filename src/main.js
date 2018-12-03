@@ -10,6 +10,7 @@ import BootState from './states/Boot' // A preliminary state that loads minimal 
 import SplashState from './states/Splash' // A fancy loading splash screen for loading more assets
 import TestLevelState from './states/TestLevel' // The main game level for testing
 import MainMenuState from './states/MainMenu' // The main menu screen
+import ControlState from './states/ControlPage' // Control page
 // import SettingsState from './states/Settings' // The settings screen
 // import ControlsState from './states/Controls' // The controls explaining screen
 
@@ -32,6 +33,7 @@ class Game extends Phaser.Game {
     this.state.add('Splash', SplashState, false)
     this.state.add('TestLevel', TestLevelState, false)
     this.state.add('MainMenu', MainMenuState, false)
+    this.state.add('ControlPage', ControlState, false)
     // this.state.add('Settings', SettingsState, false)
     // this.state.add('Controls', ControlsState, false)
 

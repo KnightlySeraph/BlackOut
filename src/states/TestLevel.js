@@ -17,6 +17,7 @@ import config from '../config'
 import PlayerLightFilter from '../Shaders/PlayerLightFilter'
 import RadialLightFilter from '../Shaders/RadialLightFilter'
 import MovingPlatform from '../sprites/MovingPlatform'
+import PitOfDeath from '../sprites/PitDeath'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -43,17 +44,19 @@ class TestLevel extends Phaser.State {
     this.game.load.image('light', 'assets/images/light.png')
   }
 
-  create () {
+  create () {   
+    // Uncomment this section if you want the level to show up
     // Imports level
-    this.map = this.game.add.tilemap('Mytilemap')
-    this.map.addTilesetImage('tiles1', 'tiles1')
+    // this.map = this.game.add.tilemap('Mytilemap')
+    // this.map.addTilesetImage('tiles1', 'tiles1')
     // this.map.addTilesetImage('tiles2', 'tiles2')
 
+    // Uncomment this section if you want the level to show up
     // // Creates Layers
-    this.layer3 = this.map.createLayer('bg_black')
-    this.layer2 = this.map.createLayer('bg_close')
-    this.layer1 = this.map.createLayer('bg_decor')
-    this.layer0 = this.map.createLayer('main_level')
+    // this.layer3 = this.map.createLayer('bg_black')
+    // this.layer2 = this.map.createLayer('bg_close')
+    // this.layer1 = this.map.createLayer('bg_decor')
+    // this.layer0 = this.map.createLayer('main_level')
 
     // // Creates colliders for the level
     // let customCollider = this.map.objects['collision']
@@ -73,29 +76,34 @@ class TestLevel extends Phaser.State {
     //   }
     // })
 
+    // Uncomment this section if you want the level to show up
     // Main collider
-    let customCollider = this.map.objects['collision']
-    customCollider.forEach(element => {
-      this.Collider = this.game.add.sprite(element.x, element.y)
-      this.game.physics.p2.enable(this.Collider)
-      this.Collider.body.debug = __DEV__
-      this.Collider.body.addPolygon({}, element.polygon)
-      this.Collider.body.static = true
-      this.Collider.body.setCollisionGroup(this.game.platformGroup)
-      this.Collider.body.collides(this.game.playerGroup)
-    })
+    // let customCollider = this.map.objects['collision']
+    // customCollider.forEach(element => {
+    //   this.Collider = this.game.add.sprite(element.x, element.y)
+    //   this.game.physics.p2.enable(this.Collider)
+    //   this.Collider.body.debug = __DEV__
+    //   this.Collider.body.addPolygon({}, element.polygon)
+    //   this.Collider.body.static = true
+    //   this.Collider.body.setCollisionGroup(this.game.platformGroup)
+    //   this.Collider.body.collides(this.game.playerGroup)
+    // })
 
+    // Uncomment this section if you want the level to show up
     // // Resize the world to the layers
     this.layer0.resizeWorld()
     this.layer1.resizeWorld()
     this.layer2.resizeWorld()
     this.layer3.resizeWorld()
 
+    // Creates the Shader
+    this.setupShader()
+
     // Create and add the main player object
     this.player = new MainPlayer({
       game: this.game,
-      x: this.world.centerX,
-      y: this.world.centerY + 32
+      x: this.world.centerX - 550,
+      y: this.world.centerY - 100
     })
 
     this.isWinding = false
@@ -124,34 +132,34 @@ class TestLevel extends Phaser.State {
     this.timer = new Phaser.Timer(this.game)
     this.timer.add(4000, this.consoleLogDebug, this)
     this.timer.start()
-    // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
-    // this.platforms = [
-    //   new Platform({
-    //     game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
-    //   }),
+   // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
+    this.platforms = [
+      new Platform({
+        game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
+      }),
 
-    //   // Side Platforms to mimic World Bounds while they are "broken"
-    //   new Platform({ // Temp Ground
-    //     game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
-    //   }),
-    //   new Platform({ // Right Side Wall
-    //     game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
-    //   }),
-    //   new Platform({ // Left Side Wall
-    //     game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
-    //   })
-    // ]
-    // this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
-    //   this.game.add.existing(obj)
-    // })
+      // Side Platforms to mimic World Bounds while they are "broken"
+      new Platform({ // Temp Ground
+        game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
+      }),
+      new Platform({ // Right Side Wall
+        game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
+      }),
+      new Platform({ // Left Side Wall
+        game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
+      })
+    ]
+    this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
+      this.game.add.existing(obj)
+    })
 
     // Make Levers that can be interacted with
     this.lever = [
       new Lever({
-        game: this.game, x: 1000, y: 630, width: 50, height: 100, id: 4, spriteKey: 'LeverFloor'
+        game: this.game, x: 1000, y: 630, width: 50, height: 100, id: 4, spriteKey: 'LeverFloor', light: this.radialLight
       }),
       new Lever({
-        game: this.game, x: 1200, y: 650, width: 50, height: 100, id: 5, spriteKey: 'LeverWall'
+        game: this.game, x: 1200, y: 650, width: 50, height: 100, id: 5, spriteKey: 'LeverWall', light: this.radialLight
       })
     ]
     this.lever.forEach((obj) => {
@@ -161,17 +169,27 @@ class TestLevel extends Phaser.State {
     // Make "Spring" objects in the world
     this.jumper = [
       new Jumper({
-        game: this.game, x: 800, y: 655, width: 50, height: 50, id: 1
+        game: this.game, x: 800, y: 655, width: 50, height: 50, id: 1, light: this.radialLight
       })
     ]
     this.jumper.forEach((obj) => {
       this.game.add.existing(obj)
     })
 
+    // Make "Death" objects in the world
+    this.pits = [
+      new PitOfDeath({
+        game: this.game, x: 100, y: 655, width: 50, height: 50
+      })
+    ]
+    this.pits.forEach((obj) => {
+      this.game.add.existing(obj)
+    })
+
     // Make MovingPlatform objects in the world
     // this.autoMover = [
     //   new MovingPlatform({
-    //     game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 2, maxVelocity: 200
+    //     game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 2, maxVelocity: 200, light: this.radialLight
     //   })
     // ]
     // this.autoMover.forEach((obj) => {
@@ -182,17 +200,13 @@ class TestLevel extends Phaser.State {
     // Add player after the floor
     this.game.add.existing(this.player)
 
-    // Setup all the text displayed on screen
-    // this.setupText(floorHeight)
-
     // Start playing the background music
     this.game.sounds.play('Rock_Intro_1', config.MUSIC_VOLUME)
 
     // Setup the key objects
     this.setupKeyboard()
 
-    // Creates the Shader
-    this.setupShader()
+    
 
     // Set up a camera to follow the player
     // Zoom in camera
@@ -240,57 +254,6 @@ class TestLevel extends Phaser.State {
     }
   }
 
-  setupText (floorHeight) {
-    // Title message to show on screen
-    const bannerText = 'UW Stout / GDD 325 - 2D Web Game Base'
-    let banner = this.add.text(this.world.centerX, 180, bannerText)
-
-    // Configure all the title message font properties
-    banner.font = 'Libre Franklin'
-    banner.padding.set(10, 16)
-    banner.fontSize = 30
-    banner.fontWeight = 'bolder'
-    banner.stroke = '#FFFFFF'
-    banner.strokeThickness = 1
-    banner.fill = '#012169'
-    banner.anchor.setTo(0.5)
-
-    // Control message to show on screen
-    const controlText = 'L & R arrow -- walk\n' +
-                        '      SHIFT -- hold to run'
-    let controls = this.add.text(this.game.width - 100, floorHeight + 60, controlText)
-
-    // Configure all the control message font properties
-    controls.font = 'Courier'
-    controls.padding.set(10, 0)
-    controls.fontSize = 18
-    controls.fill = '#000000'
-    controls.anchor.setTo(1.0, 0)
-
-    // Credits message to show on screen
-    const creditsText = 'Based on "The Great Tsunami Theif":\n' +
-                        '     Colton Barto -- Programming\n' +
-                        ' Nicole Fairchild -- Art\n' +
-                        '   Maria Kastello -- Programming\n' +
-                        '     Austin Lewer -- Art\n' +
-                        '    Austin Martin -- Music\n' +
-                        '    Cole Robinson -- Programming\n' +
-                        '       Shane Yach -- Programming'
-
-    // Configure all the credits message font properties
-    let credits = this.add.text(100, floorHeight + 20, creditsText)
-    credits.font = 'Courier'
-    credits.padding.set(10, 0)
-    credits.fontSize = 14
-    credits.fill = '#999999' // '#000000'
-    credits.setShadow(1, 1, 'rgba(0,0,0,0.5)', 2)
-    credits.anchor.setTo(0, 0)
-
-    // Sets Credits to follow the camera
-    credits.fixedToCamera = true
-    credits.cameraOffset.setTo(500, floorHeight - 30)
-  }
-
   setupKeyboard () {
     // Register the keys
     this.leftKey = this.game.input.keyboard.addKey(Phaser.KeyCode.LEFT)
@@ -302,6 +265,9 @@ class TestLevel extends Phaser.State {
     this.logInfo = this.game.input.keyboard.addKey(Phaser.KeyCode.D)
     this.interact = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
 
+    // Returns to main menu
+    this.return = this.game.input.keyboard.addKey(Phaser.KeyCode.ESC)
+
     // Wind Clock with lshift
     this.clock = this.game.input.keyboard.addKey(Phaser.KeyCode.TAB)
     // Light Testing Inputs
@@ -310,7 +276,7 @@ class TestLevel extends Phaser.State {
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO, Phaser.KeyCode.ESC
     ])
   }
 
@@ -369,6 +335,12 @@ class TestLevel extends Phaser.State {
         this.radialLight.moveLight(screenSpacePos)
         // this.radialLight.varyDist = 50
       }
+    }
+
+    // Return to main menu
+    if (this.return.justPressed()) {
+      this.game.world.setBounds(0, 0, this.game.width, this.game.height)
+      this.state.start('MainMenu')
     }
 
     // Testing a numbers deacrese rate

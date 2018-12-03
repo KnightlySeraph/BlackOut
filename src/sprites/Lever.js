@@ -17,10 +17,10 @@ import config from '../config'
  * See Phaser.Sprite for more about sprite objects and what they support.
  */
 class Lever extends Phaser.Sprite {
-  constructor ({ game, x, y, width, height, spriteKey, id }) {
+  constructor ({ game, x, y, width, height, spriteKey, id, light }) {
     super(game, 0, 0, spriteKey, 0)
     this.name = 'lever'
-//    this.scale.setTo(width / 10, height / 10)
+    this.light = light
     this.id = id
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     // this.body.dynamic = false
@@ -64,9 +64,13 @@ class Lever extends Phaser.Sprite {
 
   interact () {
     console.log('In pull func')
+    let lever1Sound = this.game.add.audio('lever1Audio')
+    let lever2Sound = this.game.add.audio('lever2Audio')
     // Check to see whether the lever is left or right (pulled or not)
     if (this.ispulled === false) {
       console.log('lever on')
+      lever1Sound.play()
+      this.light.createLight(this.body.x + 28, this.body.y - 400, 150.0, 2)
       this.animations.play('on')
       this.animations.getAnimation('on').onComplete.add(() => {
 
@@ -92,6 +96,8 @@ class Lever extends Phaser.Sprite {
       }
     } else if (this.ispulled === true) {
       console.log('lever off')
+      lever2Sound.play()
+      this.light.createLight(this.body.x + 28, this.body.y - 400, 100.0, 2)
       this.animations.play('off')
       this.animations.getAnimation('off').onComplete.add(() => {
 
