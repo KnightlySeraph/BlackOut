@@ -133,25 +133,25 @@ class TestLevel extends Phaser.State {
     this.timer.add(4000, this.consoleLogDebug, this)
     this.timer.start()
     // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
-    this.platforms = [
-      new Platform({
-        game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
-      }),
+    // this.platforms = [
+    //   new Platform({
+    //     game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
+    //   }),
 
-      // Side Platforms to mimic World Bounds while they are "broken"
-      new Platform({ // Temp Ground
-        game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
-      }),
-      new Platform({ // Right Side Wall
-        game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
-      }),
-      new Platform({ // Left Side Wall
-        game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
-      })
-    ]
-    this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
-      this.game.add.existing(obj)
-    })
+    //   // Side Platforms to mimic World Bounds while they are "broken"
+    //   new Platform({ // Temp Ground
+    //     game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
+    //   }),
+    //   new Platform({ // Right Side Wall
+    //     game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
+    //   }),
+    //   new Platform({ // Left Side Wall
+    //     game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
+    //   })
+    // ]
+    // this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
+    //   this.game.add.existing(obj)
+    // })
 
     // Make Levers that can be interacted with
     this.lever = [
@@ -265,6 +265,9 @@ class TestLevel extends Phaser.State {
     this.logInfo = this.game.input.keyboard.addKey(Phaser.KeyCode.D)
     this.interact = this.game.input.keyboard.addKey(Phaser.KeyCode.E)
 
+    // Returns to main menu
+    this.return = this.game.input.keyboard.addKey(Phaser.KeyCode.ESC)
+
     // Wind Clock with lshift
     this.clock = this.game.input.keyboard.addKey(Phaser.KeyCode.TAB)
     // Light Testing Inputs
@@ -273,7 +276,7 @@ class TestLevel extends Phaser.State {
 
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO, Phaser.KeyCode.ESC
     ])
   }
 
@@ -332,6 +335,11 @@ class TestLevel extends Phaser.State {
         this.radialLight.moveLight(screenSpacePos)
         // this.radialLight.varyDist = 50
       }
+    }
+
+    // Return to main menu
+    if (this.return.justPressed()) {
+      this.state.start('MainMenu')
     }
 
     // Testing a numbers deacrese rate

@@ -48,6 +48,10 @@ function moveToTestLevel () {
   this.state.start('TestLevel')
 }
 
+function moveToControls () {
+  this.state.start('ControlPage')
+}
+
 function moveToSettings () {
   // this.state.start('Settings')
 }
