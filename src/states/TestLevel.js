@@ -47,16 +47,16 @@ class TestLevel extends Phaser.State {
   create () {   
     // Uncomment this section if you want the level to show up
     // Imports level
-    // this.map = this.game.add.tilemap('Mytilemap')
-    // this.map.addTilesetImage('tiles1', 'tiles1')
+    this.map = this.game.add.tilemap('Mytilemap')
+    this.map.addTilesetImage('tiles1', 'tiles1')
     // this.map.addTilesetImage('tiles2', 'tiles2')
 
     // Uncomment this section if you want the level to show up
     // // Creates Layers
-    // this.layer3 = this.map.createLayer('bg_black')
-    // this.layer2 = this.map.createLayer('bg_close')
-    // this.layer1 = this.map.createLayer('bg_decor')
-    // this.layer0 = this.map.createLayer('main_level')
+    this.layer3 = this.map.createLayer('bg_black')
+    this.layer2 = this.map.createLayer('bg_close')
+    this.layer1 = this.map.createLayer('bg_decor')
+    this.layer0 = this.map.createLayer('main_level')
 
     // // Creates colliders for the level
     // let customCollider = this.map.objects['collision']
@@ -78,16 +78,16 @@ class TestLevel extends Phaser.State {
 
     // Uncomment this section if you want the level to show up
     // Main collider
-    // let customCollider = this.map.objects['collision']
-    // customCollider.forEach(element => {
-    //   this.Collider = this.game.add.sprite(element.x, element.y)
-    //   this.game.physics.p2.enable(this.Collider)
-    //   this.Collider.body.debug = __DEV__
-    //   this.Collider.body.addPolygon({}, element.polygon)
-    //   this.Collider.body.static = true
-    //   this.Collider.body.setCollisionGroup(this.game.platformGroup)
-    //   this.Collider.body.collides(this.game.playerGroup)
-    // })
+    let customCollider = this.map.objects['collision']
+    customCollider.forEach(element => {
+      this.Collider = this.game.add.sprite(element.x, element.y)
+      this.game.physics.p2.enable(this.Collider)
+      this.Collider.body.debug = __DEV__
+      this.Collider.body.addPolygon({}, element.polygon)
+      this.Collider.body.static = true
+      this.Collider.body.setCollisionGroup(this.game.platformGroup)
+      this.Collider.body.collides(this.game.playerGroup)
+    })
 
     // Uncomment this section if you want the level to show up
     // // Resize the world to the layers
@@ -236,7 +236,7 @@ class TestLevel extends Phaser.State {
   toScreenSpace (point) {
     return {
       x: point.x - this.world.camera.x,
-      y: this.world.height - (point.y - this.world.camera.y)
+      y: this.world.height - (point.y - this.world.camera.y) - 500
     }
   }
 
