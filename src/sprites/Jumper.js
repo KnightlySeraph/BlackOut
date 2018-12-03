@@ -59,7 +59,7 @@ class Jumper extends Phaser.Sprite {
     if (isOn === true) {
       let jumperSound = this.game.add.audio('springAudio')
       jumperSound.play()
-      this.light.createLight(this.body.x + 30, this.body.y - 400, 250.0, 1.8)
+      this.light.createLight(this.body.x + 31, this.body.y - 1150, 250.0, 1.8)
       this.animations.play('jumping', 10, false)
     } else {
       this.animations.play('stopped', 10, true)
