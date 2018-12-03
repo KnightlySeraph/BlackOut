@@ -133,33 +133,33 @@ class TestLevel extends Phaser.State {
     this.timer.add(4000, this.consoleLogDebug, this)
     this.timer.start()
    // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
-    this.platforms = [
-      new Platform({
-        game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
-      }),
+    // this.platforms = [
+    //   new Platform({
+    //     game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
+    //   })//,
 
       // Side Platforms to mimic World Bounds while they are "broken"
-      new Platform({ // Temp Ground
-        game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
-      }),
-      new Platform({ // Right Side Wall
-        game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
-      }),
-      new Platform({ // Left Side Wall
-        game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
-      })
-    ]
-    this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
-      this.game.add.existing(obj)
-    })
+      // new Platform({ // Temp Ground
+      //   game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
+      // }),
+      // new Platform({ // Right Side Wall
+      //   game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
+      // }),
+      // new Platform({ // Left Side Wall
+      //   game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
+      // })
+    // ]
+    // this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
+    //   this.game.add.existing(obj)
+    // })
 
     // Make Levers that can be interacted with
     this.lever = [
       new Lever({
-        game: this.game, x: 1000, y: 630, width: 50, height: 100, id: 4, spriteKey: 'LeverFloor', light: this.radialLight
+        game: this.game, x: 990, y: 998, width: 50, height: 100, id: 4, spriteKey: 'LeverFloor', light: this.radialLight
       }),
       new Lever({
-        game: this.game, x: 1200, y: 650, width: 50, height: 100, id: 5, spriteKey: 'LeverWall', light: this.radialLight
+        game: this.game, x: 1300, y: 1000, width: 50, height: 100, id: 5, spriteKey: 'LeverWall', light: this.radialLight
       })
     ]
     this.lever.forEach((obj) => {
@@ -169,7 +169,7 @@ class TestLevel extends Phaser.State {
     // Make "Spring" objects in the world
     this.jumper = [
       new Jumper({
-        game: this.game, x: 800, y: 655, width: 50, height: 50, id: 1, light: this.radialLight
+        game: this.game, x: 800, y: 1022, width: 50, height: 50, id: 1, light: this.radialLight
       })
     ]
     this.jumper.forEach((obj) => {
@@ -179,7 +179,7 @@ class TestLevel extends Phaser.State {
     // Make "Death" objects in the world
     this.pits = [
       new PitOfDeath({
-        game: this.game, x: 100, y: 655, width: 50, height: 50
+        game: this.game, x: 1000, y: 2055, width: 50000, height: this.game.world.height - 500
       })
     ]
     this.pits.forEach((obj) => {
@@ -187,15 +187,18 @@ class TestLevel extends Phaser.State {
     })
 
     // Make MovingPlatform objects in the world
-    // this.autoMover = [
-    //   new MovingPlatform({
-    //     game: this.game, x: 2000, y: 660, width: 150, height: 50, id: 2, maxVelocity: 200, light: this.radialLight
-    //   })
-    // ]
-    // this.autoMover.forEach((obj) => {
-    //   this.game.add.existing(obj)
-    //   obj.startMovement()
-    // })
+    this.autoMover = [
+      new MovingPlatform({
+        game: this.game, x: 1500, y: 660, id: 2, spriteName: 'Elevator', light: this.radialLight
+      }),
+      new MovingPlatform({
+        game: this.game, x: 1500, y: 660, id: 2, spriteName: 'smallPlatform', light: this.radialLight
+      })
+    ]
+    this.autoMover.forEach((obj) => {
+      this.game.add.existing(obj)
+      obj.startMovement()
+    })
 
     // Add player after the floor
     this.game.add.existing(this.player)

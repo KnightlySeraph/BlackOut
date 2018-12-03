@@ -10,6 +10,8 @@ class MainMenu extends Phaser.State {
     this.game.load.spritesheet('LeverFloor', 'assets/images/leverSpriteSheet.png', 32, 32, 5, 0, 0)
     this.game.load.spritesheet('LeverWall', 'assets/images/leverWallSpriteSheet.png', 32, 32, 5, 0, 0)
     this.game.load.spritesheet('Spring', 'assets/images/springSpriteSheet.png', 32, 32, 10, 0, 0)
+    this.game.load.spritesheet('Elevator', 'assets/images/main_elevator.png', 128, 288, 1, 0, 0)
+    this.game.load.spritesheet('smallPlatform', 'assets/images/platform_small.png', 64, 32, 1, 0, 0)
   }
 
   create () {
