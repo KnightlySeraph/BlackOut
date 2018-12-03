@@ -62,6 +62,7 @@ class Splash extends Phaser.State {
     this.game.leverGroup = this.game.physics.p2.createCollisionGroup()
     this.game.jumperGroup = this.game.physics.p2.createCollisionGroup()
     this.game.movingPlatformGroup = this.game.physics.p2.createCollisionGroup()
+    this.game.deathGroup = this.game.physics.p2.createCollisionGroup()
 
     // put in button sprites here
     this.game.load.spritesheet('MainMenu', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)// size of grid slice (x,y, max of sprites in sheet))
@@ -89,6 +90,15 @@ class Splash extends Phaser.State {
     this.load.spritesheet('toki-main', 'assets/images/tokiSpriteSheet.png', 64, 64)
     this.load.spritesheet('blank', 'assets/images/blank.png', 10, 10)
     this.load.spritesheet('light', 'assets/images/light.png', 10, 10)
+
+    this.load.audio('springAudio', ['assets/audio/spring.wav'])
+    this.load.audio('lever1Audio', ['assets/audio/lever1.wav'])
+    this.load.audio('lever2Audio', ['assets/audio/lever2.wav'])
+    this.load.audio('watchTickAudio', ['assets/audio/watchTick.wav'])
+    this.load.audio('watchWindAudio', ['assets/audio/watchWind.wav'])
+    this.load.audio('walkingAudio', ['assets/audio/walking.wav'])
+    this.load.audio('gears1Audio', ['assets/audio/gears1.wav'])
+    this.load.audio('gears2Audio', ['assets/audio/gears2.wav'])
 
     // The audiosprite with all music and SFX
     this.load.audioSprite('sounds', [

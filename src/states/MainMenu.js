@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import RadialLightFilter from '../Shaders/RadialLightFilter'
 
 /**
  * 
@@ -23,21 +24,19 @@ class MainMenu extends Phaser.State {
     sethsBastment.scale.setTo(3, 3)
     sethsBastment.smoothed = false
 
-    let buttonPlay, buttonSettings, buttonControls, buttonExit
+    let buttonPlay, buttonControls, buttonExit
     
-    buttonPlay = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 190, 'PlayButton', moveToTestLevel, this, 2, 2, 3, 3) // hover, idle, on click,  
-    buttonControls = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 40, 'ControlsButton', moveToSettings, this, 4, 4, 5, 5)
-    buttonSettings = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY + 100, 'SettingsButton', moveToSettings, this, 6, 6, 7, 7)
-    buttonExit = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY + 220, 'SettingsButton', moveToExit, this, 12, 12, 13, 13)
+    buttonPlay = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 190, 'PlayButton', moveToTestLevel, this, 2, 2, 3, 3) // hover, idle, on click
+    
+    buttonControls = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 10, 'ControlsButton', moveToSettings, this, 4, 4, 5, 5)
+
+    buttonExit = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY + 140, 'SettingsButton', moveToExit, this, 12, 12, 13, 13)
  
     buttonPlay.smoothed = false
     buttonPlay.scale.setTo(8, 8)
 
     buttonControls.smoothed = false
     buttonControls.scale.setTo(8, 8)
-
-    buttonSettings.smoothed = false
-    buttonSettings.scale.setTo(8, 8)
 
     buttonExit.smoothed = false
     buttonExit.scale.setTo(8, 8)

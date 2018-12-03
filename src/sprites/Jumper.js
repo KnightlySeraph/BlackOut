@@ -8,7 +8,7 @@ import P2 from 'p2'
 import { sequentialNumArray } from '../utils.js'
 import config from '../config'
 
-import MainPlayer from './Player.js'
+import RadialLightFilter from '../Shaders/RadialLightFilter'
 
 /**
  * The "spring" sprite. This class encapsulates the logic for the "spring" sprite.
@@ -16,10 +16,12 @@ import MainPlayer from './Player.js'
  * See Phaser.Sprite for more about sprite objects and what they support.
  */
 class Jumper extends Phaser.Sprite {
-  constructor ({ game, x, y, width, height, id }) {
+  constructor ({ game, x, y, width, height, id, light }) {
     super(game, 0, 0, 'Spring', 0)
     this.name = 'jumper'
     this.smoothed = false
+    this.light = light
+
     //this.scale.setTo(2, 2)
     this.scale.setTo(width / 24.8, height / 24.8)
     this.id = id
@@ -55,6 +57,9 @@ class Jumper extends Phaser.Sprite {
 
   animate (isOn) {
     if (isOn === true) {
+      let jumperSound = this.game.add.audio('springAudio')
+      jumperSound.play()
+      this.light.createLight(this.body.x + 30, this.body.y - 400, 250.0, 1.8)
       this.animations.play('jumping', 10, false)
     } else {
       this.animations.play('stopped', 10, true)
