@@ -30,7 +30,7 @@ class MainMenu extends Phaser.State {
     
     buttonPlay = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 190, 'PlayButton', moveToTestLevel, this, 2, 2, 3, 3) // hover, idle, on click
     
-    buttonControls = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 10, 'ControlsButton', moveToSettings, this, 4, 4, 5, 5)
+    buttonControls = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 10, 'ControlsButton', moveToControls, this, 4, 4, 5, 5)
 
     buttonExit = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY + 140, 'SettingsButton', moveToExit, this, 12, 12, 13, 13)
  
