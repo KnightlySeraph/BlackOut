@@ -41,11 +41,11 @@ class Splash extends Phaser.State {
     this.load.setPreloadSprite(this.loaderBar)
 
     // Tiled Map
+    // this.load.tilemap('Mytilemap', 'assets/images/mainlevel.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('Mytilemap', 'assets/images/testlevel_02.json', null, Phaser.Tilemap.TILED_JSON)
-    // this.load.tilemap('Mytilemap', 'assets/images/testlevel_03.json', null, Phaser.Tilemap.TILED_JSON)
+
     this.load.image('tiles1', 'assets/images/tiles1.png')
-    // this.load.image('tiles2', 'assets/images/tiles2.png')
-    // this.load.image('tiles2_t', 'assets/images/tiles2_transparent.png')
+
     // Load all the assets needed for next state
 
     // Re-Start Physics
@@ -94,7 +94,7 @@ class Splash extends Phaser.State {
     this.game.load.spritesheet('interactAnim', 'assets/images/eSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
     this.game.load.spritesheet('arrowKeyAnim', 'assets/images/leftRightSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
     this.game.load.spritesheet('tabAnim', 'assets/images/tabSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
-    
+
     // The main player spritesheet
     // this.load.spritesheet('player-main', 'assets/images/player-main.png', 64, 64)
     // this.load.spritesheet('player-main-test', 'assets/images/player-main-test.png', 64, 64)

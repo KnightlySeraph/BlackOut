@@ -22,7 +22,7 @@ class Jumper extends Phaser.Sprite {
     this.smoothed = false
     this.light = light
 
-    //this.scale.setTo(2, 2)
+    // this.scale.setTo(2, 2)
     this.scale.setTo(width / 24.8, height / 24.8)
     this.id = id
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)

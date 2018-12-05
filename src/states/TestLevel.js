@@ -44,7 +44,7 @@ class TestLevel extends Phaser.State {
     this.game.load.image('light', 'assets/images/light.png')
   }
 
-  create () {   
+  create () {
     // Uncomment this section if you want the level to show up
     // Imports level
     this.map = this.game.add.tilemap('Mytilemap')
@@ -132,22 +132,22 @@ class TestLevel extends Phaser.State {
     this.timer = new Phaser.Timer(this.game)
     this.timer.add(4000, this.consoleLogDebug, this)
     this.timer.start()
-   // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
+    // this.floor.body.setRectangle(this.game.world.width, this.game.world.height * 2)
     // this.platforms = [
     //   new Platform({
     //     game: this.game, x: 500, y: 575, width: 200, height: 50, id: 3
     //   })//,
 
-      // Side Platforms to mimic World Bounds while they are "broken"
-      // new Platform({ // Temp Ground
-      //   game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
-      // }),
-      // new Platform({ // Right Side Wall
-      //   game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
-      // }),
-      // new Platform({ // Left Side Wall
-      //   game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
-      // })
+    // Side Platforms to mimic World Bounds while they are "broken"
+    // new Platform({ // Temp Ground
+    //   game: this.game, x: this.game.world.width / 2, y: this.game.world.height, width: this.game.world.width, height: 100, id: 0
+    // }),
+    // new Platform({ // Right Side Wall
+    //   game: this.game, x: 20, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 1
+    // }),
+    // new Platform({ // Left Side Wall
+    //   game: this.game, x: this.game.world.width, y: this.game.world.height - 100, width: 50, height: this.world.height + 10000, id: 2
+    // })
     // ]
     // this.platforms.forEach((obj) => { // forEach(function()) is like a for loop call
     //   this.game.add.existing(obj)
@@ -209,17 +209,7 @@ class TestLevel extends Phaser.State {
     // Setup the key objects
     this.setupKeyboard()
 
-    
-
     // Set up a camera to follow the player
-    // Zoom in camera
-    // let center = Phaser.Point.add(this.game.camera.position, new Phaser.Point(this.game.camera.view.halfWidth, this.game.camera.view.halfHeight))
-    // let oldCameraScale = this.game.camera.scale.clone()
-    // this.game.camera.scale.x += 0.5
-    // this.game.camera.scale.y += 0.5
-
-    // let cameraScaleRatio = Phaser.Point.divide(this.game.camera.scale, oldCameraScale)
-    // this.game.camera.focusOn(Phaser.Point.multiply(center, cameraScaleRatio))
     // camera follows the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
   }

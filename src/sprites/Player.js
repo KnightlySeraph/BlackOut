@@ -123,8 +123,8 @@ class MainPlayer extends Phaser.Sprite {
     if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
     } else if (otherPhaserBody.sprite.name === 'jumper') {
-     // Jumper.animate(false)
-     // otherPhaserBody.sprite.animations.play('stopped', 10, true)
+      // Jumper.animate(false)
+      // otherPhaserBody.sprite.animations.play('stopped', 10, true)
       this.isSpring = false
       console.log('exit spring')
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
