@@ -24,7 +24,7 @@ class Boot extends Phaser.State {
   // Initialize the stage and any simple settings
   init () {
     // Set the background color
-    this.stage.backgroundColor = '#66d1cb'
+    this.stage.backgroundColor = '000000' // TODO get rid of -> 'dd1642'
 
     // Initialize the fontsReady property
     this.fontsReady = false
@@ -54,7 +54,7 @@ class Boot extends Phaser.State {
     // Read the assets for the splash screen (used in next stage)
     this.load.image('loaderBg', './assets/images/loader-bg.png')
     this.load.image('loaderBar', './assets/images/loader-bar.png')
-    this.load.image('logo', './assets/images/blaze.jpg')
+    this.load.image('logo', './assets/images/blackoutSplashScreen.jpg')
   }
 
   // Called repeatedly after pre-load to draw the stage

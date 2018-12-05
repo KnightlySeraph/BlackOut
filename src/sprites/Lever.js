@@ -17,15 +17,26 @@ import config from '../config'
  * See Phaser.Sprite for more about sprite objects and what they support.
  */
 class Lever extends Phaser.Sprite {
-  constructor ({ game, x, y, width, height, spriteKey, id }) {
+  constructor ({ game, x, y, width, height, spriteKey, id, light }) {
     super(game, 0, 0, spriteKey, 0)
     this.name = 'lever'
-//    this.scale.setTo(width / 10, height / 10)
+    this.light = light
     this.id = id
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     // this.body.dynamic = false
     this.body.static = true
-    this.body.setRectangle(width, height, 0, 0)
+    this.smoothed = false
+
+    if (spriteKey === 'LeverWall') {
+      this.scale.setTo(width / 28, height / 58)
+      this.body.setRectangle(width / 2, height / 2, 28, 28)
+    } else {
+      this.scale.setTo(width / 24, height / 36)
+      this.body.setRectangle(width * 1.5, height / 1.3, 32, 50)
+    }
+
+    this.myAnimations()
+    
     this.body.debug = __DEV__
 
     this.body.setCollisionGroup(this.game.leverGroup)
@@ -39,11 +50,31 @@ class Lever extends Phaser.Sprite {
     this.ispulled = false
   }
 
+  myAnimations () {
+    // add animations
+    //if (this.sprite.name === 'LeverFloor') {
+      this.animations.add('off', [4, 3, 2, 1, 0], 10, false)
+      this.animations.add('on', [0, 1, 2, 3, 4], 10, false)
+    //}
+    // if (this.sprite.name === 'LeverWall') {
+    //   this.animations.add('on', [4, 3, 2, 1, 0], 10, false)
+    //   this.animations.add('off', [0, 1, 2, 3, 4], 10, false)
+    // }
+  }
+
   interact () {
     console.log('In pull func')
+    let lever1Sound = this.game.add.audio('lever1Audio')
+    let lever2Sound = this.game.add.audio('lever2Audio')
     // Check to see whether the lever is left or right (pulled or not)
-    if ( this.ispulled === false) {
+    if (this.ispulled === false) {
       console.log('lever on')
+      lever1Sound.play()
+      this.light.createLight(this.body.x + 29, this.body.y - 1120, 150.0, 2)
+      this.animations.play('on')
+      this.animations.getAnimation('on').onComplete.add(() => {
+
+      }, this)
       this.ispulled = true
 
       switch (this.id) {
@@ -65,6 +96,12 @@ class Lever extends Phaser.Sprite {
       }
     } else if (this.ispulled === true) {
       console.log('lever off')
+      lever2Sound.play()
+      this.light.createLight(this.body.x + 29, this.body.y - 1120, 100.0, 2)
+      this.animations.play('off')
+      this.animations.getAnimation('off').onComplete.add(() => {
+
+      }, this)
       this.ispulled = false
       this.removePlatform(this.id)
     }

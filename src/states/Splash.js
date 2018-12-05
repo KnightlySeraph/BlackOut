@@ -41,10 +41,11 @@ class Splash extends Phaser.State {
     this.load.setPreloadSprite(this.loaderBar)
 
     // Tiled Map
-    this.load.tilemap('Mytilemap', 'assets/images/testlevel_01..json', null, Phaser.Tilemap.TILED_JSON)
+    // this.load.tilemap('Mytilemap', 'assets/images/mainlevel.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('Mytilemap', 'assets/images/testlevel_02.json', null, Phaser.Tilemap.TILED_JSON)
+
     this.load.image('tiles1', 'assets/images/tiles1.png')
-    this.load.image('tiles2', 'assets/images/tiles2.png')
-    this.load.image('tiles2_t', 'assets/images/tiles2_transparent.png')
+
     // Load all the assets needed for next state
 
     // Re-Start Physics
@@ -61,6 +62,39 @@ class Splash extends Phaser.State {
     this.game.leverGroup = this.game.physics.p2.createCollisionGroup()
     this.game.jumperGroup = this.game.physics.p2.createCollisionGroup()
     this.game.movingPlatformGroup = this.game.physics.p2.createCollisionGroup()
+    this.game.deathGroup = this.game.physics.p2.createCollisionGroup()
+
+    // put in button sprites here
+    this.game.load.spritesheet('MainMenu', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)// size of grid slice (x,y, max of sprites in sheet))
+    this.game.load.spritesheet('MainMenuClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('PlayButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('PlayButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('ControlsButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('ControlsButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('SettingsButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('SettingsButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('VolumeButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('VolumeButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('PauseButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('PauseButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('ExitButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+    this.game.load.spritesheet('ExitButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
+
+    this.game.load.spritesheet('mainMenu', 'assets/images/mainMenuBG.png', 1920, 938, 1, 0, 0)
+    this.game.load.spritesheet('mmLogo', 'assets/images/blackoutLogo.png', 80, 16, 1, 0, 0)
+    this.game.load.spritesheet('sethsBastment', 'assets/images/sethsBasement.png', 128, 14, 1, 0, 0)
+
+    // Load assets for the control page
+    this.game.load.spritesheet('controlAnims', '/assets/images/controlspritesheet_64x32.png', 64, 32, 12, 0, 0)
+    this.game.load.spritesheet('controlMenu', 'assets/images/mainMenuBG.png', 1920, 938, 1, 0, 0)
+    this.game.load.spritesheet('pocketWatchText', 'assets/images/windPocketwatchTitle.png', 64, 32, 1, 0, 0)
+    this.game.load.spritesheet('movementText', 'assets/images/movementTitle.png', 64, 32, 1, 0, 0)
+    this.game.load.spritesheet('interactText', 'assets/images/interactTitle.png', 64, 32, 1, 0, 0)
+    this.game.load.spritesheet('jumpText', 'assets/images/jumpTitle.png', 64, 32, 1, 0, 0)
+    this.game.load.spritesheet('spacebarAnim', 'assets/images/spacebarSpriteSheet_64x32.png', 64, 32, 2)
+    this.game.load.spritesheet('interactAnim', 'assets/images/eSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
+    this.game.load.spritesheet('arrowKeyAnim', 'assets/images/leftRightSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
+    this.game.load.spritesheet('tabAnim', 'assets/images/tabSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
 
     // The main player spritesheet
     // this.load.spritesheet('player-main', 'assets/images/player-main.png', 64, 64)
@@ -68,6 +102,15 @@ class Splash extends Phaser.State {
     this.load.spritesheet('toki-main', 'assets/images/tokiSpriteSheet.png', 64, 64)
     this.load.spritesheet('blank', 'assets/images/blank.png', 10, 10)
     this.load.spritesheet('light', 'assets/images/light.png', 10, 10)
+
+    this.load.audio('springAudio', ['assets/audio/spring.wav'])
+    this.load.audio('lever1Audio', ['assets/audio/lever1.wav'])
+    this.load.audio('lever2Audio', ['assets/audio/lever2.wav'])
+    this.load.audio('watchTickAudio', ['assets/audio/watchTick.wav'])
+    this.load.audio('watchWindAudio', ['assets/audio/watchWind.wav'])
+    this.load.audio('walkingAudio', ['assets/audio/walking.wav'])
+    this.load.audio('gears1Audio', ['assets/audio/gears1.wav'])
+    this.load.audio('gears2Audio', ['assets/audio/gears2.wav'])
 
     // The audiosprite with all music and SFX
     this.load.audioSprite('sounds', [
@@ -118,8 +161,9 @@ class Splash extends Phaser.State {
     // proceed once MIN_SPLASH_SECONDS or more has elapsed
     if (this.game.time.elapsedSecondsSince(this.started) >= config.MIN_SPLASH_SECONDS) {
       // Make sure the audio is not only loaded but also decoded before advancing
+      // TODO: Re-name if you don't have 'music-intro' anymore
       if (this.game.sounds.get('music-intro').isDecoded) {
-        this.state.start('TestLevel')
+        this.state.start('MainMenu') // change to MainMenu
       }
     }
   }
