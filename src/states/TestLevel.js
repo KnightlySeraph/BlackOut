@@ -16,8 +16,10 @@ import config from '../config'
 // Import the filters for the scene
 import PlayerLightFilter from '../Shaders/PlayerLightFilter'
 import RadialLightFilter from '../Shaders/RadialLightFilter'
-import MovingPlatform from '../sprites/MovingPlatform'
 import PitOfDeath from '../sprites/PitDeath'
+
+import BasicMovingPlatform from '../sprites/BasicMovingPlatform'
+import Elevator from '../sprites/Elevator'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -155,8 +157,8 @@ class TestLevel extends Phaser.State {
 
     // make the main elevator
     this.mover = [
-      new MovingPlatform({
-        game: this.game, x: 500, y: 800, id: 3, spriteName: 'Elevator', light: this.radialLight
+      new Elevator({
+        game: this.game, x: 500, y: 800, id: config.ELEVATOR_1, light: this.radialLight
       })
     ]
     this.mover.forEach((obj) => {
@@ -167,10 +169,10 @@ class TestLevel extends Phaser.State {
     // Make Levers that can be interacted with
     this.lever = [
       new Lever({
-        game: this.game, x: 990, y: 998, width: 50, height: 100, id: 3, spriteKey: 'LeverFloor', light: this.radialLight
+        game: this.game, x: 990, y: 998, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverFloor', light: this.radialLight
       }),
       new Lever({
-        game: this.game, x: 1300, y: 1000, width: 50, height: 100, id: 3, spriteKey: 'LeverWall', light: this.radialLight
+        game: this.game, x: 1300, y: 1000, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
       })
     ]
     this.lever.forEach((obj) => {
@@ -199,8 +201,17 @@ class TestLevel extends Phaser.State {
 
     // Make MovingPlatform objects in the world
     this.autoMover = [
-      new MovingPlatform({
-        game: this.game, x: 1500, y: 660, id: 2, spriteName: 'smallPlatform', light: this.radialLight
+      new BasicMovingPlatform({
+        game: this.game, x: 1200, y: 660, id: config.PLATFORM_1, light: this.radialLight
+      }),
+      new BasicMovingPlatform({
+        game: this.game, x: 1000, y: 660, id: config.PLATFORM_2, light: this.radialLight
+      }),
+      new BasicMovingPlatform({
+        game: this.game, x: 800, y: 660, id: config.PLATFORM_3, light: this.radialLight
+      }),
+      new BasicMovingPlatform({
+        game: this.game, x: 600, y: 660, id: config.PLATFORM_4, light: this.radialLight
       })
     ]
     this.autoMover.forEach((obj) => {
