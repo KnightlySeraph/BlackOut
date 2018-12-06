@@ -2,159 +2,170 @@
 
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
-import P2 from 'p2'
-
-// Import needed functions from utils and config settings
-import { sequentialNumArray } from '../utils.js'
-import config from '../config'
 
 /**
- * The platform sprite. This class encapsulates the logic for the platform sprite.
- *
- * See Phaser.Sprite for more about sprite objects and what they support.
+ * A platform that can move and will carry the player with it.
  */
-class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
+class MovingPlatform extends Phaser.Sprite {
   constructor ({ game, x, y, id, spriteName, light }) {
+    // Initialize parent and copy needed parameters
     super(game, 0, 0, spriteName, 0)
     this.name = 'mover'
     this.spriteName = spriteName
     this.light = light
-//    this.scale.setTo(width / 10, height / 10)
     this.id = id
+
+    // Create physics body for collisions
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
-    if (spriteName === 'Elevator') {
-      this.body.setRectangle(125, 95, 63.5, 239.5)
-      this.topSensor = this.body.addRectangle(125 * 0.9, 5, 63.5, 190)
-    }
-    else if (spriteName === 'smallPlatform') {
-      this.body.setRectangle(57, 16, 31, 15)
-      this.topSensor = this.body.addRectangle(57 * 0.9, 5, 31, 7)
-    }
-    this.body.debug = __DEV__
 
+    // Child customizes this function
+    this.createPhysicsBodyShapes()
+
+    // Configure the body
+    this.body.debug = __DEV__
     this.body.mass = 0
     this.topSensor.sensor = true
     this.topSensor.name = 'Top Sensor'
 
+    // Must occure AFTER all shapes have been created on body
     this.body.setCollisionGroup(this.game.movingPlatformGroup)
     this.body.collides(this.game.playerGroup)
 
+    // Reset anchor
     this.anchor.setTo(0, 0)
 
+    // Initialize player state
     this.playerIsOnTop = false
     this.player = null
+
+    // Setup contact events
     this.body.onBeginContact.add(this.steppedOn, this)
     this.body.onEndContact.add(this.steppedOff, this)
 
-    this.case1X = x - 50
-    this.case2X = x + 50
-    this.case3Y = x - 50
-    this.case4y = y + 50
-
-    this.setupTween(this.id)
+    // Create the tween (implemented in child class)
+    this.setupTween(x, y)
   }
 
-  setupTween (id) {
-    let duration = 8000
-    let destination = {}
-
-    switch (id) {
-      case 1: destination = { x: this.case1X }; break
-      case 2: destination = { x: this.case2X }; break
-      case 3: destination = { y: this.case3Y }; break
-      case 4: destination = { y: this.case4Y }; break
-      // case 5:
-      //   // move left and up
-      //   this.tween = this.game.add.tween(this.body).to({ x: this.x - 100 }, 5000, Phaser.Easing.Linear.None, false, 100, -1, true)
-      //   this.tween = this.game.add.tween(this.body).to({ y: this.y - 100 }, 5000, Phaser.Easing.Linear.None, false, 100, -1, true)
-      //   // tween left and up
-      //   break
-      default:
-        console.log('Error steppedOn: this moving platform id is not valid.')
-    }
-
-    if (this.spriteName === 'Elevator') {
-      this.tween = this.game.add.tween(this.body).to(destination, duration, Phaser.Easing.Linear.None, false, 10, 0, false)
-      this.tween.onComplete.add(this.tweenDone, this)
-    } else if (this.spriteName === 'smallPlatform') {
-      //this.light.createLight(this.body.x + 100, this.body.y + 300, 350.0, 0.5)
-      this.tween = this.game.add.tween(this.body).to(destination, duration, Phaser.Easing.Linear.None, true, 100, -1, true)
-    }
+  /**
+   * Create the physics body for this platform (specific to each child). Must add
+   * at least one shape to the body and create this.topSensor as a shape on the body.
+   * @abstract
+   */
+  createPhysicsBodyShapes () {
+    console.log('ERROR: Abstract function MovingPlatform.createPhysicsBodyShapes() called')
   }
 
+  /**
+   * Setup the motion or motions for this specific body
+   * @abstract
+   */
+  setupTween () {
+    console.log('ERROR: Abstract function MovingPlatform.setupTween() called')
+  }
+
+  /**
+   * Begin moving the current platform. Will resume the tween if paused or start
+   * it if it is not yet running. If there is no tween or the tween is already
+   * running it does nothing.
+   * @returns {boolean} true if the tween was resumed or started
+   */
   startMovement () {
-    console.log('Starting movement for ' + this.id + ' ' + this.spriteName)
+    console.log('Moving ' + this.name)
+    // Try and start the tween
     if (this.tween) {
-      if (this.spriteName === 'Elevator') {
-        this.light.createLight(this.x + 60, this.y - 550, 450.0, 0.5)
-      } else if (this.spriteName === 'smallPlatform') {
-        this.light.createLight(this.body.x + 100, this.body.y + 800, 250.0, 0.5)
-      }
       if (this.tween.isPaused) {
         this.tween.resume()
+        return true
       } else if (!this.tween.isRunning) {
         this.tween.start()
+        return true
       }
     }
+
+    // Movement is already happening
+    return false
   }
 
-  nextTween () {
-    if (this.tween) {
-      if (this.spriteName === 'Elevator') {
-        this.light.createLight(this.x + 60, this.y - 550, 450.0, 0.5)
-        this.tween.start([1])
-      }
-    }
-  }
-
+  /**
+   * Attempt to stop the movement (pause the current tween). If a tween exists and is
+   * currently running it will pause it. Does nothing otherwise.
+   * @return {boolean} True if the tween was successfully paused
+   */
   stopMovement () {
-    if (this.tween.isRunning) {
+    // Try and pause the tween
+    if (this.tween && this.tween.isRunning) {
       this.tween.pause()
+      return true
     }
+
+    // Tween was already paused
+    return false
   }
 
+  /**
+   * Slot activated when something contacts this body (responds to the onContactBegin signal)
+   * @param {P2.Body} otherPhaserBody The other physics body
+   * @param {Phaser.Physics.P2.Body} otherP2Body The other P2 body
+   * @param {P2.Shape} myShape The shape belonging to this body that is in contact
+   * @param {P2.Shape} otherShape The shape belonging to the other body that is in contact
+   * @param {*} contactEqns The P2 contact equations
+   */
   steppedOn (otherPhaserBody, otherP2Body, myShape, otherShape, contactEqns) {
+    // Is this the player and the top sensor
     if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
       if (myShape === this.topSensor) {
+        // Attach the player to this moving platform
         this.player = otherPhaserBody.sprite
         this.playerOffsetX = this.player.body.x - this.body.x
       }
     }
   }
 
+  /**
+   * Slot activated when something stops contacting this body (responds to the onContactEnd signal)
+   * @param {P2.Body} otherPhaserBody The other physics body
+   * @param {Phaser.Physics.P2.Body} otherP2Body The other P2 body
+   * @param {P2.Shape} myShape The shape belonging to this body that is ending contact
+   * @param {P2.Shape} otherShape The shape belonging to the other body that is ending contact
+   */
   steppedOff (otherPhaserBody, otherP2Body, myShape, otherShape) {
+    // Is this the player and the top sensor
     if (otherPhaserBody !== null && otherPhaserBody.sprite !== null && otherPhaserBody.sprite.name === 'Main Player') {
       if (myShape === this.topSensor) {
+        // Detach the player from this moving platform
         this.player.dynamic = true
         this.player = null
       }
     }
   }
 
-  tweenDone () {
-    if (this.spriteName === 'Elevator') {
-      this.stopMovement()
-      this.tween = this.game.add.tween(this.body).to(this.y + 50, this.duration, Phaser.Easing.Linear.None, false, 10, 0, false)
-      console.log('New tween set')
-    }
-  }
-
+  /**
+   * Update the current offset value for the player. This allows them to move along the platform
+   * instead of being glued to the spot the landed on.
+   * @param {number} deltaX Change in the X offset
+   * @param {number} deltaY Change in the Y offset
+   */
   changeOffset (deltaX, deltaY) {
     if (this.player != null) {
       this.playerOffsetX += deltaX
-      // this.playerOffsetX -= deltaX
-      // this.playerOffsetY += deltaY
-      // this.playerOffsetY -= deltaY
     }
   }
 
+  /**
+   * Called every tick while the sprite is awake and in the world.
+   * @override
+   */
   update () {
+    // Always call the parent's update
     super.update()
+
+    // If the player is on this platform, move it with the platform
     if (this.player != null) {
       this.player.body.x = this.body.x + this.playerOffsetX
     }
   }
 }
 
+// Expose the class for importing in other files
 export default MovingPlatform

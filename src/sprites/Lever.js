@@ -65,79 +65,50 @@ class Lever extends Phaser.Sprite {
     // }
   }
 
-  interact () {
-    console.log('In pull func')
-    let lever1Sound = this.game.add.audio('lever1Audio')
-    let lever2Sound = this.game.add.audio('lever2Audio')
-    // Check to see whether the lever is left or right (pulled or not)
-    if (this.ispulled === false) {
-      console.log('lever on')
-      lever1Sound.play()
-      this.light.createLight(this.body.x + 29, this.body.y - 1120, 150.0, 2)
-      this.animations.play('on')
-      this.animations.getAnimation('on').onComplete.add(() => {
-      }, this)
-      this.ispulled = true
+  turnOn () {
+    console.log('lever on')
+    this.game.add.audio('lever1Audio').play()
+    this.light.createLight(this.body.x + 29, this.body.y - 1120, 150.0, 2)
+    this.animations.play('on')
+    this.ispulled = true
 
-      switch (this.id) {
-        case 3: // Elevator
-          if (Lever.movers[this.id]) {
-            let curPlatform = Lever.movers[this.id]
-            curPlatform.x = curPlatform.body.x
-            curPlatform.startMovement()
-          }
-          
-          // Lever.creations[this.id] =
-          //   new Platform({ // Test Platform
-          //     game: this.game, x: 1400, y: 600, width: 200, height: 50, id: this.id
-          //   })
-          break
+    switch (this.id) {
+      case config.ELEVATOR_1: // Elevator
+        if (Lever.movers[this.id]) {
+          let curPlatform = Lever.movers[this.id]
+          curPlatform.startMovement()
+        }
+        break
 
-        case 4:
-          
-          // Lever.creations[this.id] =
-          //   new Platform({ // Test Platform
-          //     game: this.game, x: 1600, y: 600, width: 200, height: 50, id: this.id
-          //   })
-          break
-      }
-    } else if (this.ispulled === true) {
-      console.log('lever off')
-      lever2Sound.play()
-      this.light.createLight(this.body.x - 200, this.body.y - 1120, 150.0, 2)
-      this.animations.play('off')
-      this.animations.getAnimation('off').onComplete.add(() => {
-
-      }, this)
-      this.ispulled = false
-      switch (this.id) {
-        case 3: // Elevator
-          if (Lever.movers[this.id]) {
-            let curPlatform = Lever.movers[this.id]
-            curPlatform.x = curPlatform.body.x
-            curPlatform.nextTween()
-          }
-          // Lever.creations.push(
-          //   new Platform({ // Test Platform
-          //     game: this.game, x: 1400, y: 600, width: 200, height: 50, id: this.id
-          //   })
-          // )
-          break
-
-        case 4:
-          
-          // Lever.creations.push(
-          //   new Platform({ // Test Platform
-          //     game: this.game, x: 1600, y: 600, width: 200, height: 50, id: this.id
-          //   })
-          // )
-          break
-
-        default:
-          this.removePlatform(this.id)
-          break
-      }
+      default:
+        break
     }
+  }
+
+  turnOff () {
+    console.log('lever off')
+    this.game.add.audio('lever2Audio').play()
+    this.light.createLight(this.body.x - 200, this.body.y - 1120, 150.0, 2)
+    this.animations.play('off')
+
+    this.ispulled = false
+    switch (this.id) {
+      case config.ELEVATOR_1: // Elevator
+        if (Lever.movers[this.id]) {
+          Lever.movers[this.id].startMovement()
+        }
+        break
+
+      default:
+        this.removePlatform(this.id)
+        break
+    }
+  }
+
+  interact () {
+    // Check to see whether the lever is left or right (pulled or not)
+    if (!this.ispulled) { this.turnOn() }
+    else { this.turnOff() }
   }
 
   removePlatform (id) {

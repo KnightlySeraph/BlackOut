@@ -34,5 +34,13 @@ export default {
   PLAYER_MASS: 5,
   JUMP_INITIAL: -400,
   JUMP_TIME: 0.4,
-  GRAVITY_CONSTANT: 1000
+  GRAVITY_CONSTANT: 1000,
+
+  // Constant IDs for platforms and elevators
+  PLATFORM_1: 1,
+  PLATFORM_2: 2,
+  PLATFORM_3: 3,
+  PLATFORM_4: 4,
+
+  ELEVATOR_1: 5
 }
