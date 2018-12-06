@@ -9,6 +9,9 @@ import Platform from '../sprites/Platform.js'
 import { sequentialNumArray } from '../utils.js'
 import config from '../config'
 
+import TestLevel from '../states/TestLevel.js'
+import MovingPlatform from '../sprites/MovingPlatform.js'
+
 // TODO expand lever function to include 1 or 2 sprite choices?
 
 /**
@@ -73,57 +76,80 @@ class Lever extends Phaser.Sprite {
       this.light.createLight(this.body.x + 29, this.body.y - 1120, 150.0, 2)
       this.animations.play('on')
       this.animations.getAnimation('on').onComplete.add(() => {
-
       }, this)
       this.ispulled = true
 
       switch (this.id) {
-        case 4:
-          Lever.creations.push(
-            new Platform({ // Test Platform
-              game: this.game, x: 1400, y: 600, width: 200, height: 50, id: this.id
-            })
-          )
+        case 3: // Elevator
+          if (Lever.movers[this.id]) {
+            let curPlatform = Lever.movers[this.id]
+            curPlatform.x = curPlatform.body.x
+            curPlatform.startMovement()
+          }
+          
+          // Lever.creations[this.id] =
+          //   new Platform({ // Test Platform
+          //     game: this.game, x: 1400, y: 600, width: 200, height: 50, id: this.id
+          //   })
           break
 
-        case 5:
-          Lever.creations.push(
-            new Platform({ // Test Platform
-              game: this.game, x: 1600, y: 600, width: 200, height: 50, id: this.id
-            })
-          )
+        case 4:
+          
+          // Lever.creations[this.id] =
+          //   new Platform({ // Test Platform
+          //     game: this.game, x: 1600, y: 600, width: 200, height: 50, id: this.id
+          //   })
           break
       }
     } else if (this.ispulled === true) {
       console.log('lever off')
       lever2Sound.play()
-      this.light.createLight(this.body.x + 29, this.body.y - 1120, 100.0, 2)
+      this.light.createLight(this.body.x - 200, this.body.y - 1120, 150.0, 2)
       this.animations.play('off')
       this.animations.getAnimation('off').onComplete.add(() => {
 
       }, this)
       this.ispulled = false
-      this.removePlatform(this.id)
+      switch (this.id) {
+        case 3: // Elevator
+          if (Lever.movers[this.id]) {
+            let curPlatform = Lever.movers[this.id]
+            curPlatform.x = curPlatform.body.x
+            curPlatform.nextTween()
+          }
+          // Lever.creations.push(
+          //   new Platform({ // Test Platform
+          //     game: this.game, x: 1400, y: 600, width: 200, height: 50, id: this.id
+          //   })
+          // )
+          break
+
+        case 4:
+          
+          // Lever.creations.push(
+          //   new Platform({ // Test Platform
+          //     game: this.game, x: 1600, y: 600, width: 200, height: 50, id: this.id
+          //   })
+          // )
+          break
+
+        default:
+          this.removePlatform(this.id)
+          break
+      }
     }
   }
 
   removePlatform (id) {
-    for (let i = 0; i < Lever.creations.length; i++) {
-      if (Lever.creations[i].id === id) { // does lever need a platform related id? or how do I check to see if a specific platform exhists in teh world to be interacted with?
-        console.log("I've found the Id")
-        let deleteMe = Lever.creations[i]
-        Lever.creations.splice(i, 1)
-        deleteMe.destroy()
-        console.log("destroyed")
-        // let deleteMe = this.platforms[this.platforms.length - 1]
-        // this.platforms.splice(this.platforms.length - 1, 1)
-        // deleteMe.destroy()
-        // TODO look up JS Map type for id w3school?
-      }
+    if (Lever.creations[id]) {
+      let deleteMe = Lever.creations[id]
+      delete Lever.creations[id]
+      deleteMe.destroy()
     }
   }
 }
 
-Lever.creations = []
+Lever.creations = {}
+Lever.movers = {}
 
 export default Lever

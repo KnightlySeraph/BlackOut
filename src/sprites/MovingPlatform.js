@@ -17,6 +17,7 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
   constructor ({ game, x, y, id, spriteName, light }) {
     super(game, 0, 0, spriteName, 0)
     this.name = 'mover'
+    this.spriteName = spriteName
     this.light = light
 //    this.scale.setTo(width / 10, height / 10)
     this.id = id
@@ -46,6 +47,11 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
     this.body.onBeginContact.add(this.steppedOn, this)
     this.body.onEndContact.add(this.steppedOff, this)
 
+    this.case1X = x - 50
+    this.case2X = x + 50
+    this.case3Y = x - 50
+    this.case4y = y + 50
+
     this.setupTween(this.id)
   }
 
@@ -54,10 +60,10 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
     let destination = {}
 
     switch (id) {
-      case 1: destination = { x: this.x - 100 }; break
-      case 2: destination = { x: this.x + 100 }; break
-      case 3: destination = { y: this.y - 100 }; break
-      case 4: destination = { y: this.y + 100 }; break
+      case 1: destination = { x: this.case1X }; break
+      case 2: destination = { x: this.case2X }; break
+      case 3: destination = { y: this.case3Y }; break
+      case 4: destination = { y: this.case4Y }; break
       // case 5:
       //   // move left and up
       //   this.tween = this.game.add.tween(this.body).to({ x: this.x - 100 }, 5000, Phaser.Easing.Linear.None, false, 100, -1, true)
@@ -68,19 +74,37 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
         console.log('Error steppedOn: this moving platform id is not valid.')
     }
 
-    this.tween = this.game.add.tween(this.body).to(destination, duration, Phaser.Easing.Linear.None, false, 100, -1, true)
-    if (this.spriteName === 'Elevator') { 
-    this.light.createLight(this.body.x + 30, this.body.y - 600, 250.0, 0.5)
-    } else if (this.spriteName === 'smallPlatform'){
-      this.light.createLight(this.body.x + 30, this.body.y - 400, 150.0, 0.5)
+    if (this.spriteName === 'Elevator') {
+      this.tween = this.game.add.tween(this.body).to(destination, duration, Phaser.Easing.Linear.None, false, 10, 0, false)
+      this.tween.onComplete.add(this.tweenDone, this)
+    } else if (this.spriteName === 'smallPlatform') {
+      //this.light.createLight(this.body.x + 100, this.body.y + 300, 350.0, 0.5)
+      this.tween = this.game.add.tween(this.body).to(destination, duration, Phaser.Easing.Linear.None, true, 100, -1, true)
     }
   }
 
   startMovement () {
-    if (this.tween.isPaused) {
-      this.tween.resume()
-    } else if (!this.tween.isRunning) {
-      this.tween.start()
+    console.log('Starting movement for ' + this.id + ' ' + this.spriteName)
+    if (this.tween) {
+      if (this.spriteName === 'Elevator') {
+        this.light.createLight(this.x + 60, this.y - 550, 450.0, 0.5)
+      } else if (this.spriteName === 'smallPlatform') {
+        this.light.createLight(this.body.x + 100, this.body.y + 800, 250.0, 0.5)
+      }
+      if (this.tween.isPaused) {
+        this.tween.resume()
+      } else if (!this.tween.isRunning) {
+        this.tween.start()
+      }
+    }
+  }
+
+  nextTween () {
+    if (this.tween) {
+      if (this.spriteName === 'Elevator') {
+        this.light.createLight(this.x + 60, this.y - 550, 450.0, 0.5)
+        this.tween.start([1])
+      }
     }
   }
 
@@ -95,7 +119,6 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
       if (myShape === this.topSensor) {
         this.player = otherPhaserBody.sprite
         this.playerOffsetX = this.player.body.x - this.body.x
-        // this.tween.start()
       }
     }
   }
@@ -109,34 +132,17 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
     }
   }
 
+  tweenDone () {
+    if (this.spriteName === 'Elevator') {
+      this.stopMovement()
+      this.tween = this.game.add.tween(this.body).to(this.y + 50, this.duration, Phaser.Easing.Linear.None, false, 10, 0, false)
+      console.log('New tween set')
+    }
+  }
+
   changeOffset (deltaX, deltaY) {
     if (this.player != null) {
-      /*switch (this.id) {
-        case 1:
-          // move left
-          this.playerOffsetX += deltaX
-          break
-        case 2:
-          // move right
-          this.playerOffsetX -= deltaX
-          break
-        case 3:
-          // move up
-          this.playerOffsetY += deltaY
-          break
-        case 4:
-          // move down
-          this.playerOffsetY -= deltaY
-          break
-        case 5:
-          // move left and up
-          this.playerOffsetX += deltaX
-          this.playerOffsetY += deltaY
-          break
-        default:
-          console.log('Error changeOffset: this moving platform id is not valid.')
-      }*/
-       this.playerOffsetX += deltaX
+      this.playerOffsetX += deltaX
       // this.playerOffsetX -= deltaX
       // this.playerOffsetY += deltaY
       // this.playerOffsetY -= deltaY
@@ -146,31 +152,6 @@ class MovingPlatform extends Phaser.Sprite { // extends phaser.Sprite
   update () {
     super.update()
     if (this.player != null) {
-      /*switch (this.id) {
-        case 1:
-          this.player.body.x = this.body.x + this.playerOffsetX
-          console.log('move left')
-          break
-        case 2:
-          this.player.body.x = this.body.x + this.playerOffsetX
-          console.log('move right')
-          break
-        case 3:
-          this.player.body.y = this.body.y + this.playerOffsetY
-          console.log('move up')
-          break
-        case 4:
-          this.player.body.y = this.body.y + this.playerOffsetY
-          console.log('move down')
-          break
-        case 5:
-          this.player.body.x = this.body.x + this.playerOffsetX
-          this.player.body.y = this.body.y + this.playerOffsetY
-          console.log('move left UP')
-          break
-        default:
-          console.log('Error Update: this moving platform id is not valid.')
-      }*/
       this.player.body.x = this.body.x + this.playerOffsetX
     }
   }

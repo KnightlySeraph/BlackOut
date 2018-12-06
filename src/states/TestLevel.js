@@ -153,13 +153,24 @@ class TestLevel extends Phaser.State {
     //   this.game.add.existing(obj)
     // })
 
+    // make the main elevator
+    this.mover = [
+      new MovingPlatform({
+        game: this.game, x: 500, y: 800, id: 3, spriteName: 'Elevator', light: this.radialLight
+      })
+    ]
+    this.mover.forEach((obj) => {
+      this.game.add.existing(obj)
+      Lever.movers[obj.id] = obj
+    })
+
     // Make Levers that can be interacted with
     this.lever = [
       new Lever({
-        game: this.game, x: 990, y: 998, width: 50, height: 100, id: 4, spriteKey: 'LeverFloor', light: this.radialLight
+        game: this.game, x: 990, y: 998, width: 50, height: 100, id: 3, spriteKey: 'LeverFloor', light: this.radialLight
       }),
       new Lever({
-        game: this.game, x: 1300, y: 1000, width: 50, height: 100, id: 5, spriteKey: 'LeverWall', light: this.radialLight
+        game: this.game, x: 1300, y: 1000, width: 50, height: 100, id: 3, spriteKey: 'LeverWall', light: this.radialLight
       })
     ]
     this.lever.forEach((obj) => {
@@ -188,9 +199,6 @@ class TestLevel extends Phaser.State {
 
     // Make MovingPlatform objects in the world
     this.autoMover = [
-      new MovingPlatform({
-        game: this.game, x: 1500, y: 660, id: 2, spriteName: 'Elevator', light: this.radialLight
-      }),
       new MovingPlatform({
         game: this.game, x: 1500, y: 660, id: 2, spriteName: 'smallPlatform', light: this.radialLight
       })
