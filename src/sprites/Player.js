@@ -123,8 +123,8 @@ class MainPlayer extends Phaser.Sprite {
     if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
     } else if (otherPhaserBody.sprite.name === 'jumper') {
-     // Jumper.animate(false)
-     // otherPhaserBody.sprite.animations.play('stopped', 10, true)
+      // Jumper.animate(false)
+      // otherPhaserBody.sprite.animations.play('stopped', 10, true)
       this.isSpring = false
       console.log('exit spring')
       this._overlapping.delete(otherPhaserBody.sprite) // removes object from set
@@ -264,11 +264,11 @@ class MainPlayer extends Phaser.Sprite {
     // Override state that controls jumping and falling
     if (this.overrideState === MainPlayer.overrideStates.JUMPING) {
       if (this._jumpTimer > 0) {
-        this._jumpTimer -= 1.25
+        this._jumpTimer -= 5
         if (this.jumpingFromJumper) {
           this.body.moveUp(300)
         } else {
-          this.body.moveUp(250)
+          this.body.moveUp(150)
         }
       } else {
         this.overrideState = MainPlayer.overrideStates.FALLING
@@ -290,9 +290,9 @@ class MainPlayer extends Phaser.Sprite {
         }
       } else if (this.moveState === MainPlayer.moveStates.WALKING) {
         if (this.isFacingRight()) {
-          this.body.moveRight(500)
+          this.body.moveRight(450)
         } else {
-          this.body.moveLeft(500)
+          this.body.moveLeft(450)
         }
       }
     }
