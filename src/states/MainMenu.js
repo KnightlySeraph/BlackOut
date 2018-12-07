@@ -20,6 +20,7 @@ class MainMenu extends Phaser.State {
   }
 
   create () {
+    this.game.camera.flash('000000', 2000, false, 1)
     let mainMenuBG = this.game.add.sprite(0, 0, 'mainMenu', 0)
     mainMenuBG.smoothed = false
 

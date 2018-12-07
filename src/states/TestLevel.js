@@ -47,6 +47,7 @@ class TestLevel extends Phaser.State {
   }
 
   create () {
+    this.game.camera.flash('000000', 1000, false, 1)
     // Uncomment this section if you want the level to show up
     // Imports level
     this.map = this.game.add.tilemap('Mytilemap')
