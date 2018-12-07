@@ -63,8 +63,9 @@ class Elevator extends MovingPlatform {
   startMovement () {
     // Call the parent movement method
     if (super.startMovement()) {
+      this.game.add.audio('gears2Audio').play()
       // Create a light when the movement starts
-      // this.light.createLight(this.body.x + 100, this.body.y + 800, 250.0, 0.5)
+      this.light.createLight(this.startX, this.startY, 200.0, 1.0)
       return true
     }
 

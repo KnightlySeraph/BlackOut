@@ -279,15 +279,19 @@ class RadialLightFilter extends Phaser.Filter {
     }
   }
 
+  // TODO set up fuction to see if audio is already playing if so do nothing, if light source has gone down add a new one with less volume, and if light is gone delete the sound
+
   iterate () {
     // Dim the player lights
     if (this.timer > 0.0) {
       this.timer -= 0.1 // decrease the timer over time
+      // this.game.add.audio('watchTickAudio').play()
     }
 
     // change var light size based off of timer
     if (this.timer <= 0.0) {
       this.lightSize = 0
+      //this.game.audio.remove('watchTickAudio')
     } else if (this.timer <= 50.0) {
       this.lightSize = 1
     } else if (this.timer <= 75.0) {

@@ -298,10 +298,14 @@ class TestLevel extends Phaser.State {
     if (this.rightKey.isDown) { speed++ }
     if (this.leftKey.isDown) { speed-- }
 
+    // Enable the player to move on platforms
     if (speed !== 0) {
-      // this.autoMover.forEach((obj) => {
-      //   obj.changeOffset(speed * 5)
-      // })
+      this.autoMover.forEach((obj) => {
+        obj.changeOffset(speed * 5)
+      })
+      this.mover.forEach((obj) => {
+        obj.changeOffset(speed * 5)
+      })
     }
 
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
