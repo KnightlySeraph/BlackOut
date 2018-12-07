@@ -41,10 +41,11 @@ class Splash extends Phaser.State {
     this.load.setPreloadSprite(this.loaderBar)
 
     // Tiled Map
-    // this.load.tilemap('Mytilemap', 'assets/images/mainlevel.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('FinalLevel', 'assets/images/FinalLevel.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('Mytilemap', 'assets/images/testlevel_02.json', null, Phaser.Tilemap.TILED_JSON)
 
     this.load.image('tiles1', 'assets/images/tiles1.png')
+    this.load.image('tiles1t', 'assets/images/MainTile.png')
 
     // Load all the assets needed for next state
 
