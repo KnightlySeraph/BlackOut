@@ -14,7 +14,7 @@ class MainMenu extends Phaser.State {
     this.game.load.spritesheet('smallPlatform', 'assets/images/platform_small.png', 64, 32, 1, 0, 0)
 
     // The issue is the prites are not counted as two separtate sprites but a single one - aka talk to the artist about adding in margins/spaceing
-    this.game.load.spritesheet('adMovement', 'assets/images/controlspritesheet_64x32.png', 64, 32, 6, 0, 0) // should be 12 but it doesn't split the sprites correctly
+    this.game.load.spritesheet('controlSprites', 'assets/images/controlspritesheet_64x32.png', 32, 32, 12, 0, 8) // should be 12 but it doesn't split the sprites correctly
     // this.game.load.spritesheet('adMovement', 'assets/images/adSpriteSheet_64x32.png', 64, 32, 1, 0, 0)
     
   }
