@@ -20,7 +20,8 @@ export default {
   // *** In fact, some of these are quick hacks and not recommended!!
 
   // Sound and music settings
-  MUSIC_VOLUME: 0.1,
+  MUSIC_VOLUME: 0.3,
+  WALKING_VOLUME: 0.5,
   SFX_VOLUME: 1.0,
 
   // Minimum time to display the splash screen
@@ -42,5 +43,7 @@ export default {
   PLATFORM_3: 3,
   PLATFORM_4: 4,
 
-  ELEVATOR_1: 5
+  ELEVATOR_1: 5,
+
+  LEVER_LVL1_FINISH: 6
 }

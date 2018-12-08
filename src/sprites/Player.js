@@ -4,8 +4,6 @@
 import Phaser from 'phaser'
 import P2 from 'p2'
 
-import Jumper from './Jumper.js'
-
 // Import needed functions from utils and config settings
 import { sequentialNumArray } from '../utils.js'
 import config from '../config'
@@ -48,9 +46,6 @@ class MainPlayer extends Phaser.Sprite {
     // Setup all the animations
     this.setupAnimations()
 
-    // Sets up all player sound effects
-    this.setUpSounds()
-
     // All variabes that start with '_' are meant to be private
     // Initial state is 'unknown' as nothing has happened yet
     this._move_state = MainPlayer.moveStates.UNKNOWN
@@ -63,9 +58,6 @@ class MainPlayer extends Phaser.Sprite {
 
     // Initialize the scale of this sprite
     this.scale.setTo(this._SCALE)
-
-    // Set up walking to be false
-    this.walk = false
 
     // Create a P2 physics body for this sprite
     this.game.physics.p2.enable(this)
@@ -109,8 +101,10 @@ class MainPlayer extends Phaser.Sprite {
         this.overrideState = MainPlayer.overrideStates.JUMPING
         otherPhaserBody.sprite.animate(true)
         this.jumpingFromJumper = true
-      } else if (otherPhaserBody.sprite.name === 'pitOfDeath') {
-        this.game.state.start(this.game.state.current)
+      } else if (otherPhaserBody.sprite.name === 'pitOfDeath' || this.body.x === this.game.world.x ||
+       this.body.x === -this.game.world.x || this.body.y === this.game.world.y || this.body.y === -this.game.world.y) {
+        otherPhaserBody.sprite.resetPlayer(this.body)
+        // this.game.state.start(this.game.state.current)
       }
     }
   }
@@ -220,7 +214,6 @@ class MainPlayer extends Phaser.Sprite {
         case MainPlayer.overrideStates.JUMPING:
           if (__DEV__) console.info('playing "jump"')
           this.animations.play('jump')
-          this.walkStop()
           this._jumpTimer = 50
           break
 
@@ -232,7 +225,7 @@ class MainPlayer extends Phaser.Sprite {
         case MainPlayer.overrideStates.WINDING:
           if (__DEV__) console.info('playing "winding"')
           this.animations.play('winding')
-          this.game.add.audio('watchWindAudio').play()
+          this.game.sounds.play('watchWind', config.SFX_Volume, false)
           break
       }
     } else {
@@ -241,14 +234,12 @@ class MainPlayer extends Phaser.Sprite {
         case MainPlayer.moveStates.STOPPED:
           if (__DEV__) console.info('Playing "stop"')
           this.animations.play('stop')
-          this.walkStop()
           this._idle_countdown = config.IDLE_COUNTDOWN
           break
 
         case MainPlayer.moveStates.WALKING:
           if (__DEV__) console.info('Playing "walk"')
           this.animations.play('walk')
-          this.walkStart()
           break
 
         case MainPlayer.moveStates.IDLE:
@@ -256,26 +247,6 @@ class MainPlayer extends Phaser.Sprite {
           this.animations.play('idle')
           break
       }
-    }
-  }
-
-  setUpSounds () {
-    this.walkSound = this.game.add.audio('walkingAudio')
-    this.windWatchSound = this.game.add.audio('watchWindAudio')
-  }
-
-  walkStart () {
-    this.walk = true
-    this.playSound = false
-    if (!this.playSound) { 
-      this.walkSound.play('', 1, true)
-      this.playSound = true
-    }
-  }
-
-  walkStop () {
-    if (this.walk) {
-      this.walk = false
     }
   }
 

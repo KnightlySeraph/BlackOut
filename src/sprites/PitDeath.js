@@ -30,6 +30,20 @@ class PitOfDeath extends Phaser.Sprite {
 
     this.anchor.setTo(0, 0)
   }
+
+  resetPlayer (playerObj) {
+    this.game.camera.flash('000000', 1000, false, 1)
+    if (this.game.LVL_1_PASSED && !this.game.LVL_2_PASSED) { // TODO change value to be correct for level
+      playerObj.x = 1000
+      playerObj.y = 1000
+    } else if (this.game.LVL_2_PASSED) {// TODO change value to be correct for level
+      playerObj.x = 1200
+      playerObj.y = 1000
+    } else { // default respawn point
+      playerObj.x = 800
+      playerObj.y = 1000
+    }
+  }
 }
 
 export default PitOfDeath
