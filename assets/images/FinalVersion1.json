@@ -1298,20 +1298,6 @@
           "tileheight":32,
           "tilewidth":32,
           "transparentcolor":"#fc00ff"
-        }, 
-        {
-         "columns":18,
-         "firstgid":181,
-         "image":"tiles1t.png",
-         "imageheight":320,
-         "imagewidth":600,
-         "margin":0,
-         "name":"tiles1",
-         "spacing":0,
-         "tilecount":180,
-         "tileheight":32,
-         "tilewidth":32,
-         "transparentcolor":"#fc00ff"
         }],
  "tilewidth":32,
  "type":"map",

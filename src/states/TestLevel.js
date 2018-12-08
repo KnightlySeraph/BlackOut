@@ -51,20 +51,20 @@ class TestLevel extends Phaser.State {
     // Uncomment this section if you want the level to show up
     // Imports level
     // this.map = this.game.add.tilemap('Mytilemap')
-    this.map = this.game.add.tilemap('Mytilemap2')
+    // this.map = this.game.add.tilemap('Mytilemap2')
     // this.map = this.game.add.tilemap('Mytilemap3')
 
-    this.map.addTilesetImage('tiles1', 'tiles1')
+    this.map = this.game.add.tilemap('VersionFinal')
 
+    this.map.addTilesetImage('tiles1', 'tiles1')
 
     // Uncomment this section if you want the level to show up
     // // Creates Layers
     this.layer3 = this.map.createLayer('bg_black')
-    this.layer2 = this.map.createLayer('bg_close')
-    this.layer1 = this.map.createLayer('bg_decor')
+    this.layer2 = this.map.createLayer('bg_far')
+    this.layer1 = this.map.createLayer('bg_close')
     this.layer0 = this.map.createLayer('main_level')
 
-    
     // Uncomment this section if you want the level to show up
     // Main collider
     let customCollider = this.map.objects['collision']

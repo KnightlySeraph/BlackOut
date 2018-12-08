@@ -43,7 +43,7 @@ class Splash extends Phaser.State {
     // Tiled Map
     this.load.tilemap('Mytilemap', 'assets/images/testlevel_02.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('Mytilemap2', 'assets/images/testlevel_03.json', null, Phaser.Tilemap.TILED_JSON)
-    this.load.tilemap('Mytilemap3', 'assets/images/FinalVersion1.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('VersionFinal', 'assets/images/level01.json', null, Phaser.Tilemap.TILED_JSON)
 
 
 
