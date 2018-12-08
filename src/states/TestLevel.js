@@ -56,7 +56,7 @@ class TestLevel extends Phaser.State {
 
     this.map = this.game.add.tilemap('VersionFinal')
 
-    this.map.addTilesetImage('tiles1', 'tiles1')
+    this.map.addTilesetImage('tiles1', 'tiles1', 32, 32)
 
     // Uncomment this section if you want the level to show up
     // // Creates Layers
@@ -177,14 +177,14 @@ class TestLevel extends Phaser.State {
     })
 
     // Make "Death" objects in the world
-    this.pits = [
-      new PitOfDeath({
-        game: this.game, x: 1000, y: 2055, width: 50000, height: this.game.world.height - 500
-      })
-    ]
-    this.pits.forEach((obj) => {
-      this.game.add.existing(obj)
-    })
+    // this.pits = [
+    //   new PitOfDeath({
+    //     game: this.game, x: 1000, y: 2055, width: 50000, height: this.game.world.height - 500
+    //   })
+    // ]
+    // this.pits.forEach((obj) => {
+    //   this.game.add.existing(obj)
+    // })
 
     // Make MovingPlatform objects in the world
     this.autoMover = [
