@@ -1,6 +1,9 @@
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
 
+// Use configuration for pre-coded ID constants
+import config from '../config'
+
 // Import parent class
 import MovingPlatform from './MovingPlatform'
 
@@ -63,7 +66,7 @@ class Elevator extends MovingPlatform {
   startMovement () {
     // Call the parent movement method
     if (super.startMovement()) {
-      this.game.add.audio('gears2Audio').play()
+      this.game.sounds.play('gears2', config.SFX_Volume, false)
       // Create a light when the movement starts
       this.light.createLight(this.startX, this.startY, 200.0, 1.0)
       return true

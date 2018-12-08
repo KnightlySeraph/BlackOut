@@ -1,8 +1,10 @@
 import Phaser from 'phaser'
-import RadialLightFilter from '../Shaders/RadialLightFilter'
+
+// Import config settings
+import config from '../config'
 
 /**
- * 
+ * The MainMenu Page
  */
 class MainMenu extends Phaser.State {
 
@@ -16,11 +18,13 @@ class MainMenu extends Phaser.State {
     // The issue is the prites are not counted as two separtate sprites but a single one - aka talk to the artist about adding in margins/spaceing
     this.game.load.spritesheet('adMovement', 'assets/images/controlspritesheet_64x32.png', 64, 32, 6, 0, 0) // should be 12 but it doesn't split the sprites correctly
     // this.game.load.spritesheet('adMovement', 'assets/images/adSpriteSheet_64x32.png', 64, 32, 1, 0, 0)
-    
   }
 
   create () {
-    this.game.camera.flash('000000', 2000, false, 1)
+    this.game.sounds.play('mainAmbience', config.MUSIC_VOLUME, true)
+    this.game.LVL1_PASSED = false
+    this.game.LVL2_PASSED = false
+    this.game.camera.flash('000000', 1000, false, 1)
     let mainMenuBG = this.game.add.sprite(0, 0, 'mainMenu', 0)
     mainMenuBG.smoothed = false
 
@@ -53,18 +57,17 @@ class MainMenu extends Phaser.State {
 }
 
 function moveToTestLevel () {
+  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME, false)
   this.state.start('TestLevel')
 }
 
 function moveToControls () {
+  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME, false)
   this.state.start('ControlPage')
 }
 
-function moveToSettings () {
-  // this.state.start('Settings')
-}
-
 function moveToExit () {
+  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME, false)
   // Exit Game
 }
 

@@ -40,6 +40,9 @@ class Splash extends Phaser.State {
     // Display the progress bar
     this.load.setPreloadSprite(this.loaderBar)
 
+    // Set up bool to play music on splash screen
+    this.game.splashReady = false
+
     // Tiled Map
     // this.load.tilemap('Mytilemap', 'assets/images/mainlevel.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('Mytilemap', 'assets/images/testlevel_02.json', null, Phaser.Tilemap.TILED_JSON)
@@ -103,14 +106,16 @@ class Splash extends Phaser.State {
     this.load.spritesheet('blank', 'assets/images/blank.png', 10, 10)
     this.load.spritesheet('light', 'assets/images/light.png', 10, 10)
 
-    this.load.audio('springAudio', ['assets/audio/spring.wav'])
-    this.load.audio('lever1Audio', ['assets/audio/lever1.wav'])
-    this.load.audio('lever2Audio', ['assets/audio/lever2.wav'])
-    this.load.audio('watchTickAudio', ['assets/audio/watchTick.wav'])
-    this.load.audio('watchWindAudio', ['assets/audio/watchWind.wav'])
-    this.load.audio('walkingAudio', ['assets/audio/walking.wav'])
-    this.load.audio('gears1Audio', ['assets/audio/gears1.wav'])
-    this.load.audio('gears2Audio', ['assets/audio/gears2.wav'])
+    // this.load.audio('springAudio', ['assets/audio/spring.wav'])
+    // this.load.audio('lever1Audio', ['assets/audio/lever1.wav'])
+    // this.load.audio('lever2Audio', ['assets/audio/lever2.wav'])
+    // this.load.audio('watchTickAudio', ['assets/audio/watchTick.wav'])
+    // this.load.audio('watchWindAudio', ['assets/audio/watchWind.wav'])
+    // this.load.audio('walkingAudio', ['assets/audio/walking.wav'])
+    // this.load.audio('gears1Audio', ['assets/audio/gears1.wav'])
+    // this.load.audio('gears2Audio', ['assets/audio/gears2.wav'])
+    // this.load.audio('MainMusic', ['assets/audio/mainAmbience.wav'])
+    // this.load.audio('HappyMusic', ['assets/audio/happyAmbience.wav'])
 
     // The audiosprite with all music and SFX
     this.load.audioSprite('sounds', [
@@ -153,6 +158,30 @@ class Splash extends Phaser.State {
     sounds.get('music-bridge').onStop.add(() => {
       sounds.play('music-theme2', config.MUSIC_VOLUME)
     })
+
+    sounds.get('spring')
+
+    sounds.get('lever1')
+
+    sounds.get('lever2')
+
+    sounds.get('watchTick')
+
+    sounds.get('watchWind')
+
+    sounds.get('walking')
+
+    sounds.get('walking2')
+
+    sounds.get('gears1')
+
+    sounds.get('gears2')
+
+    sounds.get('mainAmbience')
+
+    sounds.get('happyAmbience')
+
+    sounds.get('mainMenuClick')
   }
 
   // Called repeatedly after pre-load finishes and after 'create' has run
@@ -160,9 +189,12 @@ class Splash extends Phaser.State {
     // Check how much time has elapsed since the stage started and only
     // proceed once MIN_SPLASH_SECONDS or more has elapsed
     if (this.game.time.elapsedSecondsSince(this.started) >= config.MIN_SPLASH_SECONDS) {
+
       // Make sure the audio is not only loaded but also decoded before advancing
-      // TODO: Re-name if you don't have 'music-intro' anymore
-      if (this.game.sounds.get('music-intro').isDecoded) {
+      let splashSound = this.game.sounds.marker = 'gears1'
+      this.game.sounds.play(splashSound, config.SFX_VOLUME, false)
+
+      if (this.game.sounds.get('mainAmbience').isDecoded && !splashSound.isPlaying) {
         this.state.start('MainMenu') // change to MainMenu
       }
     }

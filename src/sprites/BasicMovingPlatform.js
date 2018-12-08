@@ -59,7 +59,7 @@ class BasicMovingPlatform extends MovingPlatform {
   startMovement () {
     // Call the parent movement method
     if (super.startMovement()) {
-      this.game.add.audio('gears1Audio').play()
+      this.game.sounds.play('gears1', config.SFX_VOLUME, false)
       // Create a light when the movement starts
       this.light.createLight(this.startX, this.startY, 50.0, 0.5)
       return true

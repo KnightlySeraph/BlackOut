@@ -47,6 +47,7 @@ class TestLevel extends Phaser.State {
   }
 
   create () {
+    // fade in to level from black
     this.game.camera.flash('000000', 1000, false, 1)
     // Uncomment this section if you want the level to show up
     // Imports level
@@ -224,7 +225,7 @@ class TestLevel extends Phaser.State {
     this.game.add.existing(this.player)
 
     // Start playing the background music
-    this.game.sounds.play('Rock_Intro_1', config.MUSIC_VOLUME)
+    this.game.sounds.play('mainAmbience', config.MUSIC_VOLUME, true)
 
     // Setup the key objects
     this.setupKeyboard()
@@ -311,6 +312,9 @@ class TestLevel extends Phaser.State {
 
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
+      if (this.game.sounds.get('walking2').isPlaying) {
+        this.game.sounds.get('walking2', config.WALKING_VOLUME, false).stop()
+      }
     }
 
     // else if (MainPlayer.isSpring === true) { this.player.overrideState = MainPlayer.overrideStates.JUMPING }
@@ -326,8 +330,21 @@ class TestLevel extends Phaser.State {
         // Update sprite movement state and playing audio
         if (Math.abs(speed) > 0) {
           this.player.moveState = MainPlayer.moveStates.WALKING
+          //this.game.sounds.get('walking2').allowMultiple = true
+          if (!this.game.sounds.get('walking2').isPlaying && MainPlayer.overrideStates.NONE /*&& (!MainPlayer.overrideStates.FALLING || !MainPlayer.overrideStates.JUMPING)*/) {
+            this.game.sounds.play('walking2', config.WALKING_Volume, true)
+          }
+          else /*(this.game.sounds.get('walking2').isPlaying && !MainPlayer.overrideStates.NONE && !MainPlayer.moveStates.WALKING)*/ {
+            this.game.sounds.get('walking2', config.WALKING_VOLUME, false).fadeOut(1000)
+          }
         } else {
           this.player.moveState = MainPlayer.moveStates.STOPPED
+          if (this.game.sounds.get('watchWind').isPlaying) {
+            this.game.sounds.get('watchWind', config.SFX_Volume, false).fadeOut(1000)
+          }
+          if (this.game.sounds.get('walking2').isPlaying && (MainPlayer.overrideStates.FALLING || MainPlayer.overrideStates.JUMPING) && !MainPlayer.moveStates.WALKING) {
+            this.game.sounds.get('walking2', config.WALKING_VOLUME, false).fadeOut(1000)
+          }
         }
       }
     }

@@ -7,7 +7,7 @@ class ControlPage extends Phaser.State {
   }
 
   create () {
-    this.game.camera.flash('000000', 2000, false, 1)
+    this.game.camera.flash('000000', 1000, false, 1)
     let controlPageBG = this.game.add.sprite(0, 0, 'controlMenu', 0)
     controlPageBG.smoothed = false
 
