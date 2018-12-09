@@ -30,13 +30,15 @@ class ControlPage extends Phaser.State {
     this.escAnim.smoothed = false
     this.escAnim.scale.setTo(2, 2)
 
-    this.eAnim = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY + 50, 'controlSprites', 0)
+    this.eAnim = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY + 50, 'interactAnim', 0)
     this.eAnim.smoothed = false
     this.eAnim.scale.setTo(2, 2)
 
-    this.spaceAnim = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY + 150, 'controlSprites', 0)
+    this.spaceAnim = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY + 150, 'spacebarAnim', 0)
     this.spaceAnim.smoothed = false
     this.spaceAnim.scale.setTo(2, 2)
+
+    
 
     this.controlsAnimations()
 
@@ -68,20 +70,15 @@ class ControlPage extends Phaser.State {
     this.tabAnim.animations.add('tabAnim', [4, 5], 10, true)
     this.tabAnim.animations.play('tabAnim', 2, true)
 
-    this.escAnim.animations.add('escAnim', [6, 7], 10, true)
-    this.escAnim.animations.play('escAnim', 2, true)
+    // this.escAnim.animations.add('escAnim', [6, 7], 10, true)
+    // this.escAnim.animations.play('escAnim', 2, true)
 
-    this.eAnim.animations.add('eAnim', [8, 9], 10, true)
-    this.eAnim.animations.play('eAnim', 2, true)
+    // this.eAnim.animations.add('eAnim', [8, 9], 10, true)
+    // this.eAnim.animations.play('eAnim', 2, true)
 
-    this.spaceAnim.animations.add('spaceAnim', [10, 11], 10, true)
-    this.spaceAnim.animations.play('spaceAnim', 2, true)
+    // this.spaceAnim.animations.add('spaceAnim', [10, 11], 10, true)
+    // this.spaceAnim.animations.play('spaceAnim', 2, true)
     
-    // this.animations.add('mAnim2', [2, 3], 2, true)
-    // this.animations.add('tAnim', [4, 5], 2, true)
-    // this.animations.add('escAnim', [6, 7], 2, true)
-    // this.animations.add('eAnim', [8, 9], 2, true)
-    // this.animations.add('sAnim', [10, 11], 2, true)
   }
 
 }

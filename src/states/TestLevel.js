@@ -51,22 +51,20 @@ class TestLevel extends Phaser.State {
     this.game.camera.flash('000000', 1000, false, 1)
     // Uncomment this section if you want the level to show up
     // Imports level
-    this.map = this.game.add.tilemap('Mytilemap')
-    this.map.addTilesetImage('tiles1', 'tiles1')
-    // this.map = this.game.add.tilemap('FinalLevel')
-    // this.map.addTilesetImage('tiles1t', 'tiles1t')
+    // this.map = this.game.add.tilemap('Mytilemap')
+    // this.map = this.game.add.tilemap('Mytilemap2')
+    // this.map = this.game.add.tilemap('Mytilemap3')
+
+    this.map = this.game.add.tilemap('VersionFinal')
+
+    this.map.addTilesetImage('tiles1', 'tiles1', 32, 32)
 
     // Uncomment this section if you want the level to show up
     // // Creates Layers
     this.layer3 = this.map.createLayer('bg_black')
-    this.layer2 = this.map.createLayer('bg_close')
-    this.layer1 = this.map.createLayer('bg_decor')
+    this.layer2 = this.map.createLayer('bg_far')
+    this.layer1 = this.map.createLayer('bg_close')
     this.layer0 = this.map.createLayer('main_level')
-
-    // this.layer3 = this.map.createLayer('bg_black')
-    // this.layer2 = this.map.createLayer('bg_far')
-    // this.layer1 = this.map.createLayer('bg_close')
-    // this.layer0 = this.map.createLayer('main_level')
 
     // Uncomment this section if you want the level to show up
     // Main collider
@@ -182,7 +180,7 @@ class TestLevel extends Phaser.State {
     // Make "Death" objects in the world
     this.pits = [
       new PitOfDeath({
-        game: this.game, x: 1000, y: 2055, width: 50000, height: this.game.world.height - 500, light: this.radialLight
+        game: this.game, x: 1000, y: 3055, width: 50000, height: this.game.world.height - 500, light: this.radialLight
       })
     ]
     this.pits.forEach((obj) => {
