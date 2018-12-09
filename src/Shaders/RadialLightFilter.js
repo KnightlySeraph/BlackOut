@@ -52,6 +52,10 @@ class RadialLightFilter extends Phaser.Filter {
     this.passLoc3 = { x: 0.0, y: 0.0 }
     this.passLoc4 = { x: 0.0, y: 0.0 }
     this.passLoc5 = { x: 0.0, y: 0.0 }
+
+    // Watch Ticking
+    this.mySound = this.game.sounds.get('watchTick')
+    this.myVolume = 1 // Standard volume for SFX is 1
   }
 
   // Uniforms Sets
@@ -197,8 +201,36 @@ class RadialLightFilter extends Phaser.Filter {
     this.timer = value
     if (this.timer > 0.0) {
       if (!this.game.sounds.get('watchTick').isPlaying) {
-        this.game.sounds.play('watchTick', config.SFX_VOLUME)
+        this.myVolume = 1
+        this.game.sounds.play('watchTick', this.myVolume)
       }
+      // if (this.timer <= 50.0 && this.game.sounds.get('watchTick').isPlaying) {
+      //   this.game.sounds.get('watchTick').stop()
+      //   this.game.sounds.get('watchTick')._sound.rate = 0.2
+      //   this.myVolume = 0.2
+      //   this.game.sounds.play('watchTick', this.myVolume)
+      //   //this.game.sounds.get('watchTick')._sound.playbackRate.value = 0.2 // Higher than 1 is faster, lower is slower
+      // } else if (this.timer <= 75.0 && this.game.sounds.get('watchTick').isPlaying) {
+      //   this.game.sounds.get('watchTick').stop()
+      //   //this.game.sounds.get('watchTick')._sound.playbackRate.value = 0.4 // Higher than 1 is faster, lower is slower
+      //   this.myVolume = 0.4
+      //   this.game.sounds.play('watchTick', this.myVolume)
+      // } else if (this.timer <= 100.0 && this.game.sounds.get('watchTick').isPlaying) {
+      //   this.game.sounds.get('watchTick').stop()
+      //   //this.game.sounds.get('watchTick')._sound.playbackRate.value = 0.6 // Higher than 1 is faster, lower is slower
+      //   this.myVolume = 0.6
+      //   this.game.sounds.play('watchTick', this.myVolume)
+      // } else if (this.timer <= 125.0 && this.game.sounds.get('watchTick').isPlaying) {
+      //   this.game.sounds.get('watchTick').stop()
+      //   // this.game.sounds.get('watchTick')._sound.playbackRate.value = 0.8 // Higher than 1 is faster, lower is slower
+      //   this.myVolume = 0.8
+      //   this.game.sounds.play('watchTick', this.myVolume)
+      // } else if (this.timer <= 150.0 && this.game.sounds.get('watchTick').isPlaying) { // ()
+      //   this.game.sounds.get('watchTick').stop()
+      //   // this.game.sounds.get('watchTick')._sound.playbackRate.value = 1 // Higher than 1 is faster, lower is slower
+      //   this.myVolume = 1
+      //   this.game.sounds.play('watchTick', this.myVolume)
+      // }
     } else {
       this.game.sounds.stop('watchTick')
     }
