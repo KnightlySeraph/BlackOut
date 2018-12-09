@@ -14,11 +14,11 @@ import config from '../config'
  * See Phaser.Sprite for more about sprite objects and what they support.
  */
 class PitOfDeath extends Phaser.Sprite {
-  constructor ({ game, x, y, width, height }) {
+  constructor ({ game, x, y, width, height, light }) {
     super(game, 0, 0, 'blank', 0)
     this.name = 'pitOfDeath'
     this.smoothed = false
-
+    let myLight = light
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
     this.body.setRectangle(width, height, 0, 0)
@@ -33,6 +33,8 @@ class PitOfDeath extends Phaser.Sprite {
 
   resetPlayer (playerObj) {
     this.game.camera.flash('000000', 1000, false, 1)
+    // reset player light
+    this.game.resetLight = true
     if (this.game.LVL_1_PASSED && !this.game.LVL_2_PASSED) { // TODO change value to be correct for level
       playerObj.x = 1000
       playerObj.y = 1000
@@ -43,6 +45,7 @@ class PitOfDeath extends Phaser.Sprite {
       playerObj.x = 800
       playerObj.y = 1000
     }
+    this.game.resetLight = false
   }
 }
 

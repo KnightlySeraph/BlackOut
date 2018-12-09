@@ -1,5 +1,8 @@
 import Phaser from 'phaser'
 
+// Import config settings
+import config from '../config'
+
 class ControlPage extends Phaser.State {
 
   preload () {
@@ -84,6 +87,7 @@ class ControlPage extends Phaser.State {
 }
 
 function returnToMenu () {
+  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME, false)
   this.state.start('MainMenu')
 }
 

@@ -182,7 +182,7 @@ class TestLevel extends Phaser.State {
     // Make "Death" objects in the world
     this.pits = [
       new PitOfDeath({
-        game: this.game, x: 1000, y: 2055, width: 50000, height: this.game.world.height - 500
+        game: this.game, x: 1000, y: 2055, width: 50000, height: this.game.world.height - 500, light: this.radialLight
       })
     ]
     this.pits.forEach((obj) => {
@@ -392,6 +392,9 @@ class TestLevel extends Phaser.State {
     if (this.radialLight.GetTimer() < 150.0) {
       if (this.isWinding) {
         this.radialLight.SetTimer(this.radialLight.GetTimer() + 0.7)
+      }
+      if (this.game.resetLight) {
+        this.radialLight.SetTimer(150.0)
       }
     }
     // Absolutely vital to the lights working, do not remove this line
