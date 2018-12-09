@@ -1,8 +1,11 @@
+// Import Phaser
+import Phaser from 'phaser'
+
 // The Phaser Filter to use on the player
 import RadialLightShader from './RadialLightShader.glsl'
 
-// Import Phaser
-import Phaser from 'phaser'
+// Import config settings
+import config from '../config'
 
 class RadialLightFilter extends Phaser.Filter {
   constructor (game) {
@@ -33,7 +36,7 @@ class RadialLightFilter extends Phaser.Filter {
     this.fragmentSrc = RadialLightShader
 
     // Vars used by the iterate function declared at bottom of class
-    this.timer = 150
+    this.SetTimer(150)
     this.blink = 0
     this.lightSize = 0
     this.camera = { x: 0, y: 0 }
@@ -192,8 +195,15 @@ class RadialLightFilter extends Phaser.Filter {
   // Get and Set functions for this.timer since it neads to read and write between level clases and this class
   SetTimer (value) {
     this.timer = value
+    if (this.timer > 0.0) {
+      if (!this.game.sounds.get('watchTick').isPlaying) {
+        this.game.sounds.play('watchTick', config.SFX_VOLUME)
+      }
+    } else {
+      this.game.sounds.stop('watchTick')
+    }
   }
-  
+
   GetTimer () {
     return this.timer
   }
@@ -282,14 +292,13 @@ class RadialLightFilter extends Phaser.Filter {
   iterate () {
     // Dim the player lights
     if (this.timer > 0.0) {
-      this.timer -= 0.1 // decrease the timer over time
-      // this.game.add.audio('watchTickAudio').play()
+      this.SetTimer(this.timer - 0.1)
     }
 
     // change var light size based off of timer
     if (this.timer <= 0.0) {
       this.lightSize = 0
-      //this.game.audio.remove('watchTickAudio')
+      // this.game.audio.remove('watchTickAudio')
     } else if (this.timer <= 50.0) {
       this.lightSize = 1
     } else if (this.timer <= 75.0) {
@@ -301,7 +310,7 @@ class RadialLightFilter extends Phaser.Filter {
     } else {
       this.lightSize = 5
     }
-    
+
     // Update the light around the player
     if (this.lightSize === 5) {
       this.timedDistance = 150.0
