@@ -2,11 +2,6 @@
 
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
-import P2 from 'p2'
-
-// Import needed functions from utils and config settings
-import { sequentialNumArray } from '../utils.js'
-import config from '../config'
 
 /**
  * The platform sprite. This class encapsulates the logic for the platform sprite.

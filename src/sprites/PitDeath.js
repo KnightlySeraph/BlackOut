@@ -3,11 +3,6 @@
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
 
-// Import needed functions from utils and config settings
-import { sequentialNumArray } from '../utils.js'
-import config from '../config'
-
-
 /**
  * The "spring" sprite. This class encapsulates the logic for the "spring" sprite.
  *
@@ -18,7 +13,6 @@ class PitOfDeath extends Phaser.Sprite {
     super(game, 0, 0, 'blank', 0)
     this.name = 'pitOfDeath'
     this.smoothed = false
-    let myLight = light
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
     this.body.setRectangle(width, height, 0, 0)

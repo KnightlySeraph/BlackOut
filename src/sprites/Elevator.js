@@ -1,3 +1,5 @@
+/* globals __DEV__ */
+
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
 
@@ -44,7 +46,7 @@ class Elevator extends MovingPlatform {
   makeMultiStageTween (destination, chainTo) {
     let tween = this.game.add.tween(this.body).to(destination, 1000, Phaser.Easing.Linear.None)
     tween.onComplete.add(() => {
-      console.log('Elevator stage complete')
+      if (__DEV__) { console.log('Elevator stage complete') }
       this.setTweenStage(chainTo)
     }, this)
     return tween
@@ -53,10 +55,10 @@ class Elevator extends MovingPlatform {
   setTweenStage (index) {
     this.curTween = index
     if (this.curTween < this.tweenStages.length) {
-      console.log('Elevator stage set to ' + this.curTween)
+      if (__DEV__) { console.log('Elevator stage set to ' + this.curTween) }
       this.tween = this.tweenStages[this.curTween]
     } else {
-      console.log('Invalid stage ' + this.curTween)
+      if (__DEV__) { console.log('Invalid stage ' + this.curTween) }
     }
   }
 

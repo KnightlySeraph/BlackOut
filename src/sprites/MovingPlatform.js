@@ -71,7 +71,7 @@ class MovingPlatform extends Phaser.Sprite {
    * @returns {boolean} true if the tween was resumed or started
    */
   startMovement () {
-    console.log('Moving ' + this.name)
+    if (__DEV__) { console.log('Moving ' + this.name) }
     // Try and start the tween
     if (this.tween) {
       if (this.tween.isPaused) {

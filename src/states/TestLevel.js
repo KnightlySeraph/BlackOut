@@ -2,22 +2,22 @@
 
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
-import P2 from 'p2'
 
 // Import the main player sprite
 import MainPlayer from '../sprites/Player'
-import Platform from '../sprites/Platform' // Import Platforms
-import Lever from '../sprites/Lever' // import Levers
-import Jumper from '../sprites/Jumper' // import Springs
 
 // Import config settings
 import config from '../config'
 
 // Import the filters for the scene
-import PlayerLightFilter from '../Shaders/PlayerLightFilter'
 import RadialLightFilter from '../Shaders/RadialLightFilter'
+
+// Import the death box
 import PitOfDeath from '../sprites/PitDeath'
 
+// Import interactable level elements
+import Lever from '../sprites/Lever' // import Levers
+import Jumper from '../sprites/Jumper' // import Springs
 import BasicMovingPlatform from '../sprites/BasicMovingPlatform'
 import Elevator from '../sprites/Elevator'
 
@@ -42,7 +42,7 @@ class TestLevel extends Phaser.State {
   }
 
   preload () {
-    console.log('preload has run once')
+    if (__DEV__) { console.log('preload has run once') }
     this.game.load.image('light', 'assets/images/light.png')
   }
 
@@ -235,7 +235,7 @@ class TestLevel extends Phaser.State {
   }
 
   consoleLogDebug () {
-    console.log('Timers are working')
+    if (__DEV__) { console.log('Timers are working') }
   }
 
   toScreenSpace (point) {
@@ -325,9 +325,6 @@ class TestLevel extends Phaser.State {
 
     if (this.jumpKey.isDown && this.player.touching(0, 1)) {
       this.player.overrideState = MainPlayer.overrideStates.JUMPING
-      if (this.game.sounds.get('walking2').isPlaying) {
-        this.game.sounds.get('walking2', config.WALKING_VOLUME, false).stop()
-      }
     }
 
     // else if (MainPlayer.isSpring === true) { this.player.overrideState = MainPlayer.overrideStates.JUMPING }
@@ -343,27 +340,14 @@ class TestLevel extends Phaser.State {
         // Update sprite movement state and playing audio
         if (Math.abs(speed) > 0) {
           this.player.moveState = MainPlayer.moveStates.WALKING
-          //this.game.sounds.get('walking2').allowMultiple = true
-          if (!this.game.sounds.get('walking2').isPlaying && MainPlayer.overrideStates.NONE /*&& (!MainPlayer.overrideStates.FALLING || !MainPlayer.overrideStates.JUMPING)*/) {
-            this.game.sounds.play('walking2', config.WALKING_VOLUME, true)
-          }
-          else /*(this.game.sounds.get('walking2').isPlaying && !MainPlayer.overrideStates.NONE && !MainPlayer.moveStates.WALKING)*/ {
-            this.game.sounds.get('walking2', config.WALKING_VOLUME, false).fadeOut(1000)
-          }
         } else {
           this.player.moveState = MainPlayer.moveStates.STOPPED
-          if (this.game.sounds.get('watchWind').isPlaying) {
-            this.game.sounds.get('watchWind', config.SFX_VOLUME, false).fadeOut(1000)
-          }
-          if (this.game.sounds.get('walking2').isPlaying && (MainPlayer.overrideStates.FALLING || MainPlayer.overrideStates.JUMPING) && !MainPlayer.moveStates.WALKING) {
-            this.game.sounds.get('walking2', config.WALKING_VOLUME, false).fadeOut(1000)
-          }
         }
       }
     }
     // Toggle shader off/on
     if (!this.game.world.filters) {
-      if (this.dim.justPressed()) {
+      if (__DEV__ && this.dim.justPressed()) {
         let screenSpacePos = this.toScreenSpace(
           { x: this.player.world.x, y: this.player.world.y + this.player.height / 2 }
         )
@@ -372,7 +356,7 @@ class TestLevel extends Phaser.State {
         console.log('Shader Enabled')
       }
     } else {
-      if (this.dim.justPressed()) {
+      if (__DEV__ && this.dim.justPressed()) {
         this.game.world.filters = null
         console.log('Shader Disabled')
       } else {
@@ -425,7 +409,7 @@ class TestLevel extends Phaser.State {
     // Absolutely vital to the lights working, do not remove this line
     this.radialLight.iterate()
     // Debug button bound to three, tests the createLight function
-    if (this.debugLight.justPressed()) {
+    if (__DEV__ && this.debugLight.justPressed()) {
       this.radialLight.createLight(600, 100, 150.0, 0.1)
       this.radialLight.createLight(700, 100, 200.0, 0.1)
       this.radialLight.createLight(800, 100, 75.0, 0.1)

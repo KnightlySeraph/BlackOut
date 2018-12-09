@@ -92,7 +92,7 @@ class MainPlayer extends Phaser.Sprite {
     if (otherPhaserBody === null || otherPhaserBody.sprite === null) return
 
     if ((otherPhaserBody.x <= this.body.x + 1 || otherPhaserBody.x >= this.body.x - 1) && (otherPhaserBody.y <= this.body.y + 1 || otherPhaserBody.y >= this.body.y - 1)) {
-      console.log('collidable')
+      if (__DEV__) { console.log('collidable') }
       if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
         this._overlapping.add(otherPhaserBody.sprite) // adds object to set
       } else if (otherPhaserBody.sprite.name === 'jumper') { // Checks if the colliding object is a spring
@@ -125,11 +125,11 @@ class MainPlayer extends Phaser.Sprite {
       // Jumper.animate(false)
       // otherPhaserBody.sprite.animations.play('stopped', 10, true)
       this.isSpring = false
-      console.log('exit spring')
+      if (__DEV__) { console.log('exit spring') }
     } else if (otherPhaserBody.sprite.name === 'mover') {
-      console.log('exit mover')
+      if (__DEV__) { console.log('exit mover') }
     } else if (otherPhaserBody.sprite.name === 'pitOfDeath') {
-      console.log('Left the pit')
+      if (__DEV__) { console.log('Left the pit') }
     }
   }
 
@@ -210,6 +210,7 @@ class MainPlayer extends Phaser.Sprite {
   // Update animation to match state (called only when state changes)
   updateAnimation () {
     if (this._override_state !== MainPlayer.overrideStates.NONE) {
+      this.game.sounds.get('walking2').stop()
       switch (this._override_state) {
         case MainPlayer.overrideStates.JUMPING:
           if (__DEV__) console.info('playing "jump"')
@@ -234,12 +235,16 @@ class MainPlayer extends Phaser.Sprite {
         case MainPlayer.moveStates.STOPPED:
           if (__DEV__) console.info('Playing "stop"')
           this.animations.play('stop')
+          this.game.sounds.get('walking2').stop()
           this._idle_countdown = config.IDLE_COUNTDOWN
           break
 
         case MainPlayer.moveStates.WALKING:
           if (__DEV__) console.info('Playing "walk"')
           this.animations.play('walk')
+          if (!this.game.sounds.get('walking2').isPlaying) {
+            this.game.sounds.play('walking2', config.WALKING_VOLUME)
+          }
           break
 
         case MainPlayer.moveStates.IDLE:
