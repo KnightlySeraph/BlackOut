@@ -47,11 +47,6 @@ class Splash extends Phaser.State {
     this.load.tilemap('Mytilemap', 'assets/images/testlevel_02.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('Mytilemap2', 'assets/images/testlevel_03.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('VersionFinal', 'assets/images/level01.json', null, Phaser.Tilemap.TILED_JSON)
-
-
-
-
-
     this.load.image('tiles1', 'assets/images/tiles1.png')
 
     // Load all the assets needed for next state
@@ -73,21 +68,7 @@ class Splash extends Phaser.State {
     this.game.deathGroup = this.game.physics.p2.createCollisionGroup()
 
     // put in button sprites here
-    this.game.load.spritesheet('MainMenu', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)// size of grid slice (x,y, max of sprites in sheet))
-    this.game.load.spritesheet('MainMenuClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('PlayButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('PlayButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('ControlsButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('ControlsButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('SettingsButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('SettingsButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('VolumeButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('VolumeButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('PauseButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('PauseButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('ExitButton', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-    this.game.load.spritesheet('ExitButtonClick', 'assets/images/menuTextSprites.png', 64, 16, 14, 0, 0)
-
+    this.game.load.spritesheet('MenuButtons', 'assets/images/menuTextSprites.png', 72, 18)
     this.game.load.spritesheet('mainMenu', 'assets/images/mainMenuBG.png', 1920, 938, 1, 0, 0)
     this.game.load.spritesheet('mmLogo', 'assets/images/blackoutLogo.png', 80, 16, 1, 0, 0)
     this.game.load.spritesheet('sethsBastment', 'assets/images/sethsBasement.png', 128, 14, 1, 0, 0)
@@ -105,24 +86,15 @@ class Splash extends Phaser.State {
     this.game.load.spritesheet('tabAnim', 'assets/images/tabSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
 
     // The main player spritesheet
-    // this.load.spritesheet('player-main', 'assets/images/player-main.png', 64, 64)
-    // this.load.spritesheet('player-main-test', 'assets/images/player-main-test.png', 64, 64)
     this.load.spritesheet('toki-main', 'assets/images/tokiSpriteSheet.png', 64, 64)
     this.load.spritesheet('blank', 'assets/images/blank.png', 10, 10)
     this.load.spritesheet('light', 'assets/images/light.png', 10, 10)
 
-    // this.load.audio('springAudio', ['assets/audio/spring.wav'])
-    // this.load.audio('lever1Audio', ['assets/audio/lever1.wav'])
-    // this.load.audio('lever2Audio', ['assets/audio/lever2.wav'])
-    // this.load.audio('watchTickAudio', ['assets/audio/watchTick.wav'])
-    // this.load.audio('watchWindAudio', ['assets/audio/watchWind.wav'])
-    // this.load.audio('walkingAudio', ['assets/audio/walking.wav'])
-    // this.load.audio('gears1Audio', ['assets/audio/gears1.wav'])
-    // this.load.audio('gears2Audio', ['assets/audio/gears2.wav'])
-    // this.load.audio('MainMusic', ['assets/audio/mainAmbience.wav'])
-    // this.load.audio('HappyMusic', ['assets/audio/happyAmbience.wav'])
-
     // The audiosprite with all music and SFX
+    // - Add .wav files to 'assets/audio' (convert other formats to .wav)
+    // - Edit the 'sfx' script in package.json to indicate which ones should loop
+    // - Run 'npm run sfx' to generate the files loaded below
+    // - Be sure to re-run the 'sfx' script when you cloan the repo or any time you add audio files
     this.load.audioSprite('sounds', [
       'assets/audio/sounds.ogg', 'assets/audio/sounds.mp3',
       'assets/audio/sounds.m4a', 'assets/audio/sounds.ac3'
@@ -143,7 +115,7 @@ class Splash extends Phaser.State {
     // Load the audio sprite into the global game object (and also make a local variable)
     this.game.sounds = this.game.add.audioSprite('sounds')
 
-    // TODO: Use this area to setup any events that are important for music or sounds
+    // NOTE: Use this area to setup any events that are important for music or sounds
   }
 
   // Called repeatedly after pre-load finishes and after 'create' has run
