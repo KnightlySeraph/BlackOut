@@ -67,7 +67,7 @@ class Lever extends Phaser.Sprite {
 
   turnOn () {
     console.log('lever on')
-    this.game.sounds.play('lever1', config.SFX_Volume, false)
+    this.game.sounds.play('lever1', config.SFX_VOLUME)
     this.light.createLight(this.body.x + 29, this.body.y - 1120, 150.0, 2)
     this.animations.play('on')
     this.ispulled = true
@@ -87,7 +87,7 @@ class Lever extends Phaser.Sprite {
 
   turnOff () {
     console.log('lever off')
-    this.game.sounds.play('lever2', config.SFX_Volume, false)
+    this.game.sounds.play('lever2', config.SFX_VOLUME)
     this.light.createLight(this.body.x + 29, this.body.y - 1120, 150.0, 2)
     this.animations.play('off')
 

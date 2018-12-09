@@ -225,7 +225,7 @@ class MainPlayer extends Phaser.Sprite {
         case MainPlayer.overrideStates.WINDING:
           if (__DEV__) console.info('playing "winding"')
           this.animations.play('winding')
-          this.game.sounds.play('watchWind', config.SFX_Volume, false)
+          this.game.sounds.play('watchWind', config.SFX_VOLUME)
           break
       }
     } else {

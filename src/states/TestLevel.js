@@ -345,7 +345,7 @@ class TestLevel extends Phaser.State {
           this.player.moveState = MainPlayer.moveStates.WALKING
           //this.game.sounds.get('walking2').allowMultiple = true
           if (!this.game.sounds.get('walking2').isPlaying && MainPlayer.overrideStates.NONE /*&& (!MainPlayer.overrideStates.FALLING || !MainPlayer.overrideStates.JUMPING)*/) {
-            this.game.sounds.play('walking2', config.WALKING_Volume, true)
+            this.game.sounds.play('walking2', config.WALKING_VOLUME, true)
           }
           else /*(this.game.sounds.get('walking2').isPlaying && !MainPlayer.overrideStates.NONE && !MainPlayer.moveStates.WALKING)*/ {
             this.game.sounds.get('walking2', config.WALKING_VOLUME, false).fadeOut(1000)
@@ -353,7 +353,7 @@ class TestLevel extends Phaser.State {
         } else {
           this.player.moveState = MainPlayer.moveStates.STOPPED
           if (this.game.sounds.get('watchWind').isPlaying) {
-            this.game.sounds.get('watchWind', config.SFX_Volume, false).fadeOut(1000)
+            this.game.sounds.get('watchWind', config.SFX_VOLUME, false).fadeOut(1000)
           }
           if (this.game.sounds.get('walking2').isPlaying && (MainPlayer.overrideStates.FALLING || MainPlayer.overrideStates.JUMPING) && !MainPlayer.moveStates.WALKING) {
             this.game.sounds.get('walking2', config.WALKING_VOLUME, false).fadeOut(1000)

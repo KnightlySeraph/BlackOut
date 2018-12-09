@@ -84,7 +84,7 @@ class ControlPage extends Phaser.State {
 }
 
 function returnToMenu () {
-  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME, false)
+  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME)
   this.state.start('MainMenu')
 }
 

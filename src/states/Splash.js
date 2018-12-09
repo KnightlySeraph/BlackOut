@@ -141,52 +141,9 @@ class Splash extends Phaser.State {
 
   setupAudio () {
     // Load the audio sprite into the global game object (and also make a local variable)
-    let sounds = this.game.sounds = this.game.add.audioSprite('sounds')
+    this.game.sounds = this.game.add.audioSprite('sounds')
 
-    // Make the different music sections flow into one another in a seemless loop
-    // (this is unusually complex and your audio probabaly wont need it)
-    sounds.get('music-intro').onStop.add(() => {
-      sounds.play('music-theme1', config.MUSIC_VOLUME)
-    })
-
-    for (let i = 1; i < 4; i++) {
-      sounds.get(`music-theme${i}`).onStop.add(() => {
-        sounds.play(`music-theme${i + 1}`, config.MUSIC_VOLUME)
-      })
-    }
-
-    sounds.get('music-theme4').onStop.add(() => {
-      sounds.play('music-bridge', config.MUSIC_VOLUME)
-    })
-
-    // Theme 2 seems to flow out of the bridge better than theme 1
-    sounds.get('music-bridge').onStop.add(() => {
-      sounds.play('music-theme2', config.MUSIC_VOLUME)
-    })
-
-    sounds.get('spring')
-
-    sounds.get('lever1')
-
-    sounds.get('lever2')
-
-    sounds.get('watchTick')
-
-    sounds.get('watchWind')
-
-    sounds.get('walking')
-
-    sounds.get('walking2')
-
-    sounds.get('gears1')
-
-    sounds.get('gears2')
-
-    sounds.get('mainAmbience')
-
-    sounds.get('happyAmbience')
-
-    sounds.get('mainMenuClick')
+    // TODO: Use this area to setup any events that are important for music or sounds
   }
 
   // Called repeatedly after pre-load finishes and after 'create' has run
@@ -196,10 +153,8 @@ class Splash extends Phaser.State {
     if (this.game.time.elapsedSecondsSince(this.started) >= config.MIN_SPLASH_SECONDS) {
 
       // Make sure the audio is not only loaded but also decoded before advancing
-      let splashSound = this.game.sounds.marker = 'gears1'
-      this.game.sounds.play(splashSound, config.SFX_VOLUME, false)
-
-      if (this.game.sounds.get('mainAmbience').isDecoded && !splashSound.isPlaying) {
+      if (this.game.sounds.get('gears1').isDecoded) {
+        this.game.sounds.play('gears1', config.SFX_VOLUME)
         this.state.start('MainMenu') // change to MainMenu
       }
     }

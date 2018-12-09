@@ -57,17 +57,17 @@ class MainMenu extends Phaser.State {
 }
 
 function moveToTestLevel () {
-  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME, false)
+  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME)
   this.state.start('TestLevel')
 }
 
 function moveToControls () {
-  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME, false)
+  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME)
   this.state.start('ControlPage')
 }
 
 function moveToExit () {
-  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME, false)
+  this.game.sounds.play('mainMenuClick', config.SFX_VOLUME)
   // Exit Game
 }
 
