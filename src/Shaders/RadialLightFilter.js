@@ -51,9 +51,6 @@ class RadialLightFilter extends Phaser.Filter {
     this.passLoc5 = { x: 0.0, y: 0.0 }
   }
 
-  // Create a timer
- 
-
   // Uniforms Sets
   moveLight (pos) {
     this.uniforms.lightPos.value[0] = pos.x
@@ -196,6 +193,7 @@ class RadialLightFilter extends Phaser.Filter {
   SetTimer (value) {
     this.timer = value
   }
+  
   GetTimer () {
     return this.timer
   }

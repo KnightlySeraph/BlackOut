@@ -2,8 +2,7 @@
  * utils.js: Simple, one-off functions that help reduce code in places
  * throughout your game. Put short, reusable code snippits in here.
  */
-import Phaser from 'phaser'
-// import RadialLightFilter from '../Shaders/RadialLightFilter'
+
 /**
  * Set the anchor of all passed in objects to be (0.5, 0.5) so they
  * are drawn around their own logical center.
@@ -30,6 +29,3 @@ export const sequentialNumArray = (first, last) => {
   }
   return newArray
 }
-
-
-
