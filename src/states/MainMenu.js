@@ -22,28 +22,30 @@ class MainMenu extends Phaser.State {
 
   create () {
     this.game.sounds.play('mainAmbience', config.MUSIC_VOLUME, true)
+
     this.game.LVL1_PASSED = false
     this.game.LVL2_PASSED = false
     this.game.camera.flash('000000', 1000, false, 1)
     let mainMenuBG = this.game.add.sprite(0, 0, 'mainMenu', 0)
     mainMenuBG.smoothed = false
 
+    // Add team logo
     let logo = this.game.add.sprite(this.game.world.centerX - 800, this.game.world.centerY - 400, 'mmLogo', 0)
     logo.scale.setTo(9, 9)
     logo.smoothed = false
 
+    // Add class logo
     let sethsBastment = this.game.add.sprite(this.game.world.centerX - 620, this.game.world.centerY + 370, 'sethsBastment', 0)
     sethsBastment.scale.setTo(3, 3)
     sethsBastment.smoothed = false
 
-    let buttonPlay, buttonControls, buttonExit
-    
-    buttonPlay = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 190, 'PlayButton', moveToTestLevel, this, 2, 2, 3, 3) // hover, idle, on click
-    
-    buttonControls = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY - 10, 'ControlsButton', moveToControls, this, 4, 4, 5, 5)
+    // Make the buttons
+    let buttonX = this.game.world.centerX - 715
+    let buttonY = this.game.world.centerY
+    let buttonPlay = this.game.add.button(buttonX, buttonY - 190, 'MenuButtons', moveToTestLevel, this, 4, 5, 6, 7) // over, out, down, up
+    let buttonControls = this.game.add.button(buttonX, buttonY - 10, 'MenuButtons', moveToControls, this, 8, 9, 10, 11)
+    let buttonExit = this.game.add.button(buttonX, buttonY + 140, 'MenuButtons', moveToExit, this, 24, 25, 26, 27)
 
-    buttonExit = this.game.add.button(this.game.world.centerX - 715, this.game.world.centerY + 140, 'SettingsButton', moveToExit, this, 12, 12, 13, 13)
- 
     buttonPlay.smoothed = false
     buttonPlay.scale.setTo(8, 8)
 
