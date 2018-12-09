@@ -42,7 +42,7 @@ class PitOfDeath extends Phaser.Sprite {
       playerObj.x = 1200
       playerObj.y = 1000
     } else { // default respawn point
-      playerObj.x = 800
+      playerObj.x = 3000
       playerObj.y = 1000
     }
     this.game.resetLight = false

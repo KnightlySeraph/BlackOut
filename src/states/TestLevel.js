@@ -49,6 +49,7 @@ class TestLevel extends Phaser.State {
   create () {
     // fade in to level from black
     this.game.camera.flash('000000', 1000, false, 1)
+
     // Uncomment this section if you want the level to show up
     // Imports level
     // this.map = this.game.add.tilemap('Mytilemap')
@@ -146,7 +147,7 @@ class TestLevel extends Phaser.State {
     // make the main elevator
     this.mover = [
       new Elevator({
-        game: this.game, x: 500, y: 800, id: config.ELEVATOR_1, light: this.radialLight
+        game: this.game, x: 4000, y: 1900, id: config.ELEVATOR_1, light: this.radialLight
       })
     ]
     this.mover.forEach((obj) => {
@@ -157,10 +158,10 @@ class TestLevel extends Phaser.State {
     // Make Levers that can be interacted with
     this.lever = [
       new Lever({
-        game: this.game, x: 990, y: 998, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverFloor', light: this.radialLight
+        game: this.game, x: 3750, y: 1870, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverFloor', light: this.radialLight
       }),
       new Lever({
-        game: this.game, x: 1300, y: 1000, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
+        game: this.game, x: 3700, y: 1870, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
       })
     ]
     this.lever.forEach((obj) => {
@@ -170,7 +171,7 @@ class TestLevel extends Phaser.State {
     // Make "Spring" objects in the world
     this.jumper = [
       new Jumper({
-        game: this.game, x: 800, y: 1022, width: 50, height: 50, id: 1, light: this.radialLight
+        game: this.game, x: 3900, y: 1878, width: 50, height: 50, id: 1, light: this.radialLight
       })
     ]
     this.jumper.forEach((obj) => {
@@ -180,7 +181,7 @@ class TestLevel extends Phaser.State {
     // Make "Death" objects in the world
     this.pits = [
       new PitOfDeath({
-        game: this.game, x: 1000, y: 3055, width: 50000, height: this.game.world.height - 500, light: this.radialLight
+        game: this.game, x: 1000, y: 6055, width: 50000, height: this.game.world.height - 500, light: this.radialLight
       })
     ]
     this.pits.forEach((obj) => {
@@ -190,7 +191,7 @@ class TestLevel extends Phaser.State {
     // Make MovingPlatform objects in the world
     this.autoMover = [
       new BasicMovingPlatform({
-        game: this.game, x: 1200, y: 660, id: config.PLATFORM_1, light: this.radialLight
+        game: this.game, x: 3800, y: 1900, id: config.PLATFORM_1, light: this.radialLight
       }),
       new BasicMovingPlatform({
         game: this.game, x: 1000, y: 660, id: config.PLATFORM_2, light: this.radialLight
@@ -219,6 +220,10 @@ class TestLevel extends Phaser.State {
     // Set up a camera to follow the player
     // camera follows the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
+
+    let smallShake = false
+    let mediumShake = false
+    let largeShake = false
   }
 
   // This is the function called to set up GLSL Shaders and add them to the world
@@ -281,6 +286,28 @@ class TestLevel extends Phaser.State {
   }
 
   update () {
+    // Camera Shake
+    this.playerVelocityY = this.player.body.velocity.y
+    if (this.playerVelocityY > 400 && this.playerVelocityY < 800) {
+      this.smallShake = true
+    } else if (this.playerVelocityY > 800 && this.playerVelocityY < 1000) {
+      this.mediumShake = true
+    } else if (this.playerVelocityY > 1000) {
+      this.largeShake = true
+    }
+
+    if (this.playerVelocityY <= 0) {
+      if (this.smallShake) {
+        this.game.camera.shake(0.005, 250, true, Phaser.Camera.SHAKE_BOTH, true)
+        this.smallShake = false
+      } else if (this.mediumShake) {
+        this.game.camera.shake(0.005, 300, true, Phaser.Camera.SHAKE_BOTH, true)
+        this.mediumShake = false
+      } else if (this.largeShake) {
+        this.game.camera.shake(0.01, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+        this.largeShake = false
+      }
+    }
     // Check state of keys to control main character
     let speed = 0
     if (this.rightKey.isDown) { speed++ }
