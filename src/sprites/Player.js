@@ -236,6 +236,7 @@ class MainPlayer extends Phaser.Sprite {
           if (__DEV__) console.info('Playing "stop"')
           this.animations.play('stop')
           this.game.sounds.get('walking2').stop()
+          this.game.sounds.get('watchWind').stop()
           this._idle_countdown = config.IDLE_COUNTDOWN
           break
 
