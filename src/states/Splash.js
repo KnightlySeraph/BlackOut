@@ -66,10 +66,12 @@ class Splash extends Phaser.State {
     this.game.jumperGroup = this.game.physics.p2.createCollisionGroup()
     this.game.movingPlatformGroup = this.game.physics.p2.createCollisionGroup()
     this.game.deathGroup = this.game.physics.p2.createCollisionGroup()
+    this.game.finishGroup = this.game.physics.p2.createCollisionGroup()
 
     // put in button sprites here
     this.game.load.spritesheet('MenuButtons', 'assets/images/menuTextSprites.png', 72, 18)
     this.game.load.spritesheet('mainMenu', 'assets/images/mainMenuBG.png', 1920, 938, 1, 0, 0)
+    this.game.load.spritesheet('credits', 'assets/images/credits.png', 1920, 938, 1, 0, 0)
     this.game.load.spritesheet('mmLogo', 'assets/images/blackoutLogo.png', 80, 16, 1, 0, 0)
     this.game.load.spritesheet('sethsBastment', 'assets/images/sethsBasement.png', 128, 14, 1, 0, 0)
 

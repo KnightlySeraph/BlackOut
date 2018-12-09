@@ -75,7 +75,7 @@ class MainPlayer extends Phaser.Sprite {
 
     // Set up collision groups
     this.body.setCollisionGroup(this.game.playerGroup)
-    this.body.collides([this.game.platformGroup, this.game.deathGroup, this.game.movingPlatformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
+    this.body.collides([this.game.platformGroup, this.game.deathGroup, this.game.finishGroup, this.game.movingPlatformGroup, this.game.leverGroup, this.game.jumperGroup, this.game.physics.p2.boundsCollisionGroup])
 
     this.body.onBeginContact.add(this.onBeginContact, this)
     this.body.onEndContact.add(this.onExitContact, this)
@@ -105,6 +105,8 @@ class MainPlayer extends Phaser.Sprite {
        this.body.x === -this.game.world.x || this.body.y === this.game.world.y || this.body.y === -this.game.world.y) {
         otherPhaserBody.sprite.resetPlayer(this.body)
         // this.game.state.start(this.game.state.current)
+      } else if (otherPhaserBody.sprite.name === 'finishPoint') {
+        this.state.start('Credits')
       }
     }
   }
