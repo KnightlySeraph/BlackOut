@@ -38,13 +38,11 @@ class ControlPage extends Phaser.State {
     this.spaceAnim.smoothed = false
     this.spaceAnim.scale.setTo(2, 2)
 
-    
-
     this.controlsAnimations()
 
     // Set up the return to menu button
     let buttonReturn
-    buttonReturn = this.game.add.button(this.game.world.centerX + 500, this.game.world.centerY + 350, 'ExitButton', returnToMenu, this, 12, 12, 13, 13)
+    buttonReturn = this.game.add.button(this.game.world.centerX + 500, this.game.world.centerY + 350, 'MenuButtons', returnToMenu, this, 24, 25, 26, 27)
 
     buttonReturn.smoothed = false
     buttonReturn.scale.setTo(8, 8)
