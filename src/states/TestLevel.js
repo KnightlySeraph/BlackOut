@@ -242,7 +242,7 @@ class TestLevel extends Phaser.State {
   toScreenSpace (point) {
     return {
       x: point.x - this.world.camera.x,
-      y: this.world.height - (point.y - this.world.camera.y) - 500
+      y: this.world.height - (point.y - this.world.camera.y) - 3000
     }
   }
 
