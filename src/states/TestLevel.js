@@ -94,8 +94,8 @@ class TestLevel extends Phaser.State {
     // Create and add the main player object
     this.player = new MainPlayer({
       game: this.game,
-      x: this.world.centerX - 550,
-      y: this.world.centerY - 100
+      x: this.world.centerX - 3600,
+      y: this.world.centerY + 100
     })
 
     this.isWinding = false
