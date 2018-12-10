@@ -67,7 +67,7 @@ class MainPlayer extends Phaser.Sprite {
 
     // Create a custom shape for the collider body
     this.body.clearShapes()
-    this.body.setRectangle(20, 85, 0, -35)
+    this.body.setRectangle(15, 55, 0, -35)
     this.body.offset.setTo(0, -40)
 
     // Configure custom physics properties
@@ -299,9 +299,9 @@ class MainPlayer extends Phaser.Sprite {
         }
       } else if (this.moveState === MainPlayer.moveStates.WALKING) {
         if (this.isFacingRight()) {
-          this.body.moveRight(450)
+          this.body.moveRight(200)
         } else {
-          this.body.moveLeft(450)
+          this.body.moveLeft(200)
         }
       }
     }

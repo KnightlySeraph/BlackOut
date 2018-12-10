@@ -61,6 +61,7 @@ class TestLevel extends Phaser.State {
     this.map = this.game.add.tilemap('VersionFinal')
 
     this.map.addTilesetImage('tiles1', 'tiles1')
+    this.map.addTilesetImage('tiles2', 'tiles1')
 
     // Uncomment this section if you want the level to show up
     // // Creates Layers
@@ -266,7 +267,7 @@ class TestLevel extends Phaser.State {
   toScreenSpace (point) {
     return {
       x: point.x - this.world.camera.x,
-      y: this.world.height - (point.y - this.world.camera.y) - 500
+      y: this.world.height - (point.y - this.world.camera.y) - 3000
     }
   }
 
