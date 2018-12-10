@@ -187,7 +187,7 @@ class TestLevel extends Phaser.State {
     // Make "Death" objects in the world
     this.pits = [
       new PitOfDeath({
-        game: this.game, x: 1000, y: 6055, width: 50000, height: this.game.world.height - 500, light: this.radialLight
+        game: this.game, x: 3770, y: 2900, width: 300, height: 300, light: this.radialLight
       })
     ]
     this.pits.forEach((obj) => {
@@ -313,27 +313,27 @@ class TestLevel extends Phaser.State {
 
   update () {
     // Camera Shake
-    this.playerVelocityY = this.player.body.velocity.y
-    if (this.playerVelocityY > 400 && this.playerVelocityY < 800) {
-      this.smallShake = true
-    } else if (this.playerVelocityY > 800 && this.playerVelocityY < 1000) {
-      this.mediumShake = true
-    } else if (this.playerVelocityY > 1000) {
-      this.largeShake = true
-    }
+    // this.playerVelocityY = this.player.body.velocity.y
+    // if (this.playerVelocityY >= 100 && this.playerVelocityY < 200) {
+    //   this.smallShake = true
+    // } else if (this.playerVelocityY >= 200 && this.playerVelocityY < 300) {
+    //   this.mediumShake = true
+    // } else if (this.playerVelocityY >= 300) {
+    //   this.largeShake = true
+    // }
 
-    if (this.playerVelocityY <= 0) {
-      if (this.smallShake) {
-        this.game.camera.shake(0.005, 250, true, Phaser.Camera.SHAKE_BOTH, true)
-        this.smallShake = false
-      } else if (this.mediumShake) {
-        this.game.camera.shake(0.005, 300, true, Phaser.Camera.SHAKE_BOTH, true)
-        this.mediumShake = false
-      } else if (this.largeShake) {
-        this.game.camera.shake(0.01, 400, true, Phaser.Camera.SHAKE_BOTH, true)
-        this.largeShake = false
-      }
-    }
+    // if (this.playerVelocityY <= 0) {
+    //   if (this.smallShake) {
+    //     this.game.camera.shake(0.005, 250, true, Phaser.Camera.SHAKE_BOTH, true)
+    //     this.smallShake = false
+    //   } else if (this.mediumShake) {
+    //     this.game.camera.shake(0.005, 300, true, Phaser.Camera.SHAKE_BOTH, true)
+    //     this.mediumShake = false
+    //   } else if (this.largeShake) {
+    //     this.game.camera.shake(0.01, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+    //     this.largeShake = false
+    //   }
+    // }
     // Check state of keys to control main character
     let speed = 0
     if (this.rightKey.isDown) { speed++ }
