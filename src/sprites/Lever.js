@@ -80,6 +80,12 @@ class Lever extends Phaser.Sprite {
         }
         break
 
+      case config.WALL_1: // disapearing platform 1
+        if (Lever.creations[this.id]) {
+          this.removePlatform(this.id)
+        }
+        break
+
       default:
         break
     }
