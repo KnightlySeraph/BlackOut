@@ -164,7 +164,7 @@ void main() {
     gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
   }
   else if (!(socket2 == 1 || socket3 == 1 || socket4 == 1 || socket5 == 1)) {
-    gl_FragColor = vec4(scale*(baseColor.rgb * color1), 1.0);
+    gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
   }
   else {
     gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);

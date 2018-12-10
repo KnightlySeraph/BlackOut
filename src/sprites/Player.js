@@ -276,7 +276,7 @@ class MainPlayer extends Phaser.Sprite {
         if (this.jumpingFromJumper) {
           this.body.moveUp(450)
         } else {
-          this.body.moveUp(150)
+          this.body.moveUp(175)
         }
       } else {
         this.jumpingFromJumper = false
