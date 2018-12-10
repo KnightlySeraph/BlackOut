@@ -59,6 +59,7 @@ class TestLevel extends Phaser.State {
     this.map = this.game.add.tilemap('VersionFinal')
 
     this.map.addTilesetImage('tiles1', 'tiles1')
+    this.map.addTilesetImage('tiles2', 'tiles1')
 
     // Uncomment this section if you want the level to show up
     // // Creates Layers
