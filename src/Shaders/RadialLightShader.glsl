@@ -59,7 +59,7 @@ int overlapsLight (vec2 lightLoc) {
 void main() {
   // Normal color
   vec4 baseColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));
-  vec3 color1 = vec3(0.97, 0.77, 0.008);
+  vec3 color1 = vec3(0.89, 0.94, 0.93);
 
   // Compare pixel to each light source
   // This Scale is, essentially, how dark the world is
