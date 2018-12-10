@@ -297,9 +297,9 @@ class MainPlayer extends Phaser.Sprite {
         }
       } else if (this.moveState === MainPlayer.moveStates.WALKING) {
         if (this.isFacingRight()) {
-          this.body.moveRight(200)
+          this.body.moveRight(275)
         } else {
-          this.body.moveLeft(200)
+          this.body.moveLeft(275)
         }
       }
     }
