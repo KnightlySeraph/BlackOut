@@ -59,11 +59,11 @@ int overlapsLight (vec2 lightLoc) {
 void main() {
   // Normal color
   vec4 baseColor = texture2D(uSampler, vec2(vTextureCoord.x, vTextureCoord.y));
-  vec3 color1 = vec3(0.97, 0.77, 0.008);
+  vec3 color1 = vec3(0.89, 0.94, 0.93);
 
   // Compare pixel to each light source
   // This Scale is, essentially, how dark the world is
-  float scale = 0.1;
+  float scale = 0.0;
   
 
   //Point Light Calculations
@@ -157,14 +157,14 @@ void main() {
     
   }
 
-  scale = clamp(scale, 0.1, 1.0);
+  scale = clamp(scale, 0.0, 1.0);
 
   // Scale color by distance to light sources
   if (timedDistance > 50.0){
     gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
   }
   else if (!(socket2 == 1 || socket3 == 1 || socket4 == 1 || socket5 == 1)) {
-    gl_FragColor = vec4(scale*(baseColor.rgb * color1), 1.0);
+    gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);
   }
   else {
     gl_FragColor = vec4(scale*(baseColor.rgb), 1.0);

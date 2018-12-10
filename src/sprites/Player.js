@@ -276,7 +276,7 @@ class MainPlayer extends Phaser.Sprite {
         if (this.jumpingFromJumper) {
           this.body.moveUp(450)
         } else {
-          this.body.moveUp(150)
+          this.body.moveUp(175)
         }
       } else {
         this.jumpingFromJumper = false
@@ -299,9 +299,9 @@ class MainPlayer extends Phaser.Sprite {
         }
       } else if (this.moveState === MainPlayer.moveStates.WALKING) {
         if (this.isFacingRight()) {
-          this.body.moveRight(200)
+          this.body.moveRight(275)
         } else {
-          this.body.moveLeft(200)
+          this.body.moveLeft(275)
         }
       }
     }
