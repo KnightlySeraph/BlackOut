@@ -45,5 +45,7 @@ export default {
 
   ELEVATOR_1: 5,
 
-  LEVER_LVL1_FINISH: 6
+  LEVER_LVL1_FINISH: 6,
+
+  WALL_1: 7
 }

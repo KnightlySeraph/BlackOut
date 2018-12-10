@@ -20,6 +20,8 @@ import Lever from '../sprites/Lever' // import Levers
 import Jumper from '../sprites/Jumper' // import Springs
 import BasicMovingPlatform from '../sprites/BasicMovingPlatform'
 import Elevator from '../sprites/Elevator'
+import Platform from '../sprites/Platform'
+import FinishPoint from '../sprites/FinishPoint'
 
 /**
  * The TestLevel game state. This game state is a simple test level showing a main
@@ -163,6 +165,9 @@ class TestLevel extends Phaser.State {
       }),
       new Lever({
         game: this.game, x: 3700, y: 1870, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
+      }),
+      new Lever({
+        game: this.game, x: 3500, y: 1970, width: 50, height: 100, id: config.WALL_1, spriteKey: 'LeverWall', light: this.radialLight
       })
     ]
     this.lever.forEach((obj) => {
@@ -207,6 +212,26 @@ class TestLevel extends Phaser.State {
     this.autoMover.forEach((obj) => {
       this.game.add.existing(obj)
       obj.startMovement()
+    })
+
+    // Make Vanish Wall objects in the world
+    this.walls = [
+      new Platform({
+        game: this.game, x: 3400, y: 1970, id: config.WALL_1, light: this.radialLight
+      })
+    ]
+    this.walls.forEach((obj) => {
+      this.game.add.existing(obj)
+    })
+
+    // Make Vanish Wall objects in the world
+    this.finish = [
+      new FinishPoint({
+        game: this.game, x: 4000, y: 1970, width: 200, height: 200
+      })
+    ]
+    this.finish.forEach((obj) => {
+      this.game.add.existing(obj)
     })
 
     // Add player after the floor

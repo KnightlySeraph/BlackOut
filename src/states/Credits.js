@@ -14,6 +14,7 @@ class Credits extends Phaser.State {
   }
 
   create () {
+    this.game.sounds.stop()
     this.game.sounds.play('happyAmbience', config.MUSIC_VOLUME, true)
     this.game.camera.flash('000000', 1000, false, 1)
     let creditsBG = this.game.add.sprite(0, 0, 'credits', 0)
@@ -28,7 +29,6 @@ class Credits extends Phaser.State {
       this.state.start('MainMenu')
     }
   }
-
 }
 
 export default Credits

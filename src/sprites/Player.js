@@ -7,6 +7,7 @@ import P2 from 'p2'
 // Import needed functions from utils and config settings
 import { sequentialNumArray } from '../utils.js'
 import config from '../config'
+import main from '../main.js'
 
 /**
  * The main player-controllable sprite. This class encapsulates the logic for the main
@@ -106,7 +107,8 @@ class MainPlayer extends Phaser.Sprite {
         otherPhaserBody.sprite.resetPlayer(this.body)
         // this.game.state.start(this.game.state.current)
       } else if (otherPhaserBody.sprite.name === 'finishPoint') {
-        this.state.start('Credits')
+        this.game.state.start('Credits')
+        //this.state.start('Credits')
       }
     }
   }
