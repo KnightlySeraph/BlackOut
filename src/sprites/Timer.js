@@ -57,7 +57,7 @@ class Timer {
       }
     }
 
-    // Alarm1 driver
+    // Alarm 1 driver
     if (this.alarm1) {
       if (this.timer1 > 0.0) {
         this.timer1 -= this.rate
@@ -67,7 +67,7 @@ class Timer {
       }
     }
 
-    // Arlarm 2 driver
+    // Alarm 2 driver
     if (this.alarm2) {
       if (this.timer2 > 0.0) {
         this.timer2 -= this.rate

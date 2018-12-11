@@ -120,7 +120,6 @@ class Splash extends Phaser.State {
   update () {
     // Make sure the audio is not only loaded but also decoded before advancing
     if (this.doneWithLogos && this.game.sounds.get('gears1').isDecoded) {
-      this.game.sounds.play('gears1', config.SFX_VOLUME)
       this.state.start('MainMenu') // change to MainMenu
     }
   }
@@ -139,7 +138,7 @@ class Splash extends Phaser.State {
 
   makeSethsBasementLogo () {
     // Add the background audio
-    this.basementAudio = this.game.add.audio('basement')
+    this.basementAudio = this.game.add.audio('basement', 0.5)
 
     // Add the logo to the screen and center it
     this.sethsBlogo = this.game.add.sprite(

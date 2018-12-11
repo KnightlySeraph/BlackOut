@@ -55,7 +55,7 @@ class RadialLightFilter extends Phaser.Filter {
 
     // Watch Ticking
     this.mySound = this.game.sounds.get('watchTick')
-    this.myVolume = 1 // Standard volume for SFX is 1
+    this.myVolume = 0.25 // Standard volume for SFX is 1
   }
 
   // Uniforms Sets

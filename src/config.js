@@ -47,5 +47,7 @@ export default {
 
   LEVER_LVL1_FINISH: 6,
 
-  WALL_1: 7
+  WALL_1: 7,
+  WALL_2: 8,
+  WALL_3: 9
 }

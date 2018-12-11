@@ -9,9 +9,10 @@ import Phaser from 'phaser'
  * See Phaser.Sprite for more about sprite objects and what they support.
  */
 class PitOfDeath extends Phaser.Sprite {
-  constructor ({ game, x, y, width, height, light }) {
+  constructor ({ game, x, y, width, height, light, name }) {
     super(game, 0, 0, '', 0)
-    this.name = 'pitOfDeath'
+    this.name = name
+    this.id = 'pitOfDeath'
     this.smoothed = false
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
@@ -29,15 +30,18 @@ class PitOfDeath extends Phaser.Sprite {
     this.game.camera.flash('000000', 1000, false, 1)
     // reset player light
     this.game.resetLight = true
-    if (this.game.LVL_1_PASSED && !this.game.LVL_2_PASSED) { // TODO change value to be correct for level
-      playerObj.x = 1000
-      playerObj.y = 1000
-    } else if (this.game.LVL_2_PASSED) {// TODO change value to be correct for level
-      playerObj.x = 1200
-      playerObj.y = 1000
-    } else { // default respawn point
-      playerObj.x = 3000
-      playerObj.y = 1000
+    if (this.name === 'spawn') { // Spawn Zone
+      playerObj.x = 560
+      playerObj.y = 1951.6
+    } else if (this.name === 'first') { // 2nd kill zone (under elevators)
+      playerObj.x = 3500
+      playerObj.y = 2600
+    } else if (this.name === 'second') { // 3rd kill zone (on second floor)
+      playerObj.x = 4480
+      playerObj.y = 1800
+    } else if (this.name === 'third') { // 4th kill zone (on third floor)
+      playerObj.x = 4480
+      playerObj.y = 1200
     }
     this.game.resetLight = false
   }
