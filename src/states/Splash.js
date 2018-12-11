@@ -22,23 +22,19 @@ class Splash extends Phaser.State {
 
     // Set / Reset world bounds
     this.game.world.setBounds(0, 0, this.game.width, this.game.height)
-
-    // Add the logo to the screen and center it
-    this.logo = this.game.add.sprite(
-      this.game.world.centerX, this.game.world.centerY, 'logo')
-    centerGameObjects([this.logo])
   }
 
   preload () {
     // Create sprites from the progress bar assets
     this.loaderBg = this.add.sprite(
-      this.game.world.centerX, this.game.height - 30, 'loaderBg')
+      this.game.world.centerX, this.game.world.centerY + 500, 'loaderBg')
     this.loaderBar = this.add.sprite(
-      this.game.world.centerX, this.game.height - 30, 'loaderBar')
+      this.game.world.centerX, this.game.world.centerY + 500, 'loaderBar')
     centerGameObjects([this.loaderBg, this.loaderBar])
 
     // Display the progress bar
     this.load.setPreloadSprite(this.loaderBar)
+    this.startLogoSequence()
 
     // Set up bool to play music on splash screen
     this.game.splashReady = false
@@ -122,16 +118,106 @@ class Splash extends Phaser.State {
 
   // Called repeatedly after pre-load finishes and after 'create' has run
   update () {
-    // Check how much time has elapsed since the stage started and only
-    // proceed once MIN_SPLASH_SECONDS or more has elapsed
-    if (this.game.time.elapsedSecondsSince(this.started) >= config.MIN_SPLASH_SECONDS) {
-
-      // Make sure the audio is not only loaded but also decoded before advancing
-      if (this.game.sounds.get('gears1').isDecoded) {
-        this.game.sounds.play('gears1', config.SFX_VOLUME)
-        this.state.start('MainMenu') // change to MainMenu
-      }
+    // Make sure the audio is not only loaded but also decoded before advancing
+    if (this.doneWithLogos && this.game.sounds.get('gears1').isDecoded) {
+      this.game.sounds.play('gears1', config.SFX_VOLUME)
+      this.state.start('MainMenu') // change to MainMenu
     }
+  }
+
+  startLogoSequence () {
+    // Begin the logo process
+    let myState = this
+    let myCam = this.game.camera
+    this.stage.backgroundColor = '#000000'
+    myCam.fade(0x000000, 1)
+    myCam.onFadeComplete.add(() => {
+      myCam.onFadeComplete.removeAll()
+      myState.makeSethsBasementLogo()
+    })
+  }
+
+  makeSethsBasementLogo () {
+    // Add the background audio
+    this.basementAudio = this.game.add.audio('basement')
+
+    // Add the logo to the screen and center it
+    this.sethsBlogo = this.game.add.sprite(
+      this.game.world.centerX, this.game.world.centerY, 'sethsBLogo')
+
+    // Setup the text
+    this.sethsBText1 = this.game.add.text(
+      this.game.world.centerX,
+      this.game.world.centerY - this.sethsBlogo.height / 2 - 50,
+      'A game made in')
+
+    this.sethsBText2 = this.game.add.bitmapText(
+      this.game.world.centerX,
+      this.game.world.centerY + this.sethsBlogo.height / 2 + 50,
+      'sethsBFont', 'Seth\'s Basement', 64)
+
+    // Configure the non-bitmap text
+    this.sethsBText1.font = 'Arial'
+    this.sethsBText1.padding.set(10, 16)
+    this.sethsBText1.fontSize = 40
+    this.sethsBText1.fontWeight = 'bold'
+    this.sethsBText1.stroke = '#000000'
+    this.sethsBText1.strokeThickness = 4
+    this.sethsBText1.fill = '#FFFFFF'
+
+    // Center everything
+    centerGameObjects([this.sethsBlogo, this.sethsBText1,
+      this.sethsBText2])
+
+    // Setup transition fade to happen when audio stops
+    let myState = this
+    let myCam = this.game.camera
+    setTimeout(() => {
+      this.basementAudio.fadeOut(1000)
+      myCam.fade(0x000000, 1000, false, 1.0)
+      myCam.onFadeComplete.add(() => {
+        // Reset signal
+        myCam.onFadeComplete.removeAll()
+
+        // Remove previous logo
+        myState.sethsBlogo.destroy()
+        myState.sethsBText1.destroy()
+        myState.sethsBText2.destroy()
+
+        // Create next logo
+        myState.makeTeamLogo()
+      })
+    }, 4000)
+
+    // Fade in from black
+    myCam.flash(0x000000, 1000)
+
+    // Start the audio
+    this.basementAudio.play()
+  }
+
+  makeTeamLogo () {
+    // Set final background color
+    this.stage.backgroundColor = '#000000'
+
+    // Add the logo to the screen and center it
+    this.logo = this.game.add.sprite(
+      this.game.world.centerX, this.game.world.centerY - 70, 'logo')
+
+    centerGameObjects([this.logo])
+
+    // Setup transition fade to happen after timeout
+    let myState = this
+    let myCam = this.game.camera
+    setTimeout(() => {
+      myCam.onFadeComplete.add(() => {
+        myState.doneWithLogos = true
+      })
+      myCam.fade(0x000000, 1000, false, 1.0)
+    }, 4000)
+
+    // Fade in from black
+    myCam.flash(0x000000, 1000)
   }
 }
 

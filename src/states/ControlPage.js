@@ -54,8 +54,6 @@ class ControlPage extends Phaser.State {
     // let jAnim = this.game.add.sprite(this.game.world.centerX - (this.game.world.centerX / 2), this.game.world.centerY, 'spacebarAnim', 0)
     // jAnim.scale.setTo(8, 8)
     // jAnim.smoothed = false
-
-
   }
 
   controlsAnimations () {

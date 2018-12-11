@@ -54,7 +54,16 @@ class Boot extends Phaser.State {
     // Read the assets for the splash screen (used in next stage)
     this.load.image('loaderBg', './assets/images/loader-bg.png')
     this.load.image('loaderBar', './assets/images/loader-bar.png')
-    this.load.image('logo', './assets/images/blackoutSplashScreen.jpg')
+
+    // Splash screen logos
+    this.load.image('logo', './assets/splash/blackoutSplashScreen.jpg')
+    this.load.image('sethsBLogo', './assets/splash/SethsBasement-Logo.png')
+    this.load.bitmapFont('sethsBFont', 'assets/splash/font.png', 'assets/splash/font.fnt')
+
+    // Splash screen sound
+    this.load.audio('basement', [
+      'assets/splash/basementMotor.ogg', 'assets/splash/basementMotor.mp3',
+      'assets/splash/basementMotor.m4a', 'assets/splash/basementMotor.ac3'])
   }
 
   // Called repeatedly after pre-load to draw the stage
