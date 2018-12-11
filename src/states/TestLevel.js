@@ -313,27 +313,44 @@ class TestLevel extends Phaser.State {
 
   update () {
     // Camera Shake
-    // this.playerVelocityY = this.player.body.velocity.y
-    // if (this.playerVelocityY >= 100 && this.playerVelocityY < 200) {
-    //   this.smallShake = true
-    // } else if (this.playerVelocityY >= 200 && this.playerVelocityY < 300) {
-    //   this.mediumShake = true
-    // } else if (this.playerVelocityY >= 300) {
-    //   this.largeShake = true
-    // }
+  //   this.playerVelocityY = this.player.body.velocity.y
+  //   console.log(this.playerVelocityY)
+  //   if (this.playerVelocityY >= 200.0 && this.playerVelocityY < 350.0) {
+  //     this.smallShake = true
+  //     this.mediumShake = false
+  //     this.largeShake = false
+  //     // this.game.camera.shake(0.009, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //     // console.log('I have small shook')
+  //   } else if (this.playerVelocityY >= 350.0 && this.playerVelocityY < 450.0) {
+  //     this.smallShake = false
+  //     this.mediumShake = true
+  //     this.largeShake = false
+  //     // this.game.camera.shake(0.015, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //     // console.log('I have medium shook')
+  //   } else if (this.playerVelocityY >= 450.0) {
+  //     this.smallShake = false
+  //     this.mediumShake = false
+  //     this.largeShake = true
+  //     // this.game.camera.shake(0.025, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //     //   console.log('I have large shook')
+  //   }
 
-    // if (this.playerVelocityY <= 0) {
-    //   if (this.smallShake) {
-    //     this.game.camera.shake(0.005, 250, true, Phaser.Camera.SHAKE_BOTH, true)
-    //     this.smallShake = false
-    //   } else if (this.mediumShake) {
-    //     this.game.camera.shake(0.005, 300, true, Phaser.Camera.SHAKE_BOTH, true)
-    //     this.mediumShake = false
-    //   } else if (this.largeShake) {
-    //     this.game.camera.shake(0.01, 400, true, Phaser.Camera.SHAKE_BOTH, true)
-    //     this.largeShake = false
-    //   }
-    // }
+  //   if (this.playerVelocityY <= 0) {
+  //     if (this.smallShake) {
+  //       this.game.camera.shake(0.1, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //       this.smallShake = false
+  //       console.log('I have small shook')
+  //     } else if (this.mediumShake) {
+  //       this.game.camera.shake(0.15, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //       this.mediumShake = false
+  //       console.log('I have medium shook')
+  //     } else if (this.largeShake) {
+  //       this.game.camera.shake(0.25, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //       this.largeShake = false
+  //       console.log('I have large shook')
+  //     }
+  //  }
+
     // Check state of keys to control main character
     let speed = 0
     if (this.rightKey.isDown) { speed++ }
