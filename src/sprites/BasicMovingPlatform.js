@@ -61,7 +61,7 @@ class BasicMovingPlatform extends MovingPlatform {
     if (super.startMovement()) {
       this.game.sounds.play('gears1', config.SFX_VOLUME)
       // Create a light when the movement starts
-      this.light.createLight(this.startX, this.startY, 50.0, 0.5)
+      this.light.createLight(this.startX, this.startY + 2500, 50.0, 0.5)
       return true
     }
 

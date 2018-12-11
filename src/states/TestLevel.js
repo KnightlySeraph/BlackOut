@@ -46,6 +46,7 @@ class TestLevel extends Phaser.State {
   preload () {
     if (__DEV__) { console.log('preload has run once') }
     this.game.load.image('light', 'assets/images/light.png')
+    this.load.spritesheet('sclrWall', 'assets/images/THE_BOY.png', 76, 76)
   }
 
   create () {
@@ -96,8 +97,22 @@ class TestLevel extends Phaser.State {
     // Create and add the main player object
     this.player = new MainPlayer({
       game: this.game,
-      x: this.world.centerX - 3600,
-      y: this.world.centerY + 100
+      // spawn location
+      // x: this.world.centerX - 3600,
+      //y: this.world.centerY + 50
+      // end of Floor 1
+      // x: this.world.centerX + 2800,
+      // y: this.world.centerY + 600
+      // end of floor 2
+      // x: this.world.centerX + 3000,
+      // y: this.world.centerY + 100
+      // end of floor 3
+      // x: this.world.centerX + 2300,
+      // y: this.world.centerY - 900
+
+      // Area where testing stuff is
+      x: this.world.centerX - 500,
+      y: this.world.centerY - 100
     })
 
     this.isWinding = false
@@ -165,12 +180,29 @@ class TestLevel extends Phaser.State {
       }),
       new Lever({
         game: this.game, x: 3700, y: 1870, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
-      }),
+      })
+    ]
+    this.lever.forEach((obj) => {
+      this.game.add.existing(obj)
+    })
+
+     // Make Vanish Wall objects in the world
+     this.vanishWalls = [
+      new Platform({
+        game: this.game, x: 3400, y: 1970, id: config.WALL_1, light: this.radialLight
+      })
+    ]
+    this.vanishWalls.forEach((obj) => {
+      this.game.add.existing(obj)
+      Lever.creations[obj.id] = obj
+    })
+
+    this.vanishWallLevers = [
       new Lever({
         game: this.game, x: 3500, y: 1970, width: 50, height: 100, id: config.WALL_1, spriteKey: 'LeverWall', light: this.radialLight
       })
     ]
-    this.lever.forEach((obj) => {
+    this.vanishWallLevers.forEach((obj) => {
       this.game.add.existing(obj)
     })
 
@@ -186,8 +218,17 @@ class TestLevel extends Phaser.State {
 
     // Make "Death" objects in the world
     this.pits = [
-      new PitOfDeath({
-        game: this.game, x: 1000, y: 6055, width: 50000, height: this.game.world.height - 500, light: this.radialLight
+      new PitOfDeath({ // 1st kill zone (near spawn)
+        game: this.game, x: 2230, y: 2500, width: 550, height: 200, light: this.radialLight
+      }),
+      new PitOfDeath({ // 2nd kill zone (under elevators)
+        game: this.game, x: 3990, y: 2950, width: 475, height: 200, light: this.radialLight
+      }),
+      new PitOfDeath({ // 3rd kill zone (on second floor)
+        game: this.game, x: 5730, y: 2145, width: 2268, height: 50, light: this.radialLight
+      }),
+      new PitOfDeath({ // 4th kill zone (on third floor)
+        game: this.game, x: 6158, y: 1500, width: 727, height: 100, light: this.radialLight
       })
     ]
     this.pits.forEach((obj) => {
@@ -215,19 +256,9 @@ class TestLevel extends Phaser.State {
     })
 
     // Make Vanish Wall objects in the world
-    this.walls = [
-      new Platform({
-        game: this.game, x: 3400, y: 1970, id: config.WALL_1, light: this.radialLight
-      })
-    ]
-    this.walls.forEach((obj) => {
-      this.game.add.existing(obj)
-    })
-
-    // Make Vanish Wall objects in the world
     this.finish = [
       new FinishPoint({
-        game: this.game, x: 4000, y: 1970, width: 200, height: 200
+        game: this.game, x: 2830.5, y: 1380, width: 150, height: 200
       })
     ]
     this.finish.forEach((obj) => {
@@ -240,16 +271,16 @@ class TestLevel extends Phaser.State {
     // Start playing the background music
     this.game.sounds.play('mainAmbience', config.MUSIC_VOLUME, true)
 
+    // Easter
+    let theBoy = this.game.add.sprite(3965, 1750, 'sclrWall', 0)
+    theBoy.smoothed = false
+
     // Setup the key objects
     this.setupKeyboard()
 
     // Set up a camera to follow the player
     // camera follows the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
-
-    let smallShake = false
-    let mediumShake = false
-    let largeShake = false
   }
 
   // This is the function called to set up GLSL Shaders and add them to the world
@@ -313,27 +344,44 @@ class TestLevel extends Phaser.State {
 
   update () {
     // Camera Shake
-    this.playerVelocityY = this.player.body.velocity.y
-    if (this.playerVelocityY > 400 && this.playerVelocityY < 800) {
-      this.smallShake = true
-    } else if (this.playerVelocityY > 800 && this.playerVelocityY < 1000) {
-      this.mediumShake = true
-    } else if (this.playerVelocityY > 1000) {
-      this.largeShake = true
-    }
+  //   this.playerVelocityY = this.player.body.velocity.y
+  //   console.log(this.playerVelocityY)
+  //   if (this.playerVelocityY >= 200.0 && this.playerVelocityY < 350.0) {
+  //     this.smallShake = true
+  //     this.mediumShake = false
+  //     this.largeShake = false
+  //     // this.game.camera.shake(0.009, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //     // console.log('I have small shook')
+  //   } else if (this.playerVelocityY >= 350.0 && this.playerVelocityY < 450.0) {
+  //     this.smallShake = false
+  //     this.mediumShake = true
+  //     this.largeShake = false
+  //     // this.game.camera.shake(0.015, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //     // console.log('I have medium shook')
+  //   } else if (this.playerVelocityY >= 450.0) {
+  //     this.smallShake = false
+  //     this.mediumShake = false
+  //     this.largeShake = true
+  //     // this.game.camera.shake(0.025, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //     //   console.log('I have large shook')
+  //   }
 
-    if (this.playerVelocityY <= 0) {
-      if (this.smallShake) {
-        this.game.camera.shake(0.005, 250, true, Phaser.Camera.SHAKE_BOTH, true)
-        this.smallShake = false
-      } else if (this.mediumShake) {
-        this.game.camera.shake(0.005, 300, true, Phaser.Camera.SHAKE_BOTH, true)
-        this.mediumShake = false
-      } else if (this.largeShake) {
-        this.game.camera.shake(0.01, 400, true, Phaser.Camera.SHAKE_BOTH, true)
-        this.largeShake = false
-      }
-    }
+  //   if (this.playerVelocityY <= 0) {
+  //     if (this.smallShake) {
+  //       this.game.camera.shake(0.1, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //       this.smallShake = false
+  //       console.log('I have small shook')
+  //     } else if (this.mediumShake) {
+  //       this.game.camera.shake(0.15, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //       this.mediumShake = false
+  //       console.log('I have medium shook')
+  //     } else if (this.largeShake) {
+  //       this.game.camera.shake(0.25, 400, true, Phaser.Camera.SHAKE_BOTH, true)
+  //       this.largeShake = false
+  //       console.log('I have large shook')
+  //     }
+  //  }
+
     // Check state of keys to control main character
     let speed = 0
     if (this.rightKey.isDown) { speed++ }

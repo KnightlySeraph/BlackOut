@@ -31,11 +31,11 @@ class Lever extends Phaser.Sprite {
     this.smoothed = false
 
     if (spriteKey === 'LeverWall') {
-      this.scale.setTo(width / 28, height / 58)
-      this.body.setRectangle(width / 2, height / 2, 28, 28)
+      this.scale.setTo(width / 35, height / 78)
+      this.body.setRectangle(width / 2.5, height / 2.5, 22.5, 21)
     } else {
-      this.scale.setTo(width / 24, height / 36)
-      this.body.setRectangle(width * 1.5, height / 1.3, 32, 50)
+      this.scale.setTo(width / 34, height / 46)
+      this.body.setRectangle(width * 1.25, height / 2.3, 24, 45)
     }
 
     this.myAnimations()
@@ -68,7 +68,7 @@ class Lever extends Phaser.Sprite {
   turnOn () {
     if (__DEV__) { console.log('lever on') }
     this.game.sounds.play('lever1', config.SFX_VOLUME)
-    this.light.createLight(this.body.x + 29, this.body.y - 1120, 150.0, 2)
+    this.light.createLight(this.body.x + 25, this.body.y - 2830, 150.0, 2) // 150
     this.animations.play('on')
     this.ispulled = true
 
@@ -94,7 +94,7 @@ class Lever extends Phaser.Sprite {
   turnOff () {
     if (__DEV__) { console.log('lever off') }
     this.game.sounds.play('lever2', config.SFX_VOLUME)
-    this.light.createLight(this.body.x + 29, this.body.y - 1120, 150.0, 2)
+    this.light.createLight(this.body.x + 25, this.body.y - 2830, 150.0, 2)
     this.animations.play('off')
 
     this.ispulled = false
@@ -126,6 +126,7 @@ class Lever extends Phaser.Sprite {
 
   removePlatform (id) {
     if (Lever.creations[id]) {
+      this.light.createLight(Lever.creations[id].x, Lever.creations[id].y - 2830, 250.0, 2)
       let deleteMe = Lever.creations[id]
       delete Lever.creations[id]
       deleteMe.destroy()
