@@ -126,6 +126,7 @@ class Lever extends Phaser.Sprite {
 
   removePlatform (id) {
     if (Lever.creations[id]) {
+      this.light.createLight(Lever.creations[id].x, Lever.creations[id].y - 2830, 250.0, 2)
       let deleteMe = Lever.creations[id]
       delete Lever.creations[id]
       deleteMe.destroy()

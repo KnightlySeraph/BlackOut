@@ -46,6 +46,7 @@ class TestLevel extends Phaser.State {
   preload () {
     if (__DEV__) { console.log('preload has run once') }
     this.game.load.image('light', 'assets/images/light.png')
+    this.load.spritesheet('sclrWall', 'assets/images/THE_BOY.png', 76, 76)
   }
 
   create () {
@@ -109,6 +110,7 @@ class TestLevel extends Phaser.State {
       // x: this.world.centerX + 2300,
       // y: this.world.centerY - 900
 
+      // Area where testing stuff is
       x: this.world.centerX - 500,
       y: this.world.centerY - 100
     })
@@ -178,12 +180,29 @@ class TestLevel extends Phaser.State {
       }),
       new Lever({
         game: this.game, x: 3700, y: 1870, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
-      }),
+      })
+    ]
+    this.lever.forEach((obj) => {
+      this.game.add.existing(obj)
+    })
+
+     // Make Vanish Wall objects in the world
+     this.vanishWalls = [
+      new Platform({
+        game: this.game, x: 3400, y: 1970, id: config.WALL_1, light: this.radialLight
+      })
+    ]
+    this.vanishWalls.forEach((obj) => {
+      this.game.add.existing(obj)
+      Lever.creations[obj.id] = obj
+    })
+
+    this.vanishWallLevers = [
       new Lever({
         game: this.game, x: 3500, y: 1970, width: 50, height: 100, id: config.WALL_1, spriteKey: 'LeverWall', light: this.radialLight
       })
     ]
-    this.lever.forEach((obj) => {
+    this.vanishWallLevers.forEach((obj) => {
       this.game.add.existing(obj)
     })
 
@@ -237,16 +256,6 @@ class TestLevel extends Phaser.State {
     })
 
     // Make Vanish Wall objects in the world
-    this.walls = [
-      new Platform({
-        game: this.game, x: 3400, y: 1970, id: config.WALL_1, light: this.radialLight
-      })
-    ]
-    this.walls.forEach((obj) => {
-      this.game.add.existing(obj)
-    })
-
-    // Make Vanish Wall objects in the world
     this.finish = [
       new FinishPoint({
         game: this.game, x: 2830.5, y: 1380, width: 150, height: 200
@@ -261,6 +270,10 @@ class TestLevel extends Phaser.State {
 
     // Start playing the background music
     this.game.sounds.play('mainAmbience', config.MUSIC_VOLUME, true)
+
+    // Easter
+    let theBoy = this.game.add.sprite(3965, 1750, 'sclrWall', 0)
+    theBoy.smoothed = false
 
     // Setup the key objects
     this.setupKeyboard()
