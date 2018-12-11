@@ -43,7 +43,7 @@ class Elevator extends MovingPlatform {
   }
 
   makeMultiStageTween (destination, chainTo) {
-    let tween = this.game.add.tween(this.body).to(destination, 8000, Phaser.Easing.Linear.None)
+    let tween = this.game.add.tween(this.body).to(destination, 8000, Phaser.Easing.Linear.None, false, 1000)
     tween.onComplete.add(() => {
       if (__DEV__) { console.log('Elevator stage complete') }
       this.setTweenStage(chainTo)
