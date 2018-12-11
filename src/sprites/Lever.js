@@ -11,6 +11,7 @@ import config from '../config'
 
 import TestLevel from '../states/TestLevel.js'
 import MovingPlatform from '../sprites/MovingPlatform.js'
+import Timer from '../sprites/Timer.js'
 
 // TODO expand lever function to include 1 or 2 sprite choices?
 
@@ -51,6 +52,9 @@ class Lever extends Phaser.Sprite {
     this.isInteractable = true
 
     this.ispulled = false
+
+    // Create the timer
+    this.myTimer = new Timer()
   }
 
   myAnimations () {
@@ -140,6 +144,7 @@ class Lever extends Phaser.Sprite {
   update () {
     // Always call the parent's update
     super.update()
+    this.myTimer.TimerDriver()
   }
 
 }

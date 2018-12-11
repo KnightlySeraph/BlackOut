@@ -34,6 +34,17 @@ class Timer {
     }
   }
 
+  // Gets for whether an alarm is the on or off position
+  Alarm0 () {
+    return this.alarm0
+  }
+  Alarm1 () {
+    return this.alarm1
+  }
+  Alarm2 () {
+    return this.alarm2
+  }
+
   // If an object uses this class it must place this function inside update
   TimerDriver () {
     // Alarm 0 driver
