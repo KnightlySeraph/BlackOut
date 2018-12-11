@@ -18,12 +18,11 @@ class Jumper extends Phaser.Sprite {
     this.smoothed = false
     this.light = light
 
-    // this.scale.setTo(2, 2)
-    this.scale.setTo(width / 24.8, height / 24.8)
+    this.scale.setTo(width / 30, height / 30)
     this.id = id
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
-    this.body.setRectangle(width, height / 3.2, 31, 56)
+    this.body.setRectangle(width / 1.1, height / 4, 27, 47)
     this.body.debug = __DEV__
 
     this.myAnimations()
@@ -54,7 +53,7 @@ class Jumper extends Phaser.Sprite {
   animate (isOn) {
     if (isOn === true) {
       this.game.sounds.play('spring', config.SFX_VOLUME)
-      this.light.createLight(this.body.x + 31, this.body.y - 1150, 250.0, 1.8)
+      this.light.createLight(this.body.x + 29, this.body.y - 2850, 250.0, 1.8)
       this.animations.play('jumping', 10, false)
     } else {
       this.animations.play('stopped', 10, true)
