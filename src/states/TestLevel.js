@@ -165,7 +165,7 @@ class TestLevel extends Phaser.State {
     // make the main elevator
     this.mover = [
       new Elevator({
-        game: this.game, x: 4000, y: 1900, id: config.ELEVATOR_1, light: this.radialLight
+        game: this.game, x: 3776.5, y: 2429.6, id: config.ELEVATOR_1, light: this.radialLight
       })
     ]
     this.mover.forEach((obj) => {
