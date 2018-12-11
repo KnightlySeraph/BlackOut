@@ -36,15 +36,14 @@ class Elevator extends MovingPlatform {
    */
   setupTween (startX, startY) {
     this.tweenStages = []
-    this.tweenStages.push(this.makeMultiStageTween({ x: startX - 100 }, 1))
-    this.tweenStages.push(this.makeMultiStageTween({ y: startY - 100 }, 2))
-    this.tweenStages.push(this.makeMultiStageTween({ x: startX }, 3))
+    this.tweenStages.push(this.makeMultiStageTween({ y: startY - 667 }, 1))
+    this.tweenStages.push(this.makeMultiStageTween({ y: startY - 1340 }, 2))
     this.tweenStages.push(this.makeMultiStageTween({ y: startY }, 0))
     this.setTweenStage(0)
   }
 
   makeMultiStageTween (destination, chainTo) {
-    let tween = this.game.add.tween(this.body).to(destination, 1000, Phaser.Easing.Linear.None)
+    let tween = this.game.add.tween(this.body).to(destination, 8000, Phaser.Easing.Linear.None)
     tween.onComplete.add(() => {
       if (__DEV__) { console.log('Elevator stage complete') }
       this.setTweenStage(chainTo)
