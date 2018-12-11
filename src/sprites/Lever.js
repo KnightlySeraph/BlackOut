@@ -132,6 +132,16 @@ class Lever extends Phaser.Sprite {
       deleteMe.destroy()
     }
   }
+
+  /**
+   * Called every tick while the sprite is awake and in the world.
+   * @override
+   */
+  update () {
+    // Always call the parent's update
+    super.update()
+  }
+
 }
 
 Lever.creations = {}
