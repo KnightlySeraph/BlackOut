@@ -16,7 +16,7 @@ class FinishPoint extends Phaser.Sprite {
     this.scale.setTo(width / 24.8, height / 24.8)
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
     this.body.dynamic = false
-    this.body.setRectangle(width, height / 3.2, 31, 56)
+    this.body.setRectangle(width, height, 0, 0)
     this.body.debug = __DEV__
 
     this.body.setCollisionGroup(this.game.finishGroup)

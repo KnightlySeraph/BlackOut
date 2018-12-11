@@ -97,7 +97,7 @@ class TestLevel extends Phaser.State {
     this.player = new MainPlayer({
       game: this.game,
       x: this.world.centerX - 3600,
-      y: this.world.centerY + 100
+      y: this.world.centerY + 50
     })
 
     this.isWinding = false
@@ -186,8 +186,17 @@ class TestLevel extends Phaser.State {
 
     // Make "Death" objects in the world
     this.pits = [
-      new PitOfDeath({
-        game: this.game, x: 3770, y: 2900, width: 300, height: 300, light: this.radialLight
+      new PitOfDeath({ // 1st kill zone (near spawn)
+        game: this.game, x: 2230, y: 2500, width: 550, height: 200, light: this.radialLight
+      }),
+      new PitOfDeath({ // 2nd kill zone (under elevators)
+        game: this.game, x: 3990, y: 2950, width: 475, height: 200, light: this.radialLight
+      }),
+      new PitOfDeath({ // 3rd kill zone (on second floor)
+        game: this.game, x: 5730, y: 2145, width: 2268, height: 50, light: this.radialLight
+      }),
+      new PitOfDeath({ // 4th kill zone (on third floor)
+        game: this.game, x: 6158, y: 1500, width: 727, height: 100, light: this.radialLight
       })
     ]
     this.pits.forEach((obj) => {
@@ -227,7 +236,7 @@ class TestLevel extends Phaser.State {
     // Make Vanish Wall objects in the world
     this.finish = [
       new FinishPoint({
-        game: this.game, x: 4000, y: 1970, width: 200, height: 200
+        game: this.game, x: 2830.5, y: 1380, width: 150, height: 200
       })
     ]
     this.finish.forEach((obj) => {
@@ -246,10 +255,6 @@ class TestLevel extends Phaser.State {
     // Set up a camera to follow the player
     // camera follows the player
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1)
-
-    let smallShake = false
-    let mediumShake = false
-    let largeShake = false
   }
 
   // This is the function called to set up GLSL Shaders and add them to the world

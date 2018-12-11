@@ -10,7 +10,7 @@ import Phaser from 'phaser'
  */
 class PitOfDeath extends Phaser.Sprite {
   constructor ({ game, x, y, width, height, light }) {
-    super(game, 0, 0, 'blank', 0)
+    super(game, 0, 0, '', 0)
     this.name = 'pitOfDeath'
     this.smoothed = false
     this.body = new Phaser.Physics.P2.Body(this.game, this, x, y)
