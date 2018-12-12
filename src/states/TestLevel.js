@@ -109,7 +109,7 @@ class TestLevel extends Phaser.State {
       // y: this.world.centerY + 50
       // Floor 1
       x: 5200,
-      y: 2500
+      y: 2200
       // end of floor 2
       // x: this.world.centerX + 3000,
       // y: this.world.centerY + 100
@@ -190,6 +190,9 @@ class TestLevel extends Phaser.State {
       }),
       new Lever({ // LVL 1 Top lever
         game: this.game, x: 5165.8, y: 2525.2, width: 50, height: 100, id: config.LEVER6_LVL1, spriteKey: 'LeverFloor', light: this.radialLight
+      }),
+      new Lever({ // LVL 2 1st lever
+        game: this.game, x: 4505.8, y: 1884.2, width: 50, height: 100, id: config.LEVER1_LVL2, spriteKey: 'LeverFloor', light: this.radialLight
       })
     ]
     this.lever.forEach((obj) => {
@@ -284,8 +287,11 @@ class TestLevel extends Phaser.State {
     })
 
     this.manualMover = [
-      new BasicMovingPlatform({ // Floor 1 automover
+      new BasicMovingPlatform({ // Floor 1 mover
         game: this.game, x: 5362, y: 2610, id: config.PLATFORM_2, light: this.radialLight
+      }),
+      new BasicMovingPlatform({ // Floor 2 mover
+        game: this.game, x: 4580, y: 1952, id: config.PLATFORM_3, light: this.radialLight
       })
     ]
     this.manualMover.forEach((obj) => {
@@ -453,6 +459,9 @@ class TestLevel extends Phaser.State {
         obj.changeOffset(speed * 5)
       })
       this.mover.forEach((obj) => {
+        obj.changeOffset(speed * 5)
+      })
+      this.manualMover.forEach((obj) => {
         obj.changeOffset(speed * 5)
       })
     }

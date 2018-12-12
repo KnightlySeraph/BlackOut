@@ -118,6 +118,9 @@ class Lever extends Phaser.Sprite {
         this.game.LEVER1_LVL1 = true
         break
 
+      case config.LEVER1_LVL2:
+        Lever.creations[config.PLATFORM_3].startMovement()
+
       default:
         this.removePlatform(this.id)
         break
