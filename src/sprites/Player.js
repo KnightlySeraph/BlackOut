@@ -97,6 +97,7 @@ class MainPlayer extends Phaser.Sprite {
       if (otherPhaserBody.sprite.isInteractable) { // Checks to see if other body is interactable
         this._overlapping.add(otherPhaserBody.sprite) // adds object to set
       } else if (otherPhaserBody.sprite.name === 'jumper') { // Checks if the colliding object is a spring
+        this.game.jumperID = otherPhaserBody.sprite.id
         this._override_state = MainPlayer.overrideStates.NONE
         this.body.velocity.y = 0
         this.overrideState = MainPlayer.overrideStates.JUMPING
@@ -274,7 +275,11 @@ class MainPlayer extends Phaser.Sprite {
       if (this._jumpTimer > 0) {
         this._jumpTimer -= 5
         if (this.jumpingFromJumper) {
-          this.body.moveUp(450)
+          if (this.game.jumperID === config.JUMPER_FLOOR1) {
+            this.body.moveUp(550)
+          } else {
+            this.body.moveUp(450)
+          }
         } else {
           this.body.moveUp(175)
         }

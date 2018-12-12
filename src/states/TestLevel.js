@@ -244,6 +244,9 @@ class TestLevel extends Phaser.State {
       }),
       new Jumper({ // floor 1 last spring
         game: this.game, x: this.world.centerX + 2720, y: 2685.8, width: 50, height: 50, id: config.JUMMPER_3, light: this.radialLight
+      }),
+      new Jumper({ // floor 1 final spring
+        game: this.game, x: 4950, y: 2763.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
       })
     ]
     this.jumper.forEach((obj) => {

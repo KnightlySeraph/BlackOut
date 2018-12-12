@@ -86,14 +86,101 @@ class Lever extends Phaser.Sprite {
 
         case config.LEVER4_LVL1:
         this.game.LEVER4_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
         break
 
       case config.LEVER5_LVL1:
         this.game.LEVER5_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
         break
     
       case config.LEVER6_LVL1:
         this.game.LEVER6_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
         break
       
       case config.WALL_3:
@@ -101,6 +188,35 @@ class Lever extends Phaser.Sprite {
         this.removePlatform(this.id)
       }
         this.game.LEVER3_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
         break
 
       case config.WALL_2:
@@ -108,6 +224,35 @@ class Lever extends Phaser.Sprite {
         this.removePlatform(this.id)
       }
         this.game.LEVER2_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
         break
       
       case config.WALL_1:
@@ -116,6 +261,35 @@ class Lever extends Phaser.Sprite {
       }
         this.game.LEVER1_LVL1 = true
         this.game.lvl1Spring = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
         break
 
       default:
@@ -139,7 +313,7 @@ class Lever extends Phaser.Sprite {
         break      
 
       default:
-      this.removePlatform(this.id)
+        this.removePlatform(this.id)
         break
     }
   }
@@ -166,15 +340,6 @@ class Lever extends Phaser.Sprite {
   update () {
     // Always call the parent's update
     super.update()
-    if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
-      Lever.creations.push(
-        new Jumper({ // floor 1 final spring
-          game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
-        })
-      )
-      console.log('made spring')
-      this.game.lvl1Spring = false
-    }
     this.myTimer.TimerDriver()
   }
 
