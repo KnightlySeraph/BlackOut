@@ -114,8 +114,8 @@ class TestLevel extends Phaser.State {
       // x: this.world.centerX - 3600,
       // y: this.world.centerY + 50
       // Floor 1
-      x: 5200,
-      y: 2200
+      x: 4400,
+      y: 1300
       // end of floor 2
       // x: this.world.centerX + 3000,
       // y: this.world.centerY + 100
