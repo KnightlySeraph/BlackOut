@@ -14,29 +14,50 @@ class ControlPage extends Phaser.State {
     let controlPageBG = this.game.add.sprite(0, 0, 'controlMenu', 0)
     controlPageBG.smoothed = false
 
-    this.adMovement = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 350, 'controlSprites', 0)
+    this.adMovement = this.game.add.sprite(this.game.world.centerX - 800, this.game.world.centerY - 300, 'controlAnims', 0)
     this.adMovement.smoothed = false
-    this.adMovement.scale.setTo(2, 2)
+    this.adMovement.scale.setTo(4, 4)
 
-    this.lrMovement = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 250, 'controlSprites', 0)
+    this.lrMovement = this.game.add.sprite(this.game.world.centerX - 800, this.game.world.centerY - 200, 'controlAnims', 0)
     this.lrMovement.smoothed = false
-    this.lrMovement.scale.setTo(2, 2)
+    this.lrMovement.scale.setTo(4, 4)
 
-    this.tabAnim = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 150, 'controlSprites', 0)
+    this.tabAnim = this.game.add.sprite(this.game.world.centerX - 800, this.game.world.centerY - 100, 'controlAnims', 0)
     this.tabAnim.smoothed = false
-    this.tabAnim.scale.setTo(2, 2)
+    this.tabAnim.scale.setTo(4, 4)
 
-    this.escAnim = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 50, 'controlSprites', 0)
+    this.escAnim = this.game.add.sprite(this.game.world.centerX - 800, this.game.world.centerY, 'controlAnims', 0)
     this.escAnim.smoothed = false
-    this.escAnim.scale.setTo(2, 2)
+    this.escAnim.scale.setTo(4, 4)
 
-    this.eAnim = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY + 50, 'interactAnim', 0)
+    this.eAnim = this.game.add.sprite(this.game.world.centerX - 800, this.game.world.centerY + 100, 'controlAnims', 0)
     this.eAnim.smoothed = false
-    this.eAnim.scale.setTo(2, 2)
+    this.eAnim.scale.setTo(4, 4)
 
-    this.spaceAnim = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY + 150, 'spacebarAnim', 0)
+    this.spaceAnim = this.game.add.sprite(this.game.world.centerX - 800, this.game.world.centerY + 200, 'controlAnims', 0)
     this.spaceAnim.smoothed = false
-    this.spaceAnim.scale.setTo(2, 2)
+    this.spaceAnim.scale.setTo(4, 4)
+
+    // Add the text for the animated controls
+    this.mText = this.game.add.sprite(this.game.world.centerX - 600, this.game.world.centerY - 225, 'movementText', 0)
+    this.mText.smoothed = false
+    this.mText.scale.setTo(4, 4)
+
+    this.pText = this.game.add.sprite(this.game.world.centerX - 650, this.game.world.centerY - 75, 'pocketWatchText', 0)
+    this.pText.smoothed = false
+    this.pText.scale.setTo(4, 4)
+
+    this.iText = this.game.add.sprite(this.game.world.centerX - 600, this.game.world.centerY + 125, 'interactText', 0)
+    this.iText.smoothed = false
+    this.iText.scale.setTo(4, 4)
+
+    this.jText = this.game.add.sprite(this.game.world.centerX - 600, this.game.world.centerY + 225, 'jumpText', 0)
+    this.jText.smoothed = false
+    this.jText.scale.setTo(4, 4)
+
+    // this.mText = this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 400, 'movementText', 0)
+    // this.mText.smoothed = false
+    // this.mText.scale.setTo(2, 2)
 
     this.controlsAnimations()
 
@@ -66,14 +87,14 @@ class ControlPage extends Phaser.State {
     this.tabAnim.animations.add('tabAnim', [4, 5], 10, true)
     this.tabAnim.animations.play('tabAnim', 2, true)
 
-    // this.escAnim.animations.add('escAnim', [6, 7], 10, true)
-    // this.escAnim.animations.play('escAnim', 2, true)
+    this.escAnim.animations.add('escAnim', [6, 7], 10, true)
+    this.escAnim.animations.play('escAnim', 2, true)
 
-    // this.eAnim.animations.add('eAnim', [8, 9], 10, true)
-    // this.eAnim.animations.play('eAnim', 2, true)
+    this.eAnim.animations.add('eAnim', [8, 9], 10, true)
+    this.eAnim.animations.play('eAnim', 2, true)
 
-    // this.spaceAnim.animations.add('spaceAnim', [10, 11], 10, true)
-    // this.spaceAnim.animations.play('spaceAnim', 2, true)
+    this.spaceAnim.animations.add('spaceAnim', [10, 11], 10, true)
+    this.spaceAnim.animations.play('spaceAnim', 2, true)
     
   }
 
