@@ -78,13 +78,14 @@ class Splash extends Phaser.State {
     this.game.load.spritesheet('movementText', 'assets/images/movementTitle.png', 64, 16, 2, 0, 0)
     this.game.load.spritesheet('interactText', 'assets/images/interactTitle.png', 64, 16, 1, 0, 0)
     this.game.load.spritesheet('jumpText', 'assets/images/jumpTitle.png', 64, 16, 1, 0, 0)
-    this.game.load.spritesheet('returnText', 'assets/images/returnToMain.png', 64, 16, 1, 0, 0)
+    this.game.load.spritesheet('returnText', 'assets/images/returnToMain.png', 72, 16, 1, 0, 0)
     this.game.load.spritesheet('spacebarAnim', 'assets/images/spacebarSpriteSheet_64x32.png', 64, 32, 2)
     this.game.load.spritesheet('interactAnim', 'assets/images/eSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
     this.game.load.spritesheet('arrowKeyAnim', 'assets/images/leftRightSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
     this.game.load.spritesheet('tabAnim', 'assets/images/tabSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
     this.game.load.spritesheet('overlayControls', 'assets/images/controlsOverlay.png', 1920, 938, 1, 0, 0)
     this.game.load.spritesheet('bOverlay', 'assets/images/Black.png', 1920, 938, 1, 0, 0)
+    this.game.load.spritesheet('cHeader', 'assets/images/controls.png', 64, 16, 1, 0, 0)
 
     // The main player spritesheet
     this.load.spritesheet('toki-main', 'assets/images/tokiSpriteSheet.png', 64, 64)
