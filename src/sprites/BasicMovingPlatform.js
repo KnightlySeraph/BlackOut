@@ -40,7 +40,7 @@ class BasicMovingPlatform extends MovingPlatform {
     switch (this.id) {
       // Change these to suit your needs and add more in config.js
       case config.PLATFORM_1: destination = { y: startY + 400 }; break // platform near spawn
-      case config.PLATFORM_2: destination = { Y: startY + 50 }; break
+      case config.PLATFORM_2: destination = { y: startY + 375 }; break // 1st floor platform
       case config.PLATFORM_3: destination = { y: startY - 50 }; break
       case config.PLATFORM_4: destination = { y: startY + 50 }; break
 
