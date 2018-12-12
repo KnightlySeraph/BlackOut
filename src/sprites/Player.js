@@ -102,7 +102,7 @@ class MainPlayer extends Phaser.Sprite {
         this.overrideState = MainPlayer.overrideStates.JUMPING
         otherPhaserBody.sprite.animate(true)
         this.jumpingFromJumper = true
-      } else if (otherPhaserBody.sprite.name === 'pitOfDeath' || this.body.x === this.game.world.x ||
+      } else if (otherPhaserBody.sprite.id === 'pitOfDeath' || this.body.x === this.game.world.x ||
        this.body.x === -this.game.world.x || this.body.y === this.game.world.y || this.body.y === -this.game.world.y) {
         otherPhaserBody.sprite.resetPlayer(this.body)
         // this.game.state.start(this.game.state.current)

@@ -24,6 +24,7 @@ class MainMenu extends Phaser.State {
 
   create () {
     this.game.sounds.stop()
+    this.game.sounds.play('gears1', 0.5)
     this.game.sounds.play('mainAmbience', config.MUSIC_VOLUME, true)
 
     this.game.LVL1_PASSED = false
