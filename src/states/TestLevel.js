@@ -66,6 +66,9 @@ class TestLevel extends Phaser.State {
     this.game.L2_LVL3 = false
     this.game.finalWall = false
     this.game.puzzle3Complete = true
+
+    // For Screen Overlay
+    this.controlCreated = false
   }
 
   create () {
@@ -463,9 +466,12 @@ class TestLevel extends Phaser.State {
     this.socket2 = this.game.input.keyboard.addKey(Phaser.KeyCode.TWO)
     this.debugLight = this.game.input.keyboard.addKey(Phaser.KeyCode.THREE)
 
+    // Control Overlay
+    this.cOver = this.game.input.keyboard.addKey(Phaser.KeyCode.C)
+
     // Stop the following keys from propagating up to the browser
     this.game.input.keyboard.addKeyCapture([
-      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO, Phaser.KeyCode.ESC
+      Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT, Phaser.KeyCode.SPACEBAR, Phaser.KeyCode.D, Phaser.KeyCode.P, Phaser.KeyCode.O, Phaser.KeyCode.E, Phaser.KeyCode.TAB, Phaser.KeyCode.TWO, Phaser.KeyCode.ESC, Phaser.KeyCode.C
     ])
   }
 
@@ -564,6 +570,24 @@ class TestLevel extends Phaser.State {
         this.game.puzzle3Complete = false
       }
       this.game.finalWall = true
+    }
+
+    if (this.cOver.isDown) {
+      if (this.controlCreated === false) {
+        this.game.world.filters = null
+        this.bOver = this.game.add.sprite(this.player.x - 2000, this.player.y - 600, 'bOverlay', 0)
+        this.bOver.scale.setTo(100, 100)
+        this.overlay = this.game.add.sprite(this.player.x - 500, this.player.y - 500, 'overlayControls', 0)
+        this.controlCreated = true
+      }
+    }
+    if (this.cOver.isDown === false) {
+      if (this.controlCreated) {
+        this.controlCreated = false
+        this.overlay.destroy()
+        this.bOver.destroy()
+        this.game.world.filters = [this.radialLight]
+      }     
     }
 
     // Check state of keys to control main character

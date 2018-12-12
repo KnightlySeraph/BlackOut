@@ -39,6 +39,10 @@ class ControlPage extends Phaser.State {
     this.spaceAnim.scale.setTo(4, 4)
 
     // Add the text for the animated controls
+    this.header = this.game.add.sprite(this.game.world.centerX - 675, this.game.world.centerY - 400, 'cHeader', 0)
+    this.header.smoothed = false
+    this.header.scale.setTo(7, 7)
+
     this.mText = this.game.add.sprite(this.game.world.centerX - 600, this.game.world.centerY - 225, 'movementText', 0)
     this.mText.smoothed = false
     this.mText.scale.setTo(4, 4)
