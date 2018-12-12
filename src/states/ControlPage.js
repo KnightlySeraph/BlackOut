@@ -47,6 +47,10 @@ class ControlPage extends Phaser.State {
     this.pText.smoothed = false
     this.pText.scale.setTo(4, 4)
 
+    this.rText = this.game.add.sprite(this.game.world.centerX - 600, this.game.world.centerY + 25, 'returnText', 0)
+    this.rText.smoothed = false
+    this.rText.scale.setTo(4, 4)
+
     this.iText = this.game.add.sprite(this.game.world.centerX - 600, this.game.world.centerY + 125, 'interactText', 0)
     this.iText.smoothed = false
     this.iText.scale.setTo(4, 4)
