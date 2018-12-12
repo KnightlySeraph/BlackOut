@@ -39,10 +39,10 @@ class BasicMovingPlatform extends MovingPlatform {
     // Customize for given ID
     switch (this.id) {
       // Change these to suit your needs and add more in config.js
-      case config.PLATFORM_1: destination = { y: startY + 400 }; break // platform near spawn
-      case config.PLATFORM_2: destination = { y: startY + 375 }; break
-      case config.PLATFORM_3: destination = { x: startX + 500 }; break
-      case config.PLATFORM_4: destination = { y: startY + 50 }; break
+      case config.PLATFORM_1: destination = { y: startY + 445 }; break // platform near spawn
+      case config.PLATFORM_2: destination = { y: startY + 375 }; break // Floor 1's manualstart platform
+      case config.PLATFORM_3: destination = { x: startX + 2235 }; break // Floor 2's manualstart platform
+      case config.PLATFORM_4: destination = { x: startX + 50 }; break
 
       default:
         console.log('ERROR: this.id is not a valid BasicMovingPlatform ID.')
@@ -54,7 +54,7 @@ class BasicMovingPlatform extends MovingPlatform {
         destination, duration, Phaser.Easing.Linear.None, false, 100, -1, true)
     } else if (this.id === config.PLATFORM_3) {
       this.tween = this.game.add.tween(this.body).to(
-        destination, duration, Phaser.Easing.Linear.None, false, 100, -1, true)
+        destination, duration * 5.5, Phaser.Easing.Linear.None, false, 1500, -1, true)
     } else {
       this.tween = this.game.add.tween(this.body).to(
         destination, duration, Phaser.Easing.Linear.None, true, 100, -1, true)
@@ -69,7 +69,7 @@ class BasicMovingPlatform extends MovingPlatform {
     if (super.startMovement()) {
       this.game.sounds.play('gears1', config.SFX_VOLUME)
       // Create a light when the movement starts
-      this.light.createLight(this.startX, this.startY + 2500, 50.0, 0.5)
+      // this.light.createLight(this.startX, this.startY + 2500, 50.0, 0.5)
       return true
     }
 

@@ -54,6 +54,12 @@ class TestLevel extends Phaser.State {
     this.game.LEVER5_LVL1 = false
     this.game.LEVER6_LVL1 = false
     this.game.lvl1Spring = true
+    this.game.L7_LVL2 = false
+    this.game.L6_LVL2 = false
+    this.game.L5_LVL2 = false
+    this.game.L4_LVL2 = false
+    this.game.L3_LVL2 = false
+    this.game.L2_LVL2 = false
   }
 
   create () {
@@ -193,6 +199,9 @@ class TestLevel extends Phaser.State {
       }),
       new Lever({ // LVL 2 1st lever
         game: this.game, x: 4505.8, y: 1884.2, width: 50, height: 100, id: config.LEVER1_LVL2, spriteKey: 'LeverFloor', light: this.radialLight
+      }),
+      new Lever({ // LVL 2 last lever
+        game: this.game, x: 7480, y: 1755, width: 50, height: 100, id: config.LEVER7_LVL2, spriteKey: 'LeverFloor', light: this.radialLight
       })
     ]
     this.lever.forEach((obj) => {
@@ -209,6 +218,9 @@ class TestLevel extends Phaser.State {
       }),
       new Platform({ // Floor 1 Nearest vanish wall
         game: this.game, x: 5488, y: 2590.6, id: config.WALL_3, light: this.radialLight
+      }),
+      new Platform({ // Floor 2 vanish wall
+        game: this.game, x: 7408, y: 1760, id: config.LVL2_WALL, light: this.radialLight
       })
     ]
     this.vanishWalls.forEach((obj) => {
@@ -225,6 +237,21 @@ class TestLevel extends Phaser.State {
       }),
       new Lever({ // floor 1 lever creates the spring and the lever for elevator
         game: this.game, x: 6557, y: 2604, width: 50, height: 100, id: config.WALL_2, spriteKey: 'LeverFloor', light: this.radialLight
+      }),
+      new Lever({ // floor 2 lever 2
+        game: this.game, x: 4920, y: 1882, width: 50, height: 100, id: config.LEVER2_LVL2, spriteKey: 'LeverWall', light: this.radialLight
+      }),
+      new Lever({ // floor 2 lever 3
+        game: this.game, x: 5303, y: 1882, width: 50, height: 100, id: config.LEVER3_LVL2, spriteKey: 'LeverWall', light: this.radialLight
+      }),
+      new Lever({ // floor 2 lever 4
+        game: this.game, x: 5686, y: 1882, width: 50, height: 100, id: config.LEVER4_LVL2, spriteKey: 'LeverWall', light: this.radialLight
+      }),
+      new Lever({ // floor 2 lever 5
+        game: this.game, x: 6072, y: 1882, width: 50, height: 100, id: config.LEVER5_LVL2, spriteKey: 'LeverWall', light: this.radialLight
+      }),
+      new Lever({ // floor 2 lever 6
+        game: this.game, x: 6455, y: 1882, width: 50, height: 100, id: config.LEVER6_LVL2, spriteKey: 'LeverWall', light: this.radialLight
       })
     ]
     this.vanishWallLevers.forEach((obj) => {
@@ -241,10 +268,10 @@ class TestLevel extends Phaser.State {
       }),
       new Jumper({ // floor 1 last spring
         game: this.game, x: this.world.centerX + 2720, y: 2685.8, width: 50, height: 50, id: config.JUMMPER_3, light: this.radialLight
+      }),
+      new Jumper({ // floor 2 spring
+        game: this.game, x: 7368, y: 1961.8, width: 50, height: 50, id: config.JUMPER_FLOOR2, light: this.radialLight
       })
-      // new Jumper({ // floor 1 final spring
-      //   game: this.game, x: 4950, y: 2763.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
-      // })
     ]
     this.jumper.forEach((obj) => {
       this.game.add.existing(obj)
@@ -274,12 +301,9 @@ class TestLevel extends Phaser.State {
       new BasicMovingPlatform({ // Spawn automover
         game: this.game, x: 2800, y: 2150, id: config.PLATFORM_1, light: this.radialLight
       }),
-      new BasicMovingPlatform({
-        game: this.game, x: 800, y: 660, id: config.PLATFORM_3, light: this.radialLight
-      }),
-      new BasicMovingPlatform({
-        game: this.game, x: 600, y: 660, id: config.PLATFORM_4, light: this.radialLight
-      })
+      // new BasicMovingPlatform({
+      //   game: this.game, x: 600, y: 660, id: config.PLATFORM_4, light: this.radialLight
+      // })
     ]
     this.autoMover.forEach((obj) => {
       this.game.add.existing(obj)
@@ -446,6 +470,23 @@ class TestLevel extends Phaser.State {
         this.game.add.existing(obj)
       })
       this.game.lvl1Spring = false
+    }
+
+    // Create Floor 2 Elevator Switch
+    if (this.game.L2_LVL2 && !this.game.L3_LVL2 && !this.game.L4_LVL2 && this.game.L5_LVL2 && this.game.L6_LVL2) {
+      this.game.removeF2P = true
+    }
+
+    if (this.game.L7_LVL2) {
+      this.elavatorLVL2 = [
+        new Lever({ // floor 1 final spring
+          game: this.game, x: 3927, y: 1895, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
+        })
+      ]
+      this.elavatorLVL2.forEach((obj) => {
+        this.game.add.existing(obj)
+      })
+      this.game.L7_LVL2 = false
     }
 
     // Check state of keys to control main character

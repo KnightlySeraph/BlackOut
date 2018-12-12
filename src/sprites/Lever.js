@@ -120,6 +120,31 @@ class Lever extends Phaser.Sprite {
 
       case config.LEVER1_LVL2:
         Lever.creations[config.PLATFORM_3].startMovement()
+        break
+
+      case config.LEVER2_LVL2:
+        this.game.L2_LVL2 = true
+        break
+
+      case config.LEVER3_LVL2:
+        this.game.L3_LVL2 = true
+        break
+
+      case config.LEVER4_LVL2:
+        this.game.L4_LVL2 = true
+        break
+
+      case config.LEVER5_LVL2:
+        this.game.L5_LVL2 = true
+        break
+
+      case config.LEVER6_LVL2:
+        this.game.L6_LVL2 = true
+        break
+
+      case config.LEVER7_LVL2:
+        this.game.L7_LVL2 = true
+        break
 
       default:
         this.removePlatform(this.id)
@@ -170,6 +195,13 @@ class Lever extends Phaser.Sprite {
     // Always call the parent's update
     super.update()
     this.myTimer.TimerDriver()
+    
+    if (this.game.removeF2P) {
+      if (Lever.creations[config.LVL2_WALL]) {
+        this.removePlatform(config.LVL2_WALL)
+      }
+      this.game.removeF2P = false
+    }
   }
 
 }

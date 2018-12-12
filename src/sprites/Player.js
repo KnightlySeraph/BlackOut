@@ -277,6 +277,8 @@ class MainPlayer extends Phaser.Sprite {
         if (this.jumpingFromJumper) {
           if (this.game.jumperID === config.JUMPER_FLOOR1) {
             this.body.moveUp(550)
+          } else if (this.game.jumperID === config.JUMPER_FLOOR2) {
+            this.body.moveUp(500)
           } else {
             this.body.moveUp(450)
           }

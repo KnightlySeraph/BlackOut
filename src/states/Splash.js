@@ -202,7 +202,7 @@ class Splash extends Phaser.State {
 
     // Add the logo to the screen and center it
     this.logo = this.game.add.sprite(
-      this.game.world.centerX, this.game.world.centerY - 70, 'logo')
+      this.game.world.centerX, this.game.world.centerY, 'logo')
 
     centerGameObjects([this.logo])
 
