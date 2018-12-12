@@ -38,6 +38,27 @@ class ControlPage extends Phaser.State {
     this.spaceAnim.smoothed = false
     this.spaceAnim.scale.setTo(2, 2)
 
+    // Add the text for the animated controls
+    this.mText - this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 400, 'movementText', 0)
+    // this.mText.smoothed = false
+    // this.mText.scale.setTo(2, 2)
+
+    this.pText - this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 300, 'pocketWactchText', 0)
+    // this.pText.smoothed = false
+    // this.pText.scale.setTo(2, 2)
+
+    this.iText - this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 200, 'interactText', 0)
+    // this.iText.smoothed = false
+    // this.iText.scale.setTo(2, 2)
+
+    this.jText - this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 100, 'jumpText', 0)
+    // this.jText.smoothed = false
+    // this.jText.scale.setTo(2, 2)
+
+    this.mText - this.game.add.sprite(this.game.world.centerX - 400, this.game.world.centerY - 400, 'movementText', 0)
+    // this.mText.smoothed = false
+    // this.mText.scale.setTo(2, 2)
+
     this.controlsAnimations()
 
     // Set up the return to menu button

@@ -75,7 +75,7 @@ class Splash extends Phaser.State {
     this.game.load.spritesheet('controlAnims', '/assets/images/controlspritesheet_64x32.png', 64, 32, 12, 0, 0)
     this.game.load.spritesheet('controlMenu', 'assets/images/mainMenuBG.png', 1920, 938, 1, 0, 0)
     this.game.load.spritesheet('pocketWatchText', 'assets/images/windPocketwatchTitle.png', 64, 32, 1, 0, 0)
-    this.game.load.spritesheet('movementText', 'assets/images/movementTitle.png', 64, 32, 1, 0, 0)
+    this.game.load.spritesheet('movementText', 'assets/images/movementTitle.png', 64, 32, 2, 0, 0)
     this.game.load.spritesheet('interactText', 'assets/images/interactTitle.png', 64, 32, 1, 0, 0)
     this.game.load.spritesheet('jumpText', 'assets/images/jumpTitle.png', 64, 32, 1, 0, 0)
     this.game.load.spritesheet('spacebarAnim', 'assets/images/spacebarSpriteSheet_64x32.png', 64, 32, 2)
