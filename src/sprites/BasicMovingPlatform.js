@@ -42,7 +42,8 @@ class BasicMovingPlatform extends MovingPlatform {
       case config.PLATFORM_1: destination = { y: startY + 445 }; break // platform near spawn
       case config.PLATFORM_2: destination = { y: startY + 375 }; break // Floor 1's manualstart platform
       case config.PLATFORM_3: destination = { x: startX + 2235 }; break // Floor 2's manualstart platform
-      case config.PLATFORM_4: destination = { x: startX + 50 }; break
+      case config.PLATFORM_4: destination = { y: startY - 300 }; break // Floor 3's top mover
+      case config.PLATFORM_5: destination = { x: startX + 480 }; break // Floor 3's bottom mover
 
       default:
         console.log('ERROR: this.id is not a valid BasicMovingPlatform ID.')

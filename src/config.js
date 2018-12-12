@@ -87,5 +87,10 @@ export default {
   JUMPER4_LVL3: 38,
   JUMPER5_LVL3: 39,
 
-  LAST_WALL: 40
+  MOVER1_LVL3: 40,
+  MOVER2_LVL3: 41,
+
+  PLATFORM_5: 42,
+
+  LAST_WALL: 43
 }

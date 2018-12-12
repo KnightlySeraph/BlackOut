@@ -146,6 +146,39 @@ class Lever extends Phaser.Sprite {
         this.game.L7_LVL2 = true
         break
 
+      case config.LEVER1_LVL3:
+        if (Lever.creations[this.id]) {
+          this.removePlatform(this.id)
+          this.game.L4_LVL1 = true
+        }
+        break
+
+      case config.LEVER3_LVL3:
+        if (Lever.creations[this.id]) {
+          this.removePlatform(this.id)
+          this.game.L3_LVL3 = true
+        }
+        break
+
+      case config.LEVER5_LVL3:
+        if (Lever.creations[this.id]) {
+          this.removePlatform(this.id)
+          this.game.L5_LVL3 = true
+        }
+        break
+
+      case config.LEVER2_LVL3:
+        this.game.L2_LVL3 = true
+        break
+
+      case config.LEVER4_LVL3:
+        this.game.L4_LVL3 = true
+        break
+
+      case config.LEVER6_LVL3:
+        this.game.L6_LVL3 = true
+        break
+
       default:
         this.removePlatform(this.id)
         break
@@ -201,6 +234,12 @@ class Lever extends Phaser.Sprite {
         this.removePlatform(config.LVL2_WALL)
       }
       this.game.removeF2P = false
+    }
+    if (this.game.finalWall) {
+      if (Lever.creations[config.LAST_WALL]) {
+        this.removePlatform(config.LAST_WALL)
+      }
+      this.game.finalWall = false
     }
   }
 
