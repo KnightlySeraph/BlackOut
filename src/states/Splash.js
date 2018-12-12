@@ -83,6 +83,8 @@ class Splash extends Phaser.State {
     this.game.load.spritesheet('interactAnim', 'assets/images/eSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
     this.game.load.spritesheet('arrowKeyAnim', 'assets/images/leftRightSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
     this.game.load.spritesheet('tabAnim', 'assets/images/tabSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
+    this.game.load.spritesheet('overlayControls', 'assets/images/controlsOverlay.png', 1920, 938, 1, 0, 0)
+    this.game.load.spritesheet('bOverlay', 'assets/images/Black.png', 1920, 938, 1, 0, 0)
 
     // The main player spritesheet
     this.load.spritesheet('toki-main', 'assets/images/tokiSpriteSheet.png', 64, 64)
