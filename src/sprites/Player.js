@@ -275,9 +275,9 @@ class MainPlayer extends Phaser.Sprite {
       if (this._jumpTimer > 0) {
         this._jumpTimer -= 5
         if (this.jumpingFromJumper) {
-          if (this.game.jumperID === config.JUMPER_FLOOR1 || this.game.jumperID === config.JUMPER4_LVL3 || this.game.jumperID === config.JUMPER5_LVL3) {
+          if (this.game.jumperID === config.JUMPER_FLOOR1 || this.game.jumperID === config.JUMPER1_LVL3 || this.game.jumperID === config.JUMPER2_LVL3 || this.game.jumperID === config.JUMPER3_LVL3 || this.game.jumperID === config.JUMPER4_LVL3 || this.game.jumperID === config.JUMPER5_LVL3) {
             this.body.moveUp(550)
-          } else if (this.game.jumperID === config.JUMPER_FLOOR2 || this.game.jumperID === config.JUMPER1_LVL3 || this.game.jumperID === config.JUMPER2_LVL3 || this.game.jumperID === config.JUMPER3_LVL3) {
+          } else if (this.game.jumperID === config.JUMPER_FLOOR2) {
             this.body.moveUp(500)
           } else {
             this.body.moveUp(450)

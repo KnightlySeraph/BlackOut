@@ -65,6 +65,7 @@ class TestLevel extends Phaser.State {
     this.game.L3_LVL3 = false
     this.game.L2_LVL3 = false
     this.game.finalWall = false
+    this.game.puzzle3Complete = true
   }
 
   create () {
@@ -116,11 +117,11 @@ class TestLevel extends Phaser.State {
     this.player = new MainPlayer({
       game: this.game,
       // spawn location
-      x: this.world.centerX - 3600,
-      y: this.world.centerY + 50
+      // x: this.world.centerX - 3600,
+      // y: this.world.centerY + 50
       // Floor 3
-      // x: 4400,
-      // y: 1300
+      x: 4400,
+      y: 1300
       // end of floor 2
       // x: this.world.centerX + 3000,
       // y: this.world.centerY + 100
@@ -265,7 +266,7 @@ class TestLevel extends Phaser.State {
         game: this.game, x: 6557, y: 2604, width: 50, height: 100, id: config.WALL_2, spriteKey: 'LeverFloor', light: this.radialLight
       }),
       new Lever({ // floor 2 lever 2
-        game: this.game, x: 4920, y: 1900, width: 50, height: 100, id: config.LEVER2_LVL2, spriteKey: 'LeverWall', light: this.radialLight
+        game: this.game, x: 4920, y: 1882, width: 50, height: 100, id: config.LEVER2_LVL2, spriteKey: 'LeverWall', light: this.radialLight
       }),
       new Lever({ // floor 2 lever 3
         game: this.game, x: 5303, y: 1882, width: 50, height: 100, id: config.LEVER3_LVL2, spriteKey: 'LeverWall', light: this.radialLight
@@ -334,6 +335,9 @@ class TestLevel extends Phaser.State {
       }),
       new PitOfDeath({ // 2nd kill zone (under elevators)
         game: this.game, x: 3990, y: 2950, width: 475, height: 200, light: this.radialLight, name: 'first'
+      }),
+      new PitOfDeath({ // 2.5 kill zone (2nd Level elevators)
+        game: this.game, x: 4150, y: 2100, width: 210.5, height: 50, light: this.radialLight, name: 'secondLVL'
       }),
       new PitOfDeath({ // 3rd kill zone (on second floor)
         game: this.game, x: 5730, y: 2145, width: 2268, height: 50, light: this.radialLight, name: 'second'
@@ -506,6 +510,10 @@ class TestLevel extends Phaser.State {
   //  }
 
     if (this.game.lvl1Spring && this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1) {
+      if (!this.game.sounds.get('puzzleComplete').isPlaying && this.game.lvl1Spring === true) {
+
+        this.game.sounds.play('puzzleComplete', config.SFX_VOLUME, false)
+      }
       this.jumppad = [
         new Jumper({ // floor 1 final spring
           game: this.game, x: 4950, y: 2763.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
@@ -531,7 +539,12 @@ class TestLevel extends Phaser.State {
       this.game.removeF2P = true
     }
 
+    // Completing puzzle 2
     if (this.game.L7_LVL2) {
+      if (!this.game.sounds.get('puzzleComplete').isPlaying && this.game.L7_LVL2 === true) {
+
+        this.game.sounds.play('puzzleComplete', config.SFX_VOLUME, false)
+      }
       this.elavatorLVL2 = [
         new Lever({ // floor 1 final spring
           game: this.game, x: 3927, y: 1895, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
@@ -545,6 +558,11 @@ class TestLevel extends Phaser.State {
 
     // Get rid of last vanishing platform if all the levers have been pressed
     if (this.game.L2_LVL3 && this.game.L3_LVL3 && this.game.L4_LVL3 && this.game.L5_LVL3 && this.game.L6_LVL3) {
+      if (!this.game.sounds.get('puzzleComplete').isPlaying && this.game.puzzle3Complete === true) {
+
+        this.game.sounds.play('puzzleComplete', config.SFX_VOLUME, false)
+        this.game.puzzle3Complete = false
+      }
       this.game.finalWall = true
     }
 
