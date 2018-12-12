@@ -10,7 +10,8 @@ import { sequentialNumArray } from '../utils.js'
 import config from '../config'
 
 import TestLevel from '../states/TestLevel.js'
-import MovingPlatform from '../sprites/MovingPlatform.js'
+import Jumper from '../sprites/Jumper.js'
+import Timer from '../sprites/Timer.js'
 
 // TODO expand lever function to include 1 or 2 sprite choices?
 
@@ -51,6 +52,9 @@ class Lever extends Phaser.Sprite {
     this.isInteractable = true
 
     this.ispulled = false
+
+    // Create the timer
+    this.myTimer = new Timer()
   }
 
   myAnimations () {
@@ -80,13 +84,216 @@ class Lever extends Phaser.Sprite {
         }
         break
 
-      case config.WALL_1: // disapearing platform 1
-        if (Lever.creations[this.id]) {
-          this.removePlatform(this.id)
+        case config.LEVER4_LVL1:
+        this.game.LEVER4_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
+        break
+
+      case config.LEVER5_LVL1:
+        this.game.LEVER5_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
+        break
+    
+      case config.LEVER6_LVL1:
+        this.game.LEVER6_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
+        break
+      
+      case config.WALL_3:
+      if (Lever.creations[this.id]) {
+        this.removePlatform(this.id)
+      }
+        this.game.LEVER3_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
+        break
+
+      case config.WALL_2:
+      if (Lever.creations[this.id]) {
+        this.removePlatform(this.id)
+      }
+        this.game.LEVER2_LVL1 = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
+        }
+        break
+      
+      case config.WALL_1:
+      if (Lever.creations[this.id]) {
+        this.removePlatform(this.id)
+      }
+        this.game.LEVER1_LVL1 = true
+        this.game.lvl1Spring = true
+        if (this.game.LEVER1_LVL1 && this.game.LEVER2_LVL1 && this.game && this.game.LEVER3_LVL1 && this.game.LEVER4_LVL1 && this.game.LEVER5_LVL1 && this.game.LEVER6_LVL1 && this.game.lvl1Spring) {
+          console.log('in if')
+          // this.jumpPad = [
+          //   new Jumper({ // floor 1 final spring
+          //     game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+          //   })
+          // ]
+          // this.jumpPad.forEach((Jumper) => {
+          //   this.game.add.existing(Jumper)
+          // })
+          // Lever.creations.push(
+          //   this.jumpPad
+          // )
+          // console.log('made spring')
+          // this.game.lvl1Spring = false
+          Lever.creations.push(
+            new Jumper({ // floor 1 final spring
+              game: this.game, x: 5000, y: 2783.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
+            })
+          )
+          console.log('made Spring')
+    
+          this.jumpPad.forEach((Jumper) => {
+            this.game.add.existing(Jumper)
+          })
+          
+          console.log('made forEach')
+          this.game.lvl1Spring = false
         }
         break
 
       default:
+        this.removePlatform(this.id)
         break
     }
   }
@@ -103,14 +310,7 @@ class Lever extends Phaser.Sprite {
         if (Lever.movers[this.id]) {
           Lever.movers[this.id].startMovement()
         }
-        break
-      case config.LEVER_LVL1_FINISH:
-        this.game.LVL1_Passed = true
-        break
-
-      case config.LEVER_LVL2_FINISH:
-        this.game.LVL2_Passed = true
-        break
+        break      
 
       default:
         this.removePlatform(this.id)
@@ -132,6 +332,17 @@ class Lever extends Phaser.Sprite {
       deleteMe.destroy()
     }
   }
+
+  /**
+   * Called every tick while the sprite is awake and in the world.
+   * @override
+   */
+  update () {
+    // Always call the parent's update
+    super.update()
+    this.myTimer.TimerDriver()
+  }
+
 }
 
 Lever.creations = {}

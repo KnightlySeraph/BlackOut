@@ -72,12 +72,13 @@ class Splash extends Phaser.State {
     this.game.load.spritesheet('sethsBastment', 'assets/images/sethsBasement.png', 128, 14, 1, 0, 0)
 
     // Load assets for the control page
-    this.game.load.spritesheet('controlAnims', '/assets/images/controlspritesheet_64x32.png', 64, 32, 12, 0, 0)
+    this.game.load.spritesheet('controlAnims', '/assets/images/horizontalControlSpriteSheet.png', 32, 32, 12, 0, 0)
     this.game.load.spritesheet('controlMenu', 'assets/images/mainMenuBG.png', 1920, 938, 1, 0, 0)
-    this.game.load.spritesheet('pocketWatchText', 'assets/images/windPocketwatchTitle.png', 64, 32, 1, 0, 0)
-    this.game.load.spritesheet('movementText', 'assets/images/movementTitle.png', 64, 32, 1, 0, 0)
-    this.game.load.spritesheet('interactText', 'assets/images/interactTitle.png', 64, 32, 1, 0, 0)
-    this.game.load.spritesheet('jumpText', 'assets/images/jumpTitle.png', 64, 32, 1, 0, 0)
+    this.game.load.spritesheet('pocketWatchText', 'assets/images/windPocketwatchTitle.png', 128, 16, 1, 0, 0)
+    this.game.load.spritesheet('movementText', 'assets/images/movementTitle.png', 64, 16, 2, 0, 0)
+    this.game.load.spritesheet('interactText', 'assets/images/interactTitle.png', 64, 16, 1, 0, 0)
+    this.game.load.spritesheet('jumpText', 'assets/images/jumpTitle.png', 64, 16, 1, 0, 0)
+    this.game.load.spritesheet('returnText', 'assets/images/returnToMain.png', 64, 16, 1, 0, 0)
     this.game.load.spritesheet('spacebarAnim', 'assets/images/spacebarSpriteSheet_64x32.png', 64, 32, 2)
     this.game.load.spritesheet('interactAnim', 'assets/images/eSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
     this.game.load.spritesheet('arrowKeyAnim', 'assets/images/leftRightSpriteSheet_64x32.png', 64, 32, 2, 0, 0)
@@ -120,7 +121,6 @@ class Splash extends Phaser.State {
   update () {
     // Make sure the audio is not only loaded but also decoded before advancing
     if (this.doneWithLogos && this.game.sounds.get('gears1').isDecoded) {
-      this.game.sounds.play('gears1', config.SFX_VOLUME)
       this.state.start('MainMenu') // change to MainMenu
     }
   }
@@ -139,7 +139,7 @@ class Splash extends Phaser.State {
 
   makeSethsBasementLogo () {
     // Add the background audio
-    this.basementAudio = this.game.add.audio('basement')
+    this.basementAudio = this.game.add.audio('basement', 0.5)
 
     // Add the logo to the screen and center it
     this.sethsBlogo = this.game.add.sprite(

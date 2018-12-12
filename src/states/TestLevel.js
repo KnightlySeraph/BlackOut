@@ -47,6 +47,13 @@ class TestLevel extends Phaser.State {
     if (__DEV__) { console.log('preload has run once') }
     this.game.load.image('light', 'assets/images/light.png')
     this.load.spritesheet('sclrWall', 'assets/images/THE_BOY.png', 76, 76)
+    this.game.LEVER1_LVL1 = false
+    this.game.LEVER2_LVL1 = false
+    this.game.LEVER3_LVL1 = false
+    this.game.LEVER4_LVL1 = false
+    this.game.LEVER5_LVL1 = false
+    this.game.LEVER6_LVL1 = false
+    this.game.lvl1Spring = false
   }
 
   create () {
@@ -99,10 +106,10 @@ class TestLevel extends Phaser.State {
       game: this.game,
       // spawn location
       // x: this.world.centerX - 3600,
-      //y: this.world.centerY + 50
-      // end of Floor 1
-      // x: this.world.centerX + 2800,
-      // y: this.world.centerY + 600
+      // y: this.world.centerY + 50
+      // Floor 1
+      x: 5700,
+      y: 2900
       // end of floor 2
       // x: this.world.centerX + 3000,
       // y: this.world.centerY + 100
@@ -111,8 +118,8 @@ class TestLevel extends Phaser.State {
       // y: this.world.centerY - 900
 
       // Area where testing stuff is
-      x: this.world.centerX - 500,
-      y: this.world.centerY - 100
+      // x: this.world.centerX - 500,
+      // y: this.world.centerY - 100
     })
 
     this.isWinding = false
@@ -165,7 +172,7 @@ class TestLevel extends Phaser.State {
     // make the main elevator
     this.mover = [
       new Elevator({
-        game: this.game, x: 4000, y: 1900, id: config.ELEVATOR_1, light: this.radialLight
+        game: this.game, x: 3776.5, y: 2429.6, id: config.ELEVATOR_1, light: this.radialLight
       })
     ]
     this.mover.forEach((obj) => {
@@ -175,11 +182,20 @@ class TestLevel extends Phaser.State {
 
     // Make Levers that can be interacted with
     this.lever = [
-      new Lever({
-        game: this.game, x: 3750, y: 1870, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverFloor', light: this.radialLight
+      // new Lever({
+      //   game: this.game, x: 3750, y: 1870, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverFloor', light: this.radialLight
+      // }),
+      // new Lever({
+      //   game: this.game, x: 3700, y: 1870, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
+      // })
+      new Lever({ // LVL 1 bottom lever
+        game: this.game, x: 5792.8, y: 3050.6, width: 50, height: 100, id: config.LEVER4_LVL1, spriteKey: 'LeverWall', light: this.radialLight
       }),
-      new Lever({
-        game: this.game, x: 3700, y: 1870, width: 50, height: 100, id: config.ELEVATOR_1, spriteKey: 'LeverWall', light: this.radialLight
+      new Lever({ // LVL 1 middle lever
+        game: this.game, x: 5241.8, y: 2748.6, width: 50, height: 100, id: config.LEVER5_LVL1, spriteKey: 'LeverFloor', light: this.radialLight
+      }),
+      new Lever({ // LVL 1 Top lever
+        game: this.game, x: 5165.8, y: 2525.2, width: 50, height: 100, id: config.LEVER5_LVL1, spriteKey: 'LeverFloor', light: this.radialLight
       })
     ]
     this.lever.forEach((obj) => {
@@ -188,8 +204,14 @@ class TestLevel extends Phaser.State {
 
      // Make Vanish Wall objects in the world
      this.vanishWalls = [
-      new Platform({
-        game: this.game, x: 3400, y: 1970, id: config.WALL_1, light: this.radialLight
+      new Platform({ // Floor 1 Farthest vanish wall
+        game: this.game, x: 6320.2, y: 2750.6, id: config.WALL_1, light: this.radialLight
+      }),
+      new Platform({ // Floor 1 Middle vanish wall
+        game: this.game, x: 5647.8, y: 2590.6, id: config.WALL_2, light: this.radialLight
+      }),
+      new Platform({ // Floor 1 Nearest vanish wall
+        game: this.game, x: 5488, y: 2590.6, id: config.WALL_3, light: this.radialLight
       })
     ]
     this.vanishWalls.forEach((obj) => {
@@ -198,8 +220,14 @@ class TestLevel extends Phaser.State {
     })
 
     this.vanishWallLevers = [
-      new Lever({
-        game: this.game, x: 3500, y: 1970, width: 50, height: 100, id: config.WALL_1, spriteKey: 'LeverWall', light: this.radialLight
+      new Lever({ //
+        game: this.game, x: 5988, y: 2556.6, width: 50, height: 100, id: config.WALL_1, spriteKey: 'LeverFloor', light: this.radialLight
+      }),
+      new Lever({ // for floor 1 nearest vanish wall
+        game: this.game, x: 5574, y: 2590.6, width: 50, height: 100, id: config.WALL_3, spriteKey: 'LeverWall', light: this.radialLight
+      }),
+      new Lever({ // floor 1 lever creates the spring and the lever for elevator
+        game: this.game, x: 6557, y: 2604, width: 50, height: 100, id: config.WALL_2, spriteKey: 'LeverFloor', light: this.radialLight
       })
     ]
     this.vanishWallLevers.forEach((obj) => {
@@ -208,8 +236,17 @@ class TestLevel extends Phaser.State {
 
     // Make "Spring" objects in the world
     this.jumper = [
-      new Jumper({
-        game: this.game, x: 3900, y: 1878, width: 50, height: 50, id: 1, light: this.radialLight
+      new Jumper({ // floor 1 top spring
+        game: this.game, x: 5802.8, y: 2730.6, width: 50, height: 50, id: config.JUMMPER_1, light: this.radialLight
+      }),
+      new Jumper({ // floor 1 bottom spring
+        game: this.game, x: 5835.8, y: 3050.6, width: 50, height: 50, id: config.JUMMPER_2, light: this.radialLight
+      }),
+      new Jumper({ // floor 1 last spring
+        game: this.game, x: this.world.centerX + 2720, y: 2685.8, width: 50, height: 50, id: config.JUMMPER_3, light: this.radialLight
+      }),
+      new Jumper({ // floor 1 final spring
+        game: this.game, x: 4950, y: 2763.8, width: 50, height: 50, id: config.JUMPER_FLOOR1, light: this.radialLight
       })
     ]
     this.jumper.forEach((obj) => {
@@ -219,16 +256,16 @@ class TestLevel extends Phaser.State {
     // Make "Death" objects in the world
     this.pits = [
       new PitOfDeath({ // 1st kill zone (near spawn)
-        game: this.game, x: 2230, y: 2500, width: 550, height: 200, light: this.radialLight
+        game: this.game, x: 2230, y: 2500, width: 550, height: 200, light: this.radialLight, name: 'spawn'
       }),
       new PitOfDeath({ // 2nd kill zone (under elevators)
-        game: this.game, x: 3990, y: 2950, width: 475, height: 200, light: this.radialLight
+        game: this.game, x: 3990, y: 2950, width: 475, height: 200, light: this.radialLight, name: 'first'
       }),
       new PitOfDeath({ // 3rd kill zone (on second floor)
-        game: this.game, x: 5730, y: 2145, width: 2268, height: 50, light: this.radialLight
+        game: this.game, x: 5730, y: 2145, width: 2268, height: 50, light: this.radialLight, name: 'second'
       }),
       new PitOfDeath({ // 4th kill zone (on third floor)
-        game: this.game, x: 6158, y: 1500, width: 727, height: 100, light: this.radialLight
+        game: this.game, x: 6158, y: 1500, width: 727, height: 100, light: this.radialLight, name: 'third'
       })
     ]
     this.pits.forEach((obj) => {
@@ -237,11 +274,11 @@ class TestLevel extends Phaser.State {
 
     // Make MovingPlatform objects in the world
     this.autoMover = [
-      new BasicMovingPlatform({
-        game: this.game, x: 3800, y: 1900, id: config.PLATFORM_1, light: this.radialLight
+      new BasicMovingPlatform({ // Spawn automover
+        game: this.game, x: 2800, y: 2150, id: config.PLATFORM_1, light: this.radialLight
       }),
-      new BasicMovingPlatform({
-        game: this.game, x: 1000, y: 660, id: config.PLATFORM_2, light: this.radialLight
+      new BasicMovingPlatform({ // Floor 1 automover
+        game: this.game, x: 5360, y: 2600, id: config.PLATFORM_2, light: this.radialLight
       }),
       new BasicMovingPlatform({
         game: this.game, x: 800, y: 660, id: config.PLATFORM_3, light: this.radialLight
@@ -265,15 +302,15 @@ class TestLevel extends Phaser.State {
       this.game.add.existing(obj)
     })
 
+    // Easter
+    let theBoy = this.game.add.sprite(3965, 1750, 'sclrWall', 0)
+    theBoy.smoothed = false
+
     // Add player after the floor
     this.game.add.existing(this.player)
 
     // Start playing the background music
     this.game.sounds.play('mainAmbience', config.MUSIC_VOLUME, true)
-
-    // Easter
-    let theBoy = this.game.add.sprite(3965, 1750, 'sclrWall', 0)
-    theBoy.smoothed = false
 
     // Setup the key objects
     this.setupKeyboard()
