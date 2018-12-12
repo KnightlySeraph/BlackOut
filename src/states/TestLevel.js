@@ -116,11 +116,11 @@ class TestLevel extends Phaser.State {
     this.player = new MainPlayer({
       game: this.game,
       // spawn location
-      // x: this.world.centerX - 3600,
-      // y: this.world.centerY + 50
-      // Floor 1
-      x: 4400,
-      y: 1300
+      x: this.world.centerX - 3600,
+      y: this.world.centerY + 50
+      // Floor 3
+      // x: 4400,
+      // y: 1300
       // end of floor 2
       // x: this.world.centerX + 3000,
       // y: this.world.centerY + 100
