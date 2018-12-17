@@ -34,13 +34,13 @@ class PitOfDeath extends Phaser.Sprite {
       playerObj.x = 560
       playerObj.y = 1951.6
     } else if (this.name === 'first') { // 2nd kill zone (under elevators)
-      playerObj.x = 3500
+      playerObj.x = 3600
       playerObj.y = 2600
     } else if (this.name === 'second') { // 3rd kill zone (on second floor)
       playerObj.x = 4480
       playerObj.y = 1800
-    } else if (this.name === 'secondLVL') {
-      playerObj.x = 3900
+    } else if (this.name === 'secondLVL') { // 2nd 1/2 kill zone (by elevator on second floor)
+      playerObj.x = 3920
       playerObj.y = 1900
     } else if (this.name === 'third') { // 4th kill zone (on third floor)
       playerObj.x = 4480
