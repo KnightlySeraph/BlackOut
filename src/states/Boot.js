@@ -1,10 +1,12 @@
+/* global __NWJS__ */
+
 // Import the entire 'phaser' namespace
 import Phaser from 'phaser'
 
 // A flexible tool for loading fonts from many common sources
 // including typekit, google fonts, fonts.com and fontdeck.
 // See more here: https://www.npmjs.com/package/webfontloader
-import WebFont from 'webfontloader'
+// import WebFont from 'webfontloader'
 
 // Grab some global configuration options for local use
 import config from '../config'
@@ -27,24 +29,30 @@ class Boot extends Phaser.State {
     this.stage.backgroundColor = '000000' // TODO get rid of -> 'dd1642'
 
     // Initialize the fontsReady property
-    this.fontsReady = false
+    this.fontsReady = true
+
+    // Enter fullscreen when in packaged mode
+    if (__NWJS__) {
+      this.game.scale.startFullScreen(false, false)
+      this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL
+    }
 
     // Bind the fontsLoaded method to this object instance
-    this.fontsLoaded = this.fontsLoaded.bind(this)
+    // this.fontsLoaded = this.fontsLoaded.bind(this)
   }
 
   // Load all data needed for this game state
   preload () {
     // Load needed font (will load asynchronously)
     // Calls fontsLoaded() when complete
-    if (config.webfonts && config.webfonts.length) {
-      WebFont.load({
-        google: {
-          families: config.webfonts
-        },
-        active: this.fontsLoaded
-      })
-    }
+    // if (config.webfonts && config.webfonts.length) {
+    //   WebFont.load({
+    //     google: {
+    //       families: config.webfonts
+    //     },
+    //     active: this.fontsLoaded
+    //   })
+    // }
 
     // Show message that fonts are loading
     let text = this.add.text(this.world.centerX, this.world.centerY,
@@ -69,20 +77,20 @@ class Boot extends Phaser.State {
   // Called repeatedly after pre-load to draw the stage
   render () {
     // Wait for font before proceeding
-    if (config.webfonts.length > 0 && this.fontsReady) {
-      this.state.start('Splash')
-    }
+    // if (config.webfonts.length > 0 && this.fontsReady) {
+    //   this.state.start('Splash')
+    // }
 
     // No fonts need to load so just get to it
-    if (!config.webfonts || config.webfonts.length === 0) {
+    // if (!config.webfonts || config.webfonts.length === 0) {
       this.state.start('Splash')
-    }
+    // }
   }
 
   // Signal that the font has finished loading
-  fontsLoaded () {
-    this.fontsReady = true
-  }
+  // fontsLoaded () {
+  //   this.fontsReady = true
+  // }
 }
 
 // Expose the Boot class for use in other modules

@@ -1,3 +1,5 @@
+/* global __NWJS__ */
+
 import Phaser from 'phaser'
 
 // Import config settings
@@ -74,7 +76,9 @@ function moveToControls () {
 
 function moveToExit () {
   this.game.sounds.play('mainMenuClick', config.SFX_VOLUME)
-  // Exit Game
+  if (__NWJS__) {
+    window.close()
+  }
 }
 
 export default MainMenu

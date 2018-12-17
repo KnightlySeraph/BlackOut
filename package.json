@@ -10,7 +10,7 @@
     "dev": "run-s clean dev-cmd",
     "prod": "run-s clean prod-cmd",
     "deploy": "run-s clean deploy-cmd",
-    "package": "run-s clean sfx nwjs-cmd package-cmd",
+    "package": "run-s clean nwjs-cmd package-cmd",
     "packagetest": "run-s clean sfx nwjs-cmd packagetest-cmd",
     "clean": "del-cli -f dist/* packaged/*",
     "dev-cmd": "webpack --config webpack.dev.config.js",

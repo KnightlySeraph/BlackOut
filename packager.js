@@ -8,7 +8,10 @@ let FILES = [
   path.resolve('index.html'),
   path.resolve('./dist/*.js'),
   path.resolve('./assets/images/**/*'),
-  path.resolve('./assets/audio/sounds.*')
+  path.resolve('./assets/splash/**/*'),
+  path.resolve('./assets/fonts/**/*'),
+  path.resolve('./assets/audio/sounds.ogg'),
+  path.resolve('./assets/audio/sounds.json')
 ]
 
 // Start the nw-builder configuration object
