@@ -22,8 +22,14 @@ let NW_CONFIG = {
   flavor: 'normal'
 }
 
+// Set the target platform
+let targetEnv = process.env.BUILD_TARGET
+if (!targetEnv) {
+  targetEnv = process.platform
+}
+
 // Customize for the current platform
-switch (process.platform) {
+switch (targetEnv) {
   case 'win32':
     NW_CONFIG.platforms = [ 'win64' ]
     NW_CONFIG.winIco = path.resolve('./assets/images/icon.ico')
